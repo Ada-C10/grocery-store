@@ -3,6 +3,33 @@ class Order
   attr_reader :id, :customer, :products
   attr_accessor :fulfillment_status
 
+  def self.all
+
+
+    CSV.open("data/orders.csv", "r").map do |row|
+
+      customer = Customer.find(row[2])
+
+      # Parse out products from string format
+      products = {}
+      row[1].split(';').each do |product_string|
+        product = product_string.split(':')
+        products[product[0]] = product[1].to_f
+      end
+
+      Order.new(row[0], products, customer, row[3])
+
+    end
+
+  end
+
+  def self.find(id)
+
+    orders = self.all
+    return orders.find{ |order| order.id == id }
+
+  end
+
   def initialize(id, products, customer, fulfillment_status=:pending)
 
     @id = id
