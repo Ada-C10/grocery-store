@@ -1,3 +1,4 @@
+require 'pry'
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
   attr_writer :products, :customer, :fulfillment_status
@@ -17,5 +18,14 @@ class Order
         raise ArgumentError
       end
     end
-    
+
+    def total
+      tax = products.values.sum * 0.075
+      total = tax + products.values.sum
+        total = total.round(2)
+    end
+
+    def add_product(product_name, price)
+      @products = [:product_name, :price]
+    end
 end
