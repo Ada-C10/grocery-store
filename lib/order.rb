@@ -29,5 +29,8 @@ class Order
     @products[product_name] = price
   end
 
+  def remove_product(product_name)
+    @products.delete(product_name) { raise ArgumentError }
+  end
 
 end
