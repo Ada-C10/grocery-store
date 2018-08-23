@@ -1,11 +1,11 @@
 class Customer
-  attr_reader :ID
-  attr_accessor :email, :delivery_address
+  attr_reader :id
+  attr_accessor :email, :address
 
-  def initialize(ID, email, delivery_address)
-    @ID = ID
+  def initialize(id, email, address)
+    @id = id
     @email = email
-    @dlivery_address = delivery_address
+    @address = address
   end
 
 
