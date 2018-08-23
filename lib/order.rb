@@ -3,7 +3,7 @@ TAX = 0.075
 class Order
 
   attr_reader :id
-  attr_accessor :products, :products, :customer, :fulfillment_status
+  attr_accessor :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
