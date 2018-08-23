@@ -7,7 +7,7 @@ require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -62,7 +62,7 @@ xdescribe "Order Wave 1" do
   end
 
   describe "#total" do
-    it "Returns the total from the collection of products" do
+    xit "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
 
@@ -71,7 +71,7 @@ xdescribe "Order Wave 1" do
       expect(order.total).must_equal expected_total
     end
 
-    it "Returns a total of zero if there are no products" do
+    xit "Returns a total of zero if there are no products" do
       order = Order.new(1337, {}, customer)
 
       expect(order.total).must_equal 0
@@ -79,7 +79,7 @@ xdescribe "Order Wave 1" do
   end
 
   describe "#add_product" do
-    it "Increases the number of products" do
+    xit "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
       order = Order.new(1337, products, customer)
@@ -89,7 +89,7 @@ xdescribe "Order Wave 1" do
       expect(order.products.count).must_equal expected_count
     end
 
-    it "Is added to the collection of products" do
+    xit "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
 
@@ -97,7 +97,7 @@ xdescribe "Order Wave 1" do
       expect(order.products.include?("sandwich")).must_equal true
     end
 
-    it "Raises an ArgumentError if the product is already present" do
+    xit "Raises an ArgumentError if the product is already present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
 
       order = Order.new(1337, products, customer)

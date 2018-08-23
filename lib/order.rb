@@ -1,12 +1,20 @@
+require_relative 'customer'
+require 'pry'
+
 class Order
   attr_reader :id, :customer
-  attr_accessor :product_data, :fulfillment_status
+  attr_accessor :products, :fulfillment_status
 
-  def initialize(id, product_data, customer, fulfillment_status)
+  def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
-    @product_data = product_data
+    @products = products
     @customer = customer
-    @fulfillment_status = fulfillment_status
+    valid_status = [:pending, :paid, :processing, :shipped, :complete]
+    if valid_status.include?(fulfillment_status)
+      @fulfillment_status = fulfillment_status
+    else
+      raise ArgumentError, 'Fulfillment status is not valid'
+    end
   end
 
   def total
@@ -21,3 +29,14 @@ class Order
   end
 
 end
+# address = {
+#   street: "123 Main",
+#   city: "Seattle",
+#   state: "WA",
+#   zip: "98101"
+# }
+# customer = Customer.new(123, "a@a.co", address)
+# id = 1337
+# fulfillment_status = :shipped
+# order = Order.new(id, {}, customer, fulfillment_status)
+# binding.pry

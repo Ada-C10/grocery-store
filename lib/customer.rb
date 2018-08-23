@@ -8,9 +8,4 @@ class Customer
     @address = address
   end
 
-
-
-
-
-
 end
