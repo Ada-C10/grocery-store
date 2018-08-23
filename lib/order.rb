@@ -18,9 +18,8 @@ class Order
   end
 
   def total
-    # sum up products
-    # add 7.5% tax
-    # round to two decimal places
+    subtotal = @products.sum { |product_name, price| price }
+    total_cost = (subtotal * 1.075).round(2)
   end
 
   def add_product(product_name, price)
