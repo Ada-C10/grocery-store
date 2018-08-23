@@ -23,4 +23,16 @@ class Order
     end
   end
 
+
+  def total
+    tax = products.values.sum * 0.075
+    (tax + products.values.sum).round(2)
+  end
+
+
+  # def add_product(product, price)
+  #   price = Integer
+  #   @product << {products["product"] => products[price]}
+  #
+  # end
 end
