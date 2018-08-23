@@ -19,7 +19,20 @@ class Order
   end
 
   def total()
-    
+    total_cost = 0
+    products.each do |product_name, cost|
+      total_cost += cost
+    end
+
+    total_cost_plus_tax = total_cost + (total_cost * 0.075)
+    return total_cost_plus_tax.round(2)
   end
 
+  # def add_product(new_product, price_of_new_product)
+  #   if products.keys.include?(new_product) == false
+  #     products[new_product] = price_of_new_product
+  #   elsif products.keys.include?(new_product) == true
+  #     raise ArgumentError
+  #   end
+  # end
 end
