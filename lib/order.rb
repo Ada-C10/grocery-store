@@ -23,8 +23,11 @@ class Order
   end
 
   def add_product(product_name, price)
-    # add data to product collection
-    # raise error if product with same name is already on order
+    if @products.keys.include?(product_name)
+      raise ArgumentError, 'Product has already been added to the order'
+    else
+      @products[product_name] = price
+    end
   end
 
 end
