@@ -26,5 +26,16 @@ class Customer
 
   end
 
+  def self.find(id)
+    list_of_customers = self.all
+    matching_customer = list_of_customers.find do |customer|
+      customer.id == id
+    end
+
+    # returns nil if not found
+    return matching_customer
+
+  end
+
 
 end
