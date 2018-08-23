@@ -1,8 +1,10 @@
 class Order
 
+  attr_reader :id
+  attr_accessor :products, :products, :customer, :fulfillment_status
 
-  def initialize(id_number, products, customer, fulfillment_status = :pending)
-    @id_number = id_number
+  def initialize(id, products, customer, fulfillment_status = :pending)
+    @id = id
     @products = products
     @customer = customer
 
