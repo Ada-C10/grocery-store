@@ -25,7 +25,7 @@ class Order
         total = total.round(2)
     end
 
-    def add_product(product_name, price)
-      @products = [:product_name, :price]
+    def add_product(product_name,price)
+      @products.store(product_name,price)
     end
 end
