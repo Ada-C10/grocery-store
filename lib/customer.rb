@@ -1,3 +1,6 @@
+require 'csv'
+require 'pry'
+
 class Customer
 
   attr_accessor :email, :address
@@ -7,6 +10,20 @@ class Customer
     @email = email_address
     @address = delivery_address
     @id = id
+  end
+
+  # returns an array of type Customer
+  def self.all
+    list_of_customers = CSV.read('data/customers.csv').map do |row|
+
+      csv_id = row[0].to_i
+      csv_email = row[1].to_i
+      csv_address = row[2] + ' ' + row[3] + ' ' + row[4] + row[5]
+      Customer.new(csv_id, csv_email, csv_address)
+
+    end
+  return list_of_customers
+
   end
 
 
