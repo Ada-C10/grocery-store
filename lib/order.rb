@@ -17,4 +17,9 @@ class Order
         raise ArgumentError
       end
   end
+
+  def total()
+    
+  end
+
 end
