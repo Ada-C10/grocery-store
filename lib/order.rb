@@ -30,13 +30,20 @@ class Order
 
   def add_product(product_name, price)
     if @products.has_key?(product_name)
-      raise ArgumentError, "Product already exists"
+      raise ArgumentError, "Product already exists in the system"
     else
       @products[product_name] = price
     end
 
   end
 
+  def remove_product(product_name)
+    if @products.has_key?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError, "Product does not exist in our system"
+    end
+  end
 end
 
 
