@@ -47,7 +47,7 @@ describe "Order Wave 1" do
       end
     end
 
-    xit "Uses pending if no fulfillment_status is supplied" do
+    it "Uses pending if no fulfillment_status is supplied" do
       order = Order.new(1, {}, customer)
       expect(order.fulfillment_status).must_equal :pending
     end
