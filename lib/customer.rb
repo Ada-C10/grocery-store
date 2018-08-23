@@ -1,10 +1,10 @@
 class Customer
-  attr_reader :ID, :Email_address, :Delivery_address
-  attr_writer :Email_address, :Delivery_address
+  attr_reader :id, :email, :address
+  attr_writer :email, :address
 
-  def initialize(id, email, delivery_address)
-    @ID = id
-    @Email_address = email
-    @Delivery_address = {delivery_address}
+  def initialize(id, email, address)
+    @id = id
+    @email = email
+    @address = {:street => address[:street] , :city => address[:city], :state => address[:state] , :zip => address[:zip] }
   end
 end
