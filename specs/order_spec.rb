@@ -8,7 +8,7 @@ require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -213,6 +213,15 @@ describe "Order Wave 2" do
 
       order = Order.find(2138)
       expect(order).must_equal nil
+
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Can find all orders by first customer" do
+
+      orders = Order.find_by_customer(1)
+      expect(orders.length).must_equal 1
 
     end
   end
