@@ -1,4 +1,4 @@
-require_relative 'customer'
+# require_relative 'customer'
 
 class Order
 
@@ -31,6 +31,21 @@ class Order
 
     total = total_cost + (total_cost * 0.075)
     return total.round(2)
+  end
+
+
+  def add_product(product_name, price)
+    check_product_duplicates(product_name)
+    @products[product_name] = price
+  end
+  
+
+  def check_product_duplicates(product_name)
+    @products.each do
+      if @products.key?(product_name)
+        raise ArgumentError.new("A product with that name already exists.")
+      end
+    end
   end
 
 end
