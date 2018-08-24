@@ -5,6 +5,7 @@ require 'awesome_print'
 class Customer
   attr_reader :id
   attr_accessor :email, :address
+  @@customers = []
 
   def initialize(id, email, address)
     @id = id
@@ -13,21 +14,30 @@ class Customer
   end
 
   def self.all
-    customers = CSV.read('data/customers.csv').map {|line| line.to_a}
-    customers.each_with_index do |array, index|
-      id = array[0].to_i
-      email = array[1]
-      address = {
-        :street => array[2],
-        :city => array[3],
-        :state => array[4],
-        :zip => array[5]
-      }
-      customers[index] = Customer.new(id, email, address)
+    @@customers = CSV.read('data/customers.csv').map {|line| line}
+    #binding.pry
+    @@customers = @@customers.map do |array|
+      Customer.new(id = array[0].to_i, email = array[1],
+        address = {
+          :street => array[2],
+          :city => array[3],
+          :state => array[4],
+          :zip => array[5]
+        })
+      end
+      return @@customers
     end
-  end
 
-  def self.find(id)
-  end
+    def self.find(id)
+      customers = self.all
+      binding.pry
+      customers.each do |instance|
+        if instance.id == id
+          return instance
+        else
+          return nil
+        end
+      end
+    end
 
-end
+  end
