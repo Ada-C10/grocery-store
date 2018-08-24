@@ -1,13 +1,42 @@
+require 'pry'
+require_relative '../lib/customer'
 
 # Create a class called `Order`.
 class Order
+  attr_reader :id, :products, :customer, :fulfillment_status
 
+  def initialize(id, products, customer, fulfillment_status=:pending )
+    @id = id
+    @products = {}
+    @customer = customer
+
+    # Setting fulfilmment options
+    fulfillment_options = [:pending, :paid, :processing, :shipped, :complete]
+    # Checking if fulfillment_option is valid
+    if fulfillment_options.include?(fulfillment_status)
+      @fulfillment_status = fulfillment_status
+    else
+      raise ArgumentError, "Please enter a valid fulfillment status"
+    end
+  end
 end
-#Each new Order should include the following attributes:
+
+address = {
+  street: "123 Main",
+  city: "Seattle",
+  state: "WA",
+  zip: "98101"
+}
+
+cassy = Customer.new(123, "a@a.co", address)
+# #
+order = Order.new(123, {}, cassy, :paid)
+# empty = Order.new(3, {}, cassy)
+# invalid = Order.new(3, {}, cassy, "garbage")
+# #Each new Order should include the following attributes:
 # - ID, a number (read-only)
 # - A collection of products and their cost.
 #This data will be given as a hash that looks like this:
-#     ```ruby
 #     { "banana" => 1.99, "cracker" => 3.00 }
 #     ```
 #     - Zero products is permitted (an empty hash)
