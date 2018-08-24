@@ -1,5 +1,6 @@
 require_relative 'customer'
 require 'pry'
+require 'csv'
 
 class Order
   attr_reader :id, :customer
@@ -36,6 +37,19 @@ class Order
     else
       raise ArgumentError, 'No product with that name exists in the current order'
     end
+  end
+
+  def self.all
+    # returns a collection of Order instances, representing all of orders from CSV
+  end
+
+  def self.find(id)
+    # returns an instance of Order with ID
+    # invokes self.all
+  end
+
+  def find_by_customer(customer_id)
+    # returns a list of Order instances matching customer's ID
   end
 
 end
