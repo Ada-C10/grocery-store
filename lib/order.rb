@@ -1,3 +1,5 @@
+# Jacquelyn Cheng - Nodes
+
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
@@ -27,9 +29,13 @@ class Order
   end
 
   # returns an Order instance matching the designated id
-  def self.find(id)
-    all_orders = Order.all
-    return all_orders[id-1]
+  def self.find(order_id)
+    Order.all.each do |order|
+      if order.id == order_id
+        return order
+      end
+    end
+    return nil
   end
 
   # returns a **list** of `Order` instances where the value of the customer's

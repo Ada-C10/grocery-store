@@ -1,3 +1,5 @@
+# Jacquelyn Cheng - Nodes
+
 require 'csv'
 
 class Customer
@@ -23,8 +25,12 @@ class Customer
   end
 
   # returns a Customer object matching the designated id
-  def self.find(id)
-    all_customers = Customer.all
-    return all_customers[id-1]
+  def self.find(cust_id)
+    Customer.all.each do |customer|
+      if customer.id == cust_id
+        return customer
+      end
+    end
+    return nil
   end
 end
