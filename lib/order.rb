@@ -4,8 +4,8 @@ require 'csv'
 
 def parse_data(data)
   # convert product string to hash
-  new_data = data.map do |element|
-    [element[0], element[1].split(';').map { |i| i.split ':' }.to_h, element[2], element[3]]
+  new_data = data.map do |e|
+    [e[0], e[1].split(';').map { |i| i.split ':' }.to_h, e[2], e[3]]
   end
   # convert remaining fields to required data class
   new_data = new_data.map do |e|
