@@ -26,6 +26,10 @@ class Order
     end
 
     def add_product(product_name,price)
+      if @products.include?(product_name)
+        raise ArgumentError
+      else
       @products.store(product_name,price)
     end
+  end
 end
