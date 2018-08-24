@@ -61,4 +61,9 @@ class Order
       raise ArgumentError
     end
   end
+
+  # removes the product, or raises argument error if no product found
+  def remove_product(product_name)
+    return nil
+  end
 end

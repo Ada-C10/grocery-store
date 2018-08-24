@@ -202,4 +202,34 @@ describe "Order Wave 2" do
       expect{Order.find_by_customer(789)}.must_raise ArgumentError
     end
   end
+
+  describe "remove product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad => 4.25" }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removes the item from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad => 4.25" }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("salad")
+      expect(order.products.include?("salad")).must_equal false
+    end
+
+    it "Returns nil if the product is not present" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad => 4.25" }
+      order = Order.new(1337, products, customer)
+
+      expect(order.remove_product("apple")).must_equal nil
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
 end
