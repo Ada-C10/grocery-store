@@ -33,4 +33,12 @@ class Order
     end
   end
 
+  def remove_product(product_name)
+    if @products.keys.include?(product_name)
+      @products.delete_if {| name, price | name.include?(product_name) }
+    else
+      raise ArgumentError, 'This product has not been found'
+    end
+
+  end
 end
