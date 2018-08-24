@@ -43,8 +43,11 @@ class Order
     # verify that product name is a string
     # verify that product price is a float
     # verify that the product name is unique does key already exist
+    if products.keys.include? prod_name
+      raise ArgumentError, 'Item already exists'
+    end
     products[prod_name] = prod_price
-    products << np
+    # products << prod_hash
     add_msg = "#{prod_name} was added with a price of #{prod_price}"
 
     return add_msg
