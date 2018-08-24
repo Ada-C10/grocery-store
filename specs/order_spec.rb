@@ -37,6 +37,7 @@ describe "Order Wave 1" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
+# Don't understand what this one means
     it "Accepts all legal statuses" do
       valid_statuses = %i[pending paid processing shipped complete]
 
@@ -114,7 +115,7 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-describe "Order Wave 2" do
+xdescribe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
@@ -145,7 +146,7 @@ describe "Order Wave 2" do
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end
