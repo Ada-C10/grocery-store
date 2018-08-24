@@ -69,19 +69,14 @@ class Order
     return order_with_id[0]
   end
 
-  def find_by_customer(customer_id)
+  def self.find_by_customer(customer_id)
     # returns a list of Order instances matching customer's ID
+    orders = self.all
+    orders_with_cust_id = orders.select { |order| order.customer.id == customer_id }
+    if orders_with_cust_id.count > 0
+      return orders_with_cust_id
+    else
+      return nil
+    end
   end
-
 end
-# address = {
-#   street: "123 Main",
-#   city: "Seattle",
-#   state: "WA",
-#   zip: "98101"
-# }
-# customer = Customer.new(123, "a@a.co", address)
-# id = 1337
-# fulfillment_status = :shipped
-# order = Order.new(id, {}, customer, fulfillment_status)
-# binding.pry

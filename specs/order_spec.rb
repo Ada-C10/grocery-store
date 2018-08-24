@@ -211,4 +211,20 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can list first and last orders from a customer" do
+      list_of_orders = Order.find_by_customer(10)
+
+      expect(list_of_orders.first).must_be_kind_of Order
+      expect(list_of_orders.first.id).must_equal 2
+
+      expect(list_of_orders.last).must_be_kind_of Order
+      expect(list_of_orders.last.id).must_equal 88
+    end
+
+    it "Returns nil for customers who do not exist" do
+      expect(Order.find_by_customer(1234).must_be_nil)
+    end
+  end
 end
