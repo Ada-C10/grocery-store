@@ -2,8 +2,8 @@ require 'pry'
 require 'awesome_print'
 
 class Order
-  attr_reader :id
-  attr_accessor :products, :customer, :fulfillment_status
+  attr_reader :id, :customer
+  attr_accessor :products, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
