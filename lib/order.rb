@@ -17,6 +17,11 @@ class Order
     return sum_plus_tax.round(2)
   end
 
-  def add_product
+  def add_product(name, price)
+    if products.keys.include?(name)
+      raise ArgumentError, "Duplicate product"
+    else
+      products[name] = price
+    end
   end
 end
