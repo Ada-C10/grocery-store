@@ -1,5 +1,7 @@
 require 'pry'
 require 'awesome_print'
+require 'csv'
+require 'customer.rb'
 
 class Order
   attr_reader :id, :customer
@@ -40,5 +42,40 @@ class Order
     else
       @products.delete(name)
     end
+  end
+
+  def create_product_hash (order_data)
+  end
+
+  def self.all
+    order_data = []
+    order_data = CSV.open('data/orders.csv', 'r').map do |line|
+      line
+    end
+
+    all_orders = []
+    order_data.each do |order|
+      products_hash = {}
+      a = order[1].split(";")
+      i = 0
+      while i < a.length
+        b = a[i].split(":")
+        products_hash[b[0]] = b[1].to_f
+        i += 1
+      end
+      all_orders << Order.new(order[0].to_i, products_hash, Customer.find(order[2].to_i), order[3].to_sym)
+    end
+
+    return all_orders
+  end
+
+  def self.find(id)
+    all_orders = Order.all
+    all_orders.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
   end
 end
