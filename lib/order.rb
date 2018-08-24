@@ -17,7 +17,7 @@ class Order
       products = {}
       product_list.each do |product_data|
         product_and_price = product_data.split(':')
-        products[product_and_price[0]] = product_and_price[1]
+        products[product_and_price[0]] = product_and_price[1].to_f
       end
       customer = Customer.find(row[2].to_i)
       fulfillment_status = row[3].to_sym

@@ -184,4 +184,22 @@ describe "Order Wave 2" do
       expect(Order.find(789)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can find the first customer's orders by id" do
+      orders = Order.find_by_customer(1)
+
+      expect(orders[0]).must_be_kind_of Order
+      expect(orders[0].customer.id).must_equal 1
+      expect(orders.length).must_equal 1
+    end
+
+    it "Returns nil for a customer that has no orders" do
+      expect(Order.find_by_customer(100)).must_be_nil
+    end
+
+    it "Raises argument error if no such customer exits" do
+      expect(Order.find_by_customer(789)).must_raise ArgumentError
+    end
+  end
 end
