@@ -19,7 +19,7 @@ describe "Order Wave 1" do
   end
 
   describe "#initialize" do
-    xit "Takes an ID, collection of products, customer, and fulfillment_status" do
+    it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
       order = Order.new(id, {}, customer, fulfillment_status)
@@ -37,7 +37,7 @@ describe "Order Wave 1" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Accepts all legal statuses" do
+    it "Accepts all legal statuses" do
       valid_statuses = %i[pending paid processing shipped complete]
 
       valid_statuses.each do |fulfillment_status|
@@ -46,12 +46,12 @@ describe "Order Wave 1" do
       end
     end
 
-    xit "Uses pending if no fulfillment_status is supplied" do
+    it "Uses pending if no fulfillment_status is supplied" do
       order = Order.new(1, {}, customer)
       expect(order.fulfillment_status).must_equal :pending
     end
 
-    xit "Raises an ArgumentError for bogus statuses" do
+    it "Raises an ArgumentError for bogus statuses" do
       bogus_statuses = [3, :bogus, 'pending', nil]
       bogus_statuses.each do |fulfillment_status|
         expect {
@@ -62,16 +62,23 @@ describe "Order Wave 1" do
   end
 
   describe "#total" do
-    xit "Returns the total from the collection of products" do
+    it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
+      # p products.values.reduce(:+)
+      #
+      # st = products.values.reduce(:+)
+      # tax = 0.075 * st
+      # p tax.class
+      # total_amt = (tax + st).round(2)
+      # p total_amt
 
       expected_total = 5.36
 
       expect(order.total).must_equal expected_total
     end
 
-    xit "Returns a total of zero if there are no products" do
+    it "Returns a total of zero if there are no products" do
       order = Order.new(1337, {}, customer)
 
       expect(order.total).must_equal 0
