@@ -1,12 +1,9 @@
 require_relative 'customer.rb'
-require 'awesome_print'
 
 class Order
 
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
-
-  @@order_list = []
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -18,35 +15,22 @@ class Order
     @fulfillment_status = fulfillment_status
   end
 
-  def self.extract_products(csv_line)
+  def self.extract_products(products)
     product_hash = {}
-    products = csv_line.clone
-
-    [0, -1, -1].each do |i|
-      products.delete_at(i)
-    end
-
-    products.each do |combined_product_price|
-      individual_product_prices = combined_product_price.split(';')
-      individual_product_prices.each do |product_price|
-        separate = product_price.split(':')
-        product_hash[separate[0]] = separate[1].to_f
-      end
+    individual_product_prices = products.split(';')
+    individual_product_prices.each do |product_price|
+      product_price_array = product_price.split(':')
+      product_hash[product_price_array[0]] = product_price_array[1].to_f
     end
 
     return product_hash
   end
 
-
-  def self.fill_order_list
-    @@order_list = CSV.open("data/orders.csv", "r").map do |line|
-      self.new(line[0].to_i, self.extract_products(line), Customer.find(line[-2].to_i), line[-1].to_sym)
-    end
-  end
-
   def self.all
-    self.fill_order_list
-    return @@order_list
+    order_list = CSV.open("data/orders.csv", "r").map do |line|
+      self.new(line[0].to_i, self.extract_products(line[1]), Customer.find(line[2].to_i), line[3].to_sym)
+    end
+    return order_list
   end
 
   def self.find(id)
