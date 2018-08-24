@@ -48,13 +48,13 @@ class Order
     end
   end
 
-  def get_product_list(produce_list)
-    binding.pry
-    products_list = produce_list.map do |product|
-      product_array = product.split(':')
-      products_list[product_array[0]] = product_array[1]
-    end
+  def self.get_product_list(produce_list)
 
+    products_list = {}
+    produce_list.split(';').each do |product|
+      product_array = product.split(':')
+      products_list[product_array[0]] = product_array[1].to_f
+    end
 
     return products_list
 
@@ -64,16 +64,14 @@ class Order
   def self.all
     list_of_orders =[]
     CSV.read('data/orders.csv').each do |row|
-      products_list = {}
-      row[1].split(';').each do |product|
-        product_array = product.split(':')
-        products_list[product_array[0]] = product_array[1].to_f
-      end
+
+      products_list = get_product_list(row[1])
+      customer = Customer.find(row[2].to_i)
 
       list_of_orders << {
         :id => row[0].to_i,
         :products => products_list,
-        :customer => Customer.find(row[2].to_i),
+        :customer => customer,
         :fulfillment_status => row[3].to_sym
       }
 
