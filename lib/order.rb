@@ -89,4 +89,5 @@ class Order
 
 end
 
-# self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
+# Optional:
+# Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.
