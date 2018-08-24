@@ -76,8 +76,17 @@ class Order
     return all_orders
   end
 
+  def self.find(id_number)
+    list_of_orders = self.all
+    matching_order = list_of_orders.find do |order|
+      order.id == id_number
+    end
+
+    # returns nil if not found
+    return matching_order
+
+  end
+
 end
 
-
-# An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-# If a product with the same name has already been added to the order, an ArgumentError should be raised
+# self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
