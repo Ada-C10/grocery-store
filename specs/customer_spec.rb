@@ -50,18 +50,18 @@ describe "Customer Wave 2" do
       expect(first.id).must_equal 1
     end
 
-    # it "Returns accurate information about the last customer" do
-    #   last = Customer.all.last
-    #   expect(last.id).must_equal 35
-    # end
+    it "Returns accurate information about the last customer" do
+      last = Customer.all.last
+      expect(last.id).must_equal 35
+    end
   end
 
   # describe "Customer.find" do
     # it "Can find the first customer from the CSV" do
     #   first = Customer.find(1)
-    #
-    #   expect(first).must_be_kind_of Customer
-    #   expect(first.id).must_equal 1
+
+      # expect(first).must_be_kind_of Customer
+      # expect(first.id).must_equal 1
     # end
 
     # it "Can find the last customer from the CSV" do
