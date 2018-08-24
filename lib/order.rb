@@ -2,6 +2,18 @@ require_relative 'customer'
 require 'pry'
 require 'csv'
 
+def parse_data(data)
+  # convert product string to hash
+  new_data = data.map do |element|
+    [element[0], element[1].split(';').map { |i| i.split ':' }.to_h, element[2], element[3]]
+  end
+  # convert remaining fields to required data type
+  new_data = new_data.map do |e|
+    [e[0].to_i, e[1].each { |k,v| e[1][k] = v.to_i }, e[2].to_i, e[3].to_sym]
+  end
+  ap new_data
+end
+
 class Order
   attr_reader :id, :customer
   attr_accessor :products, :fulfillment_status
@@ -39,10 +51,6 @@ class Order
     end
   end
 
-  def parse_data(data)
-
-  end
-
   def self.all
     orders_raw_data = CSV.read('data/orders.csv')
     parse_data(orders_raw_data)
@@ -70,3 +78,4 @@ end
 # fulfillment_status = :shipped
 # order = Order.new(id, {}, customer, fulfillment_status)
 # binding.pry
+Order.all
