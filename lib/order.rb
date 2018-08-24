@@ -17,7 +17,7 @@ class Order
         products[product[0]] = product[1].to_f
       end
 
-      Order.new(row[0], products, customer, row[3])
+      Order.new(row[0].to_i, products, customer, row[3].to_sym)
 
     end
 
@@ -37,7 +37,7 @@ class Order
     @products = products
 
 
-    unless [:pending, :paid, :processing, :shipped, :complete].include?(fulfillment_status)
+    unless [:pending, :paid, :processing, :shipped, :complete ].include?(fulfillment_status)
       raise ArgumentError, "Invalid fulfillment status #{fulfillment_status}. Please try again."
     end
 

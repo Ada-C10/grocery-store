@@ -18,7 +18,7 @@ class Customer
 
     CSV.open("data/customers.csv", "r").map do |row|
       address = row[2] + ' ' + row[3] + ' ' +  row[4] + ' ' +  row[5]
-      Customer.new(row[0], row[1], address)
+      Customer.new(row[0].to_i, row[1], address)
     end
 
   end
@@ -26,7 +26,7 @@ class Customer
   def self.find(id)
 
     customers = self.all
-    return customers.find{ |customer| customer.id == id }
+    return customers.find{ |customer| customer.id == id.to_i }
 
   end
 
