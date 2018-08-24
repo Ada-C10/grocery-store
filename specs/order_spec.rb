@@ -114,6 +114,16 @@ describe "Order Wave 1" do
 end
 
 describe "Order Wave 2" do
+  let(:customer) do
+    address = {
+      street: "123 Main",
+      city: "Seattle",
+      state: "WA",
+      zip: "98101"
+    }
+    Customer.new(123, "a@a.co", address)
+  end
+
   describe "Order.all" do
     it "Returns an array of all orders" do
       orders = Order.all
