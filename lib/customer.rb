@@ -12,7 +12,7 @@ class Customer
   end
 
   def self.all
-    # returns collection of customer instances representing all Customers from CSV
+    # returns collection of all Customer instances
     customers_raw_data = CSV.read('data/customers.csv')
     customers = customers_raw_data.map do |customer|
       self.new(customer[0].to_i, customer[1], {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]})
@@ -21,6 +21,9 @@ class Customer
   end
 
   def self.find(id)
+    customers = self.all
+    customer_with_id = customers.select { |customer| customer.id == id }
+    return customer_with_id[0]
     # returns an instance of Customer with ID
     # invokes Customer.all (does not parse through CSV data)
     # if ID doesn't exist, what to do
