@@ -224,4 +224,29 @@ describe "Order Wave 2" do
       expect(Order.find(101)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can find the first order from the CSV" do
+      # TODO: Your test code here!
+      first = Order.find_by_customer(25)
+
+      expect(first).must_be_kind_of Order
+      expect(first.customer).must_equal 25
+    end
+
+    it "Can find the last order from the CSV" do
+      # TODO: Your test code here!
+      skip
+      last = Order.find_by_customer(20)
+
+      expect(last).must_be_kind_of Order
+      expect(last.customer).must_equal 20
+    end
+
+    it "Returns nil for a customer that doesn't exist" do
+      # TODO: Your test code here!
+      skip
+      expect(Order.find(1000)).must_be_nil
+    end
+  end
 end
