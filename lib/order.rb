@@ -62,23 +62,14 @@ class Order
 
 
   def self.all
-    list_of_orders =[]
-    CSV.read('data/orders.csv').each do |row|
+    all_orders = CSV.read('data/orders.csv').map do |row|
 
+      id = row[0].to_i
       products_list = get_product_list(row[1])
       customer = Customer.find(row[2].to_i)
+      fulfillment_status = row[3].to_sym
 
-      list_of_orders << {
-        :id => row[0].to_i,
-        :products => products_list,
-        :customer => customer,
-        :fulfillment_status => row[3].to_sym
-      }
-
-    end
-
-    all_orders = list_of_orders.map do |order_info|
-      self.new(order_info[:id], order_info[:products], order_info[:customer], order_info[:fulfillment_status])
+      self.new(id, products_list, customer, fulfillment_status)
 
     end
 
