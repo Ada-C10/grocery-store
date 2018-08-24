@@ -30,9 +30,13 @@ class Order
   end
 
 
-  # def add_product(product, price)
-  #   price = Integer
-  #   @product << {products["product"] => products[price]}
-  #
-  # end
+  def add_product(product, price)
+
+    if @products.include?(product)
+      raise ArgumentError
+    else
+      @products.store(product, price)
+    end
+  end
+
 end
