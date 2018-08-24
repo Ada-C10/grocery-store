@@ -30,13 +30,11 @@ class Customer
       item.to_h
     end
 
-    puts "Customer array of hashes"
-    ap customer_array_of_hashes
     # Create array of customers from array of customer hashes
-      # Each hash = Create a new customer
+      # EACH hash = Create a new instance CUSTOMER class
     customer_array = customer_array_of_hashes.map do |customer|
-    #   # Using CSV hashes for Customer values
-      Customer.new(id = customer["id"], email = customer["email"], {
+     # Using CSV hashes for Customer values
+      Customer.new(id = customer["id"].to_i, email = customer["email"], {
         street: customer["street"],
         city: customer["city"],
         state: customer["state"],
@@ -44,17 +42,15 @@ class Customer
          }
        )
     end
-    ap customer_array
     return customer_array
-    binding.pry
   end
-  #   # Returns collection of Customer instances
-  #     # From CSV file
 
   # self.find(id) - Returns an instance of Customer where values
     # in id field in the CSV match the passed parameter
-    # Customer.find should use Customer.all to search
-      # for a customer with a matching id
+  def self.find(id)
+    # Returns customer if id is found
+    return self.all.find { |customer| customer.id == id }
+  end
 
 end
 #
@@ -65,4 +61,4 @@ cassy = Customer.new(5, "cassya@gmail.com", {
   zip: "99645"
   })
 
-binding.pry
+# binding.pry
