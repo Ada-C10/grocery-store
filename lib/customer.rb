@@ -26,13 +26,27 @@ class Customer
       # Representing all Customers in CSV file
 
   def self.all
-    customer_array = CSV.open("data/customers.csv", headers: true).map do |item|
+    customer_array_of_hashes = CSV.open("data/customers.csv", headers: true).map do |item|
       item.to_h
     end
 
+    puts "Customer array of hashes"
+    ap customer_array_of_hashes
     # Create array of customers from array of customer hashes
       # Each hash = Create a new customer
-        # Send to a main array 
+    customer_array = customer_array_of_hashes.map do |customer|
+    #   # Using CSV hashes for Customer values
+      Customer.new(id = customer["id"], email = customer["email"], {
+        street: customer["street"],
+        city: customer["city"],
+        state: customer["state"],
+        zip: customer["zip"]
+         }
+       )
+    end
+    ap customer_array
+    return customer_array
+    binding.pry
   end
   #   # Returns collection of Customer instances
   #     # From CSV file
