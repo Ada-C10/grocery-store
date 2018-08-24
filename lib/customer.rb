@@ -19,9 +19,13 @@ class Customer
     end
   end
 
-
     def self.all
       self.make_customer_list
       return @@customers
     end
-  end
+
+    def self.find(id)
+      self.all
+      return @@customers[id - 1]
+    end
+end
