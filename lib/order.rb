@@ -10,11 +10,7 @@ def products_costs(string)
   end
   remove_colon.flatten!
   products_w_floats = remove_colon.map do |item|
-    if item =~ /[[:digit:]]/ #has a digit?
-      item.to_f
-    else
-      item
-    end
+    if item =~ /[[:digit:]]/ then item.to_f else item end
   end
   products_w_floats.length.times do |i|
     products_costs[products_w_floats[i]] = products_w_floats[i + 1]
@@ -65,15 +61,10 @@ class Order
   @@order = []
   def self.all
     @@order = CSV.open('data/orders.csv', 'r', headers: false).map do |line|
-
       products_costs = products_costs(line[1])
 
       customers = Customer.all
-      customers.each do |customer|
-        if customer.id == line[2].to_i
-          @customer = customer
-        end
-      end
+      customers.each { |customer| if customer.id == line[2].to_i then @customer = customer end }
 
       self.new(line[0].to_i, products_costs, @customer, line[3].to_sym)
     end
@@ -83,22 +74,14 @@ class Order
   def self.find(id)
     orders = Order.all
     @found = nil
-    orders.each do |item|
-      if item.id.to_i == id
-        @found = item
-      end
-    end
+    orders.each { |item| if item.id.to_i == id then @found = item end }
     return @found
   end
 
   def self.find_by_customer(customer_id)
     order_list = Order.all
     orders = []
-    order_list.each do |purchase|
-      if customer_id == purchase.customer.id.to_i
-        orders << purchase
-      end
-    end
+    order_list.each { |purchase| if customer_id == purchase.customer.id.to_i then orders << purchase end }
     return orders
   end
 

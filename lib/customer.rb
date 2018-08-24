@@ -21,11 +21,7 @@ class Customer
   def self.find(id)
     customers = Customer.all
     found = nil
-    customers.each do |item|
-      if item.id.to_i == id
-        found = item
-      end
-    end
+    customers.each { |item| if item.id.to_i == id then found = item end }
     return found
   end
 
