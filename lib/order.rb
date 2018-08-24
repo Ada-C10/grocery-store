@@ -19,14 +19,22 @@ class Order
 
   def total
     subtotal = @products.sum { |product_name, price| price }
-    total_cost = (subtotal * 1.075).round(2)
+    return total_cost = (subtotal * 1.075).round(2)
   end
 
   def add_product(product_name, price)
     if @products.keys.include?(product_name)
       raise ArgumentError, 'Product has already been added to the order'
     else
-      @products[product_name] = price
+      return @products[product_name] = price
+    end
+  end
+
+  def remove_product(product_name)
+    if @products.keys.include?(product_name)
+      return @products.reject! { |k| k == product_name }
+    else
+      raise ArgumentError, 'No product with that name exists in the current order'
     end
   end
 
