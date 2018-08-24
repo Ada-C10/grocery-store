@@ -1,9 +1,11 @@
-# require_relative 'customer'
+require_relative 'customer'
 
 class Order
 
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
+
+  @@all_orders = []
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -11,6 +13,7 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
     validate_fulfillment_status
+    @@all_orders << self
   end
 
 
@@ -38,7 +41,7 @@ class Order
     check_product_duplicates(product_name)
     @products[product_name] = price
   end
-  
+
 
   def check_product_duplicates(product_name)
     @products.each do
@@ -46,6 +49,10 @@ class Order
         raise ArgumentError.new("A product with that name already exists.")
       end
     end
+  end
+
+  def self.all
+    return @@all_orders
   end
 
 end

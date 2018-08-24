@@ -113,11 +113,14 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      order1 = Order.new(1337, {}, "customer")
+      order2 = Order.new(1500, {}, "customer")
+      order3 = Order.new(600, {}, "customer")
+
+      expect(Order.all).must_be_instance_of Array
     end
 
     it "Returns accurate information about the first order" do
