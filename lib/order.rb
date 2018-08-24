@@ -39,7 +39,13 @@ class Order
     end
   end
 
+  def parse_data(data)
+
+  end
+
   def self.all
+    orders_raw_data = CSV.read('data/orders.csv')
+    parse_data(orders_raw_data)
     # returns a collection of Order instances, representing all of orders from CSV
   end
 

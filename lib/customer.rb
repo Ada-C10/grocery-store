@@ -21,12 +21,11 @@ class Customer
   end
 
   def self.find(id)
+    # returns an instance of Customer with ID
+    # invokes Customer.all (does not parse through CSV data)
     customers = self.all
     customer_with_id = customers.select { |customer| customer.id == id }
     return customer_with_id[0]
-    # returns an instance of Customer with ID
-    # invokes Customer.all (does not parse through CSV data)
-    # if ID doesn't exist, what to do
   end
 
 end
