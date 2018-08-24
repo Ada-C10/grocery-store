@@ -5,20 +5,65 @@ require_relative '../lib/customer'
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
-  def initialize(id, products, customer, fulfillment_status=:pending )
+  # When I changed products parameter to products = {} and @ products
+  # to @products = products I get an error
+  # Think it's linked to customer somehow, when I add customer,
+  # The error occurs/works without customer
+  # When I moved customer to the end, it's fine...why?
+  def initialize(id, products = {}, fulfillment_status = :pending, customer)
     @id = id
-    @products = {}
-    @customer = customer
+    @products = products
+    # @customer = customer
 
     # Setting fulfilmment options
     fulfillment_options = [:pending, :paid, :processing, :shipped, :complete]
     # Checking if fulfillment_option is valid
+    # Unsure why test is reaching ArgumentError when it shouldn't
     if fulfillment_options.include?(fulfillment_status)
       @fulfillment_status = fulfillment_status
     else
+      # Errors link to here. Not sure why...
       raise ArgumentError, "Please enter a valid fulfillment status"
     end
+    # binding.pry
+    @customer = customer
   end
+
+  # Total method
+    # Sum the products
+    # Add a 7.5% tax
+    # Round the result to two decimal places
+    def total
+      if products.length == 0
+        return 0
+      else
+        sum = products.values.reduce(:+)
+        tax = sum * 0.075
+        return (sum + tax).round(2)
+      end
+    end
+
+  # TODO add_product method
+    # Takes product_name and price
+    # Adds data to product hash
+      # If product with same name is already in order,
+      # raise an ArgumentError
+
+    def add_product(product_name, price)
+      # Adds data to hash
+      # If already in hash, raise ArgumentError
+      if @products.include?(product_name)
+        raise ArgumentError, 'Product has already been added'
+      else
+        @products[product_name] = price
+      end
+      # if @products.include?(product_name)
+      #   raise ArgumentError, 'That product already exists'
+      # else
+      #   @products[product_name] => price
+      # end
+    end
+
 end
 
 address = {
@@ -30,7 +75,22 @@ address = {
 
 cassy = Customer.new(123, "a@a.co", address)
 # #
-order = Order.new(123, {}, cassy, :paid)
+
+# pending paid processing shipped complete
+pending_order = Order.new(123, {}, :pending, cassy)
+paid_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, :paid, cassy)
+
+# processing_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, :processing, cassy)
+# shipped_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, :shipped, cassy)
+# complete_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, :complete, cassy)
+# empty_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, cassy)
+# invalid_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, "garbage", cassy)
+
+# binding.pry
+
+
+
+# binding.pry
 # empty = Order.new(3, {}, cassy)
 # invalid = Order.new(3, {}, cassy, "garbage")
 # #Each new Order should include the following attributes:
@@ -50,10 +110,6 @@ order = Order.new(123, {}, cassy, :paid)
 # - A `total` method which will calculate the total cost of the order by:
 #   - Summing up the products
 #   - Adding a 7.5% tax
-#   - Rounding the result to two decimal places
-# - An `add_product` method which will take in two parameters, product name and price, and add the data to the product collection
-#   - If a product with the same name has already been added to the order, an `ArgumentError` should be raised
-
 
 
 

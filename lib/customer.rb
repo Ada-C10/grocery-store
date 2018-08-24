@@ -17,11 +17,14 @@ class Customer
     @id = id
     @email = email
     @address = address
-    # @street = address[:street]
-    # @city = address[:city]
-    # @state = address[:state]
-    # @zip = address[:zip]
   end
+
+  # self.all -
+    # Returns collections of Customer instances
+      # Representing all Customers in CSV file
+
+  # self.find(id) - Returns an instance of Customer where values
+    # in id field in the CSV match the passed parameter 
 
 end
 #
