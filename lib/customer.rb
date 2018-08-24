@@ -37,36 +37,3 @@ class Customer
   end
 
 end
-
-
-
-
-# Wave 2 Feedback Template
-# All stubbed tests are implemented fully and pass
-# Used CSV library only in .all (not in .find)
-# Appropriately parses the product data from CSV file in Order.all
-# Order.all calls Customer.find to set up the composition relation
-
-# def self.make_people
-#   people = []
-#
-#   10.times do |i|
-#     people << self.new(Faker::StarWars.character)
-#   end
-#   return people
-# end
-#
-# CSV.open(filename, 'w') do |csv|
-#     medal_totals.each do |country|
-#       csv << country.values
-#     end
-#
-#     athletes = CSV.open(filename, 'r', headers: true).map do |line|
-#     line.to_hash
-#   end
-#
-# ID, EMAIL, ADDRESS
-#   street: "123 Main", (give in as a hash)
-#   city: "Seattle",
-#   state: "WA",
-#   zip: "98101"

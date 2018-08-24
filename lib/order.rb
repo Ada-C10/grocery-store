@@ -1,7 +1,7 @@
 require 'pry'
 require 'awesome_print'
 require 'csv'
-require 'customer.rb'
+require_relative 'customer.rb'
 
 class Order
   attr_reader :id, :customer
@@ -44,7 +44,17 @@ class Order
     end
   end
 
-  def create_product_hash (order_data)
+  def self.create_product_hash(order)
+    products_hash = {}
+    a = order[1].split(";")
+    i = 0
+    while i < a.length
+      b = a[i].split(":")
+      products_hash[b[0]] = b[1].to_f
+      i += 1
+    end
+
+    return products_hash
   end
 
   def self.all
@@ -55,27 +65,28 @@ class Order
 
     all_orders = []
     order_data.each do |order|
-      products_hash = {}
-      a = order[1].split(";")
-      i = 0
-      while i < a.length
-        b = a[i].split(":")
-        products_hash[b[0]] = b[1].to_f
-        i += 1
-      end
-      all_orders << Order.new(order[0].to_i, products_hash, Customer.find(order[2].to_i), order[3].to_sym)
+      products_hash = self.create_product_hash(order)
+      all_orders << self.new(order[0].to_i, products_hash, Customer.find(order[2].to_i), order[3].to_sym)
     end
 
     return all_orders
   end
 
   def self.find(id)
-    all_orders = Order.all
-    all_orders.each do |order|
+    orders = self.all
+    orders.each do |order|
       if order.id == id
         return order
       end
     end
     return nil
   end
+
+  # def self.find_by_customer(customer_id)
+  #   customer_list = []
+  #   orders = self.all
+  #   orders.each do |order|
+  #     if order.
 end
+
+ap Order.all
