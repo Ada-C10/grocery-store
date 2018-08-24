@@ -152,7 +152,7 @@ describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
-      orders = Orders.all
+      orders = Order.all
 
       expect(orders.length).must_equal 100
       orders.each do |o|
