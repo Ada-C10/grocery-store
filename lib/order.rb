@@ -65,7 +65,7 @@ class Order
   # removes the product and returns it, or returns nil if no product found
   def remove_product(product_name)
     if @products[product_name]
-      return @products[product_name].delete
+      return @products.delete(product_name)
     else
       return nil
     end
