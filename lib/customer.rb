@@ -1,10 +1,11 @@
 require 'csv'
+require 'pry'
 class Customer
   attr_reader :id, :email, :address
   attr_writer :email, :address
 
-@@customers = []
-@@Customerdata = []
+  @@customers = []
+  @@Customerdata = []
 
   def initialize(id, email, address)
     @id = id
@@ -12,15 +13,15 @@ class Customer
     @address = {:street => address[:street] , :city => address[:city], :state => address[:state] , :zip => address[:zip] }
   end
 
-def load_data
-  @@Customerdata = CSV.open('data/customers.csv', r).map do |line|
-end
-
-  def self.all
-      @@customerdata.each do |customer|
-      @@customers << Customer.new
+  def self.make_customer_list
+    @@customers = CSV.open('data/customers.csv', 'r').map do |line|
+      self.new(line[0].to_i, line[1], {address1:line[2], city:line[3], state:line[4], zip:[5]})
     end
-    return @@customers
-end
   end
-end
+
+
+    def self.all
+      self.make_customer_list
+      return @@customers
+    end
+  end
