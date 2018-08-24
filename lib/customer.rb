@@ -7,8 +7,6 @@ class Customer
   attr_reader :id
   attr_accessor :email, :address
 
-  @@customer_collection = []
-
 def initialize(id, email, address)
   @id = id
   @email = email
@@ -28,6 +26,8 @@ def delivery_address
 end
 
 def self.all
+  customer_collection = []
+
   CSV.open("data/customers.csv", "r").map do |line|
     id = line[0].to_i
     email = line[1].to_s
@@ -44,9 +44,9 @@ def self.all
     }
 
     new_customer = Customer.new(id, email, full_address)
-    @@customer_collection << new_customer
+    customer_collection << new_customer
   end
-  return @@customer_collection
+  return customer_collection
 end
 
 def self.find(id)
@@ -60,7 +60,7 @@ def self.find(id)
   index += 1
   end
 
-  return false
+  return nil
 end
 
 end
@@ -69,14 +69,14 @@ end
 
 # TEST
 # run_test = Customer.all
-# puts run_test
-
+# puts "#{run_test}"
+#
 # index = 0
 # while index < run_test.length
 #   x = run_test[index]
 #   puts "Customer number: #{x.id}, email: #{x.email}"
 #   index += 1
 # end
-
+#
 # find_customer = Customer.find(1)
 # puts "Customer id: #{find_customer.id}, email: #{find_customer.email}"
