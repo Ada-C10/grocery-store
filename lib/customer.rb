@@ -1,7 +1,6 @@
 require 'csv'
 require 'awesome_print'
 
-require_relative 'data/customers.csv'
 
 class Customer
 
@@ -30,12 +29,12 @@ end
 
 def self.all
   CSV.open("data/customers.csv", "r").map do |line|
-    id = line[0]
-    email = line[1]
-    address_street = line[2]
-    address_city = line[3]
-    address_state = line[4]
-    address_zip = line[5]
+    id = line[0].to_i
+    email = line[1].to_s
+    address_street = line[2].to_s
+    address_city = line[3].to_s
+    address_state = line[4].to_s
+    address_zip = line[5].to_s
 
     full_address = {
       street: address_street,
