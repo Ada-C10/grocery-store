@@ -1,6 +1,9 @@
-TAX = 0.075
+require 'csv'
+require 'pry'
 
 class Order
+
+  TAX = 0.075
 
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -44,6 +47,46 @@ class Order
       raise ArgumentError, "Product does not exist in our system"
     end
   end
+
+  def get_product_list(produce_list)
+    binding.pry
+    products_list = produce_list.map do |product|
+      product_array = product.split(':')
+      products_list[product_array[0]] = product_array[1]
+    end
+
+
+    return products_list
+
+  end
+
+
+  def self.all
+    list_of_orders =[]
+    CSV.read('data/orders.csv').each do |row|
+      products_list = {}
+      row[1].split(';').each do |product|
+        product_array = product.split(':')
+        products_list[product_array[0]] = product_array[1]
+      end
+
+      list_of_orders << {
+        :id => row[0],
+        :products => products_list,
+        :customer => row[2],
+        :fulfillment_status => row[3].to_sym
+      }
+
+    end
+
+    all_orders = list_of_orders.map do |order_info|
+      self.new(order_info[:id], order_info[:products], order_info[:customer], order_info[:fulfillment_status])
+
+    end
+
+    return all_orders
+  end
+
 end
 
 
