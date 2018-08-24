@@ -62,8 +62,12 @@ class Order
     end
   end
 
-  # removes the product, or raises argument error if no product found
+  # removes the product and returns it, or returns nil if no product found
   def remove_product(product_name)
-    return nil
+    if @products[product_name]
+      return @products[product_name].delete
+    else
+      return nil
+    end
   end
 end

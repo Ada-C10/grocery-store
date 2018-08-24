@@ -205,7 +205,7 @@ describe "Order Wave 2" do
 
   describe "remove product" do
     it "Decreases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00, "salad => 4.25" }
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
       before_count = products.count
       order = Order.new(1337, products, customer)
 
@@ -215,7 +215,7 @@ describe "Order Wave 2" do
     end
 
     it "Is removes the item from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00, "salad => 4.25" }
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
       order = Order.new(1337, products, customer)
 
       order.remove_product("salad")
@@ -223,7 +223,7 @@ describe "Order Wave 2" do
     end
 
     it "Returns nil if the product is not present" do
-      products = { "banana" => 1.99, "cracker" => 3.00, "salad => 4.25" }
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
       order = Order.new(1337, products, customer)
 
       expect(order.remove_product("apple")).must_equal nil
