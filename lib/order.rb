@@ -1,4 +1,5 @@
 require_relative 'customer.rb'
+require 'awesome_print'
 
 class Order
 
@@ -40,7 +41,6 @@ class Order
   def self.fill_order_list
     @@order_list = CSV.open("data/orders.csv", "r").map do |line|
       self.new(line[0].to_i, self.extract_products(line), Customer.find(line[-2].to_i), line[-1].to_sym)
-      #need to parse products into hash
     end
   end
 
@@ -58,6 +58,15 @@ class Order
     return nil
   end
 
+  def self.find_by_customer(customer_id)
+    customer_orders = []
+    self.all.each do |order|
+      if order.customer.id == customer_id
+        customer_orders << order
+      end
+    end
+    (customer_orders.length > 0) ? (return customer_orders) : (return nil)
+  end
 
   def total
     total = 0.00
@@ -79,5 +88,3 @@ class Order
   end
 
 end
-
-Order.fill_order_list
