@@ -45,9 +45,38 @@ def self.all
 
     new_customer = Customer.new(id, email, full_address)
     @@customer_collection << new_customer
-
   end
   return @@customer_collection
 end
 
+def self.find(id)
+  all_customers = Customer.all
+
+  index = 0
+  while index < all_customers.length
+    if all_customers[index].id == id
+      return all_customers[index]
+    end
+  index += 1
+  end
+
+  return false
 end
+
+end
+
+
+
+# TEST
+# run_test = Customer.all
+# puts run_test
+
+# index = 0
+# while index < run_test.length
+#   x = run_test[index]
+#   puts "Customer number: #{x.id}, email: #{x.email}"
+#   index += 1
+# end
+
+# find_customer = Customer.find(1)
+# puts "Customer id: #{find_customer.id}, email: #{find_customer.email}"
