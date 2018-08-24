@@ -54,14 +54,6 @@ def add_product(product_name, price)
 
   @products[product_name] = price
 
-  # @products.each do |key, value|
-  #   if key == product_name
-  #     raise ArgumentError, 'This product is already in the database'
-  #   end
-  # end
-  #
-  # @products[product_name] = price
-
 end
 
 end
