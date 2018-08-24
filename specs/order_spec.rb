@@ -247,6 +247,36 @@ describe "Order Wave 2" do
 
     it "Returns nil for an order that doesn't exist" do
       expect(Order.find(9999)).must_be_nil
+      expect(Order.find(0)).must_be_nil
+      expect(Order.find('gibberish')).must_be_nil
     end
   end
+
+#Added test for optional find_by_customer method
+  describe "Order.find_by_customer" do
+    it "returns an array of orders" do
+      expect(Order.find_by_customer(20).class).must_equal Array
+      expect(Order.find_by_customer(20)).wont_be_empty
+      expect(Order.find_by_customer(20).all? {|item| item.class == Order})
+    end
+
+    it "finds all of the orders for customer #4" do
+      order_id_list = [11, 44, 86]
+
+      orders = Order.find_by_customer(4)
+
+      found_order_ids = orders.map do |order|
+        order.id
+      end
+
+      expect(found_order_ids).must_equal order_id_list
+    end
+
+    it "returns nil for a customer that does not exist" do
+      expect(Order.find_by_customer(9999)).must_be_nil
+      expect(Order.find_by_customer('gibberish')).must_be_nil
+    end
+
+  end
+
 end

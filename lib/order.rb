@@ -6,7 +6,7 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
-  @@order_list
+  @@order_list = []
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
