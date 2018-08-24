@@ -56,23 +56,23 @@ describe "Customer Wave 2" do
     end
   end
 
-  # describe "Customer.find" do
-    # it "Can find the first customer from the CSV" do
-    #   first = Customer.find(1)
+  describe "Customer.find" do
+    it "Can find the first customer from the CSV" do
+      first = Customer.find(1)
 
-      # expect(first).must_be_kind_of Customer
-      # expect(first.id).must_equal 1
-    # end
+      expect(first).must_be_kind_of Customer
+      expect(first.id).must_equal 1
+    end
 
-    # it "Can find the last customer from the CSV" do
-    #   last = Customer.find(35)
-    #
-    #   expect(last).must_be_kind_of Customer
-    #   expect(last.id).must_equal 35
-    # end
+    it "Can find the last customer from the CSV" do
+      last = Customer.find(35)
 
-    # it "Returns nil for a customer that doesn't exist" do
-    #   expect(Customer.find(53145)).must_be_nil
-    # end
-  # end
+      expect(last).must_be_kind_of Customer
+      expect(last.id).must_equal 35
+    end
+
+    it "Returns nil for a customer that doesn't exist" do
+      expect(Customer.find(53145)).must_be_nil
+    end
+  end
 end
