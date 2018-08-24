@@ -32,23 +32,33 @@ class Order
     return all_orders[id-1]
   end
 
-  def total
-    return (@products.values.sum * 1.075).round(2)
-    # A `total` method which will calculate the total cost of the order by:
-    #   - Summing up the products
-    #   - Adding a 7.5% tax
-    #   - Rounding the result to two decimal places
+  # returns a **list** of `Order` instances where the value of the customer's
+  # ID matches the passed parameter
+  def self.find_by_customer(cust_id)
+    customer_ids = Customer.all.map do |customer|
+      customer.id
+    end
+    raise ArgumentError if !customer_ids.include? cust_id
+    customer_orders = []
+    Order.all.each do |order|
+      if order.customer.id == cust_id
+        customer_orders << order
+      end
+    end
+    return customer_orders
   end
 
+  # calculates total cost of order by summing products, add 7.5% tax, 2 decimals
+  def total
+    return (@products.values.sum * 1.075).round(2)
+  end
+
+  # adds product to hash or raises argument error if product already in hash
   def add_product(product_name, product_price)
     if !@products[product_name]
       @products[product_name] = product_price
     else
       raise ArgumentError
     end
-    # An `add_product` method which will take in two parameters, product name and price, and add the data to the product collection
-    #   - If a product with the same name has already been added to the order, an `ArgumentError` should be raised
   end
-
-
 end

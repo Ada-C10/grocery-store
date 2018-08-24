@@ -194,12 +194,12 @@ describe "Order Wave 2" do
       expect(orders.length).must_equal 1
     end
 
-    it "Returns nil for a customer that has no orders" do
-      expect(Order.find_by_customer(100)).must_be_nil
+    it "Returns an empty list for a customer that has no orders" do
+      expect(Order.find_by_customer(22).length).must_equal 0
     end
 
     it "Raises argument error if no such customer exits" do
-      expect(Order.find_by_customer(789)).must_raise ArgumentError
+      expect{Order.find_by_customer(789)}.must_raise ArgumentError
     end
   end
 end
