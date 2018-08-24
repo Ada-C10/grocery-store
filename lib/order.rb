@@ -1,5 +1,5 @@
 class Order
-  attr_reader :id
+  attr_reader :id, :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     raise ArgumentError if ![:pending, :paid, :processing, :shipped, :complete].include? fulfillment_status
