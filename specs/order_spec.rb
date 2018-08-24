@@ -116,10 +116,6 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      order1 = Order.new(1337, {}, "customer")
-      order2 = Order.new(1500, {}, "customer")
-      order3 = Order.new(600, {}, "customer")
-
       expect(Order.all).must_be_instance_of Array
     end
 
