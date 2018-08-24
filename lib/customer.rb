@@ -29,16 +29,13 @@ class Customer
       end
 
 
-      def self.find(id)
-        self.all
-        return @@customer[id - 1]
-        # @@customer.each do |instance|
-        #   if instance.id == id
-        #     return instance
-        #   elsif instance.id != id
-        #     return nil
-          # end
-      end
+  def self.find(id)
+    # self.all
+    # return @@customer[id - 1]
+    customer_id = @@customer.find do |instance|
+      instance.id == id
+    end
+      return customer_id
+    end
 
-
-  end
+end
