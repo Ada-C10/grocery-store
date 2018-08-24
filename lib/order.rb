@@ -1,8 +1,30 @@
 require_relative 'customer'
+require 'csv'
 require 'pry'
 
-class Order
+def products_costs(string)
+  products_costs = {}
+  remove_semi_colon = string.split(";")
+  remove_colon = remove_semi_colon.map do |i|
+    i.split(":")
+  end
+  remove_colon.flatten!
+  products_w_floats = remove_colon.map do |item|
+    if item =~ /[[:digit:]]/ #has a digit?
+      item.to_f
+    else
+      item
+    end
+  end
+  products_w_floats.length.times do |i|
+    products_costs[products_w_floats[i]] = products_w_floats[i + 1]
+    products_w_floats.delete(products_w_floats[i])
+  end
+  products_costs.delete(nil)
+  return products_costs
+end
 
+class Order
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
@@ -14,10 +36,9 @@ class Order
       @fulfillment_status = fulfillment_status
       @fulfillment_status ||= :pending
     end
-
   end
 
-  attr_reader(:id, :products, :fulfillment_status, :customer, :total)
+  attr_reader(:id, :products,:customer, :fulfillment_status, :total)
 
   def total
     sum = products.values.sum
@@ -39,6 +60,46 @@ class Order
     else
       raise ArgumentError, 'This product has not been found'
     end
-
   end
+
+  @@order = []
+  def self.all
+    @@order = CSV.open('data/orders.csv', 'r', headers: false).map do |line|
+
+      products_costs = products_costs(line[1])
+
+      customers = Customer.all
+      customers.each do |customer|
+        if customer.id == line[2].to_i
+          @customer = customer
+        end
+      end
+
+      self.new(line[0].to_i, products_costs, @customer, line[3].to_sym)
+    end
+    return @@order
+  end
+
+  def self.find(id)
+    orders = Order.all
+    @found = nil
+    orders.each do |item|
+      if item.id.to_i == id
+        @found = item
+      end
+    end
+    return @found
+  end
+
+  def self.find_by_customer(customer_id)
+    order_list = Order.all
+    orders = []
+    order_list.each do |purchase|
+      if customer_id == purchase.customer.id.to_i
+        orders << purchase
+      end
+    end
+    return orders
+  end
+
 end
