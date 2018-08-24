@@ -67,13 +67,13 @@ class Order
       products_list = {}
       row[1].split(';').each do |product|
         product_array = product.split(':')
-        products_list[product_array[0]] = product_array[1]
+        products_list[product_array[0]] = product_array[1].to_f
       end
 
       list_of_orders << {
-        :id => row[0],
+        :id => row[0].to_i,
         :products => products_list,
-        :customer => row[2],
+        :customer => Customer.find(row[2].to_i),
         :fulfillment_status => row[3].to_sym
       }
 
