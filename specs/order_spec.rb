@@ -235,6 +235,7 @@ describe "Order Wave 2" do
     it "Returns nil if the product is not present" do
       products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
       order = Order.new(1337, products, customer)
+      before_total = order.total
 
       expect(order.remove_product("apple")).must_equal nil
 
