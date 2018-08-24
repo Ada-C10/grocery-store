@@ -7,11 +7,10 @@ def parse_data(data)
   new_data = data.map do |element|
     [element[0], element[1].split(';').map { |i| i.split ':' }.to_h, element[2], element[3]]
   end
-  # convert remaining fields to required data type
+  # convert remaining fields to required data class
   new_data = new_data.map do |e|
-    [e[0].to_i, e[1].each { |k,v| e[1][k] = v.to_i }, e[2].to_i, e[3].to_sym]
+    [e[0].to_i, e[1].each { |k,v| e[1][k] = v.to_f }, Customer.find(e[2].to_i), e[3].to_sym]
   end
-  ap new_data
 end
 
 class Order
@@ -52,14 +51,22 @@ class Order
   end
 
   def self.all
+    # returns a collection of all Order instances
     orders_raw_data = CSV.read('data/orders.csv')
-    parse_data(orders_raw_data)
-    # returns a collection of Order instances, representing all of orders from CSV
+    revised_data = parse_data(orders_raw_data)
+    orders = revised_data.map do |order|
+      self.new(order[0], order[1], order[2], order[3])
+    end
+    return orders
+
   end
 
   def self.find(id)
     # returns an instance of Order with ID
     # invokes self.all
+    orders = self.all
+    order_with_id = orders.select { |order| order.id == id }
+    return order_with_id[0]
   end
 
   def find_by_customer(customer_id)
@@ -78,4 +85,3 @@ end
 # fulfillment_status = :shipped
 # order = Order.new(id, {}, customer, fulfillment_status)
 # binding.pry
-Order.all
