@@ -95,9 +95,26 @@ def self.all
   return all_order_instances
 end
 
+def self.find(order_id)
+  all_orders = Order.all
+
+  index = 0
+  while index < all_orders.length
+    if all_orders[index].id == order_id
+      return all_orders[index]
+    end
+
+  index += 1
+  end
+
+end
+
 end
 
 # TEST
+test_find = Order.find(3)
+puts "#{test_find}"
+
 # run_method = Order.all
 # puts "#{run_method}"
 
