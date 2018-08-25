@@ -1,6 +1,8 @@
 require_relative 'customer'
 require 'csv'
 require 'pry'
+require 'awesome_print'
+
 
 class Order
   FULLFILLMENT_STATUS = %w(:pending :paid :processing :shipped :complete)
@@ -66,6 +68,13 @@ class Order
   end
 
   def self.find(id)
+    orders = Order.all
+
+    existing_order = orders.detect do |order|
+      order.id == id
+    end
+
+    return existing_order
   end
 
 
@@ -82,4 +91,5 @@ end
 # customer = Customer.new(123, "a@a.co", address)
 # products = { "banana" => 1.99, "cracker" => 3.00 }
 # order = Order.new(1337, products, customer)
-puts Order.all
+puts Order.all.first.products
+puts Order.find(1).products
