@@ -87,6 +87,18 @@ class Order
 
   end
 
+  def self.find_by_customer(customer_id)
+    list_of_orders = self.all
+    matching_order = list_of_orders.find do |order|
+      order.customer.id == customer_id
+    end
+
+    # binding.pry
+
+    return matching_order
+
+  end
+
 end
 
 # Optional:
