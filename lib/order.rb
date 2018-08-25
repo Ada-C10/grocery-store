@@ -76,11 +76,9 @@ class Order
 
     return existing_order
   end
-
-
-
-
 end
+
+
 
 # address = {
 #   street: "123 Main",
@@ -91,5 +89,5 @@ end
 # customer = Customer.new(123, "a@a.co", address)
 # products = { "banana" => 1.99, "cracker" => 3.00 }
 # order = Order.new(1337, products, customer)
-puts Order.all.first.products
-puts Order.find(1).products
+puts Order.all.first.id
+puts Order.find(1).id
