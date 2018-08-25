@@ -40,7 +40,7 @@ class Customer
   def self.find(id)
     ##or equals will assign if nil
     #otherwise skip
-    #false, set.. otherwise, skip 
+    #false, set.. otherwise, skip
     @@customers ||= Customer.all
 
     #find the matching element in array and return it if it's there

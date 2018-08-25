@@ -5,8 +5,8 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
-  #initialize class variable orders
-  @@orders = []
+  # #initialize class variable orders
+  # @@orders = []
 
   VALID_FULFILLMENTS = [:pending, :paid, :processing, :shipped, :complete]
 
@@ -44,15 +44,13 @@ class Order
 
   def self.all
 
-    @@orders = CSV.open('data/orders.csv', "r+").map do |order|
+
+    orders = CSV.open('data/orders.csv', "r+").map do |order|
       order
-    end
 
-    # Adzuki Beans:3.1; ....
-    #split customer[1] into each product => price
-    #pass in split product hashes, etc to instantiate
-    @@orders = @@orders.map do |order|
-
+      # Adzuki Beans:3.1; ....
+      #split customer[1] into each product => price
+      #pass in split product hashes, etc to instantiate
       products = order[1].split(";")
       split_products_hash = {}
 
@@ -67,15 +65,14 @@ class Order
       Order.new(order[0].to_i, split_products_hash, Customer.find(order[-2].to_i), order[-1].to_sym)
     end
 
-    return @@orders
+    return orders
   end
 
-  #populates orders class variable with cvs data by calling self.all method 
-  @@orders = self.all
 
   # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
 
   def self.find
+    @@orders ||= Order.all
   end
 
 
