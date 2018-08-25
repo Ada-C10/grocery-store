@@ -21,14 +21,16 @@ class Customer
 
     all_customers.each do |cust|
       #binding.pry
-      id = cust[0]
+      id = cust[0].to_i
       email = cust[1]
       address = {street: cust[2], city: cust[3], state: cust[4], zip: cust[5]}
       customer = Customer.new(id, email, address)
       @all_customers << customer
     end
-
+    #binding.pry
     return @all_customers
+    # TODO: is it possible to DRY this up where CSV gets imported and each line is read into
+    #      class instance of all customers array?????
   end
 
   def self.find(id)
