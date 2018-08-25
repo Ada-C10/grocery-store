@@ -67,7 +67,9 @@ class Order
   end
 
   def self.find(id)
-
+    @@orders = self.all
+    order = @@orders.select {|instance| instance.id == id}
+    return order[0]
   end
 
 end
