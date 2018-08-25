@@ -63,7 +63,7 @@ class Order
     def self.all
       # Opening orders.csv
       data = CSV.open("data/orders.csv", headers: true).map do |item|
-        # Converting values 
+        # Converting values
         item["id"] = item["id"].to_i
         item["customer_id"] = item["customer_id"].to_i
         item["fulfillment_status"] = item["fulfillment_status"].to_sym
@@ -104,4 +104,4 @@ paid_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, :paid, cassy)
 # empty_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, cassy)
 # invalid_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, "garbage", cassy)
 
-binding.pry
+# binding.pry
