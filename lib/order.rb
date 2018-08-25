@@ -1,11 +1,12 @@
 require_relative 'customer'
+require 'csv'
 
 class Order
 
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
-  @@all_orders = []
+  # @@all_orders = []
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -13,7 +14,7 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
     validate_fulfillment_status
-    @@all_orders << self
+    # @@all_orders << self
   end
 
 
@@ -51,8 +52,26 @@ class Order
     end
   end
 
-  def self.all
-    return @@all_orders
-  end
+  # def self.all
+  #   return @@all_orders
+  # end
 
+
+
+  def self.transform_csv
+    all_orders = []
+    CSV.open("data/orders.csv", "r").each do |array|
+      order = []
+      id = array.slice(0)
+      products = array.slice(1..(array.length - 3))
+      customer = array.slice (-2)
+      fulfillment_status = array.slice(-1)
+      order << id
+      order << products
+      order << customer
+      order << fulfillment_status
+      all_orders << order
+    end
+    return all_orders
+  end
 end
