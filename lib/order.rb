@@ -1,4 +1,8 @@
 require 'pry'
+require_relative 'customer'
+require 'json'
+
+@@orders = []
 
 class Order
   attr_reader :id
@@ -7,9 +11,10 @@ class Order
   VALID_FULFILLMENTS = [:pending, :paid, :processing, :shipped, :complete]
 
   def initialize(id, products, customer,  fulfillment_status = :pending)
-    # binding.pry
-    if  !VALID_FULFILLMENTS.include?(fulfillment_status)
-      raise ArgumentError.new("")
+
+    if !VALID_FULFILLMENTS.include?(fulfillment_status)
+
+      raise ArgumentError.new("Not a valid status")
     end
 
     @id = id
@@ -23,8 +28,8 @@ class Order
     sum = @products.reduce(0) do |total,(item, cost)|
       total + cost
     end
-    sum = sum + sum * (0.075)
-    return (sum * 100).round / 100.0
+
+    return ((sum + sum * 0.075) * 100).round / 100.0
   end
 
   def add_product(product_name, price)
@@ -37,13 +42,54 @@ class Order
     end
   end
 
-  #
-  # self.all
-  # end
+  def self.all
 
-  # self.find(id)
-  # end
+    @@orders = CSV.open('data/orders.csv', "r+").map do |order|
+      order
+    end
+
+
+    # Adzuki Beans:3.1; ....
+    #split customer[1] into each product => price
+    #pass in split product hashes, etc to instantiate
+    @@orders = @@orders.map do |order|
+
+      products = order[1].split(";")
+      split_products_hash = {}
+
+      products.each do |product|
+
+        split_product = product.split(":")
+
+        split_products_hash[split_product[0]] = split_product[1].to_f
+
+      end
+
+      Order.new(order[0].to_i, split_products_hash, Customer.find(order[-2].to_i), order[-1].to_sym)
+    end
+
+    return @@orders
+  end
+
+
+  # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
+
+  def self.find
+  end
+
+
+
+  # order array
+  # id = 1
+  # products = {
+  #   "Lobster" => 17.18,
+  #   "Annatto seed" => 58.38,
+  #   "Camomile" => 83.21
+  # }
+  # customer_id = 25
+  # fulfillment_status = :complete
 
   # Order.find_by_customer(customer_id)
+  # customer = Customer.all
   # end
 end

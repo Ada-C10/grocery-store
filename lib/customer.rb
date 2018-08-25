@@ -9,7 +9,6 @@ class Customer
   attr_accessor :email, :address
 
   @@customers = []
-  @@found_customers = []
 
   def initialize(id, email, address)
     @id = id
@@ -24,49 +23,33 @@ class Customer
     end
 
     @@customers = @@customers.map do |customer|
-      Customer.new(customer[0].to_i, customer[1], address = {
+
+      Customer.new(customer[0].to_i, customer[1],address = {
         street: customer[2],
         city: customer[3],
         state: customer[4],
-        zip: customer[5]
-        })
-      end
+        zip: customer[5]})
+    end
 
       return @@customers
+  end
 
-    end
 
-    # def self.find(id)
-    #   #find the matching element in array and return it if it's there
-    #   #else implict return of nil
-    #   customer = @@customers.find do |customer|
-    #
-    #     #conditional
-    #     customer.id == id
-    #
-    #   end
-    #
-    #   return customer
-    # end
-
-#self.find with .each 
     def self.find(id)
 
-      @@customers.each do |customer|
-        if customer.id == id
-          return customer
-        end
+      self.all
+      #find the matching element in array and return it if it's there
+      #else implict return of nil
+      found_customer = @@customers.find do |customer|
+
+        #conditional
+        customer.id == id
+
       end
 
-      return nil
-
+      return found_customer
     end
 
-
-
-
-    # # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
-    # # Customer.find should not parse the CSV file itself. Instead it should invoke Customer.all and search through the results for a customer with a matching ID.
 
 
     # customer array
