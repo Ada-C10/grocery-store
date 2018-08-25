@@ -43,12 +43,12 @@ class Order
     # verify that product name is a string
     # verify that product price is a float
     # verify that the product name is unique does key already exist
-    if products.keys.include? prod_name
+    if products.key? prod_name
       raise ArgumentError, 'Item already exists'
     end
     products[prod_name] = prod_price
     # products << prod_hash
-    add_msg = "#{prod_name} was added with a price of #{prod_price}"
+    add_msg = "#{prod_name} was added to the order with a price of #{prod_price}."
 
     return add_msg
   end
@@ -56,13 +56,13 @@ class Order
   # remove a product
   def remove_product(prod_rm)
     # verify that prod name is in array of products
-    if prod_rmv = products.find { |prod| prod[prod_rm] == prod_rm }
+    if products.key? prod_rm
       # if matches remove that item's hash from the array
       # search by key (prod_name)
-      products.delete_if { |prod| prod[prod_rm] == prod_rm }
-      rm_msg = "Removing #{prod_rm} from products."
+      products.delete_if { |k, _| k == prod_rm }
+      rm_msg = "Removing #{prod_rm} from order."
     else
-      rm_msg = 'Product not found!'
+      raise ArgumentError, 'Product not found!'
     end
     return rm_msg
   end
