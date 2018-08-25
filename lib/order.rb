@@ -74,6 +74,10 @@ attr_reader :id
   def self.find_by_customer(customer_id)
     all_orders = Order.all
     orders_by_customer = all_orders.select { |order| order.customer.id == customer_id}
-    return orders_by_customer
+    if orders_by_customer.empty?
+      return nil
+    else
+      return orders_by_customer
+    end
   end
 end

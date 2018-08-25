@@ -25,6 +25,7 @@ def main
 
   #ap Order.all.first
   ap Order.find_by_customer(4)
+  ap Order.find_by_customer(500)
 end
 
 main

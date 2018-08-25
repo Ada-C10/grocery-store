@@ -234,6 +234,12 @@ describe "Order Wave 2" do
       expect(orders[1].fulfillment_status).must_equal fulfillment_status
       expect(orders.length).must_equal 3
     end
+
+    it "Returns nil for a customer that doesn't have orders" do
+      # TODO: Your test code here!
+      expect(Order.find_by_customer(500)).must_be_nil
+    end
+
   end
 
 end
