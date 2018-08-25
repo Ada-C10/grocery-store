@@ -13,7 +13,6 @@ class Order
   def initialize(id, products = {}, fulfillment_status = :pending, customer)
     @id = id
     @products = products
-    # @customer = customer
 
     # Setting fulfilmment options
     fulfillment_options = [:pending, :paid, :processing, :shipped, :complete]
@@ -22,10 +21,8 @@ class Order
     if fulfillment_options.include?(fulfillment_status)
       @fulfillment_status = fulfillment_status
     else
-      # Errors link to here. Not sure why...
       raise ArgumentError, "Please enter a valid fulfillment status"
     end
-    # binding.pry
     @customer = customer
   end
 
@@ -57,13 +54,37 @@ class Order
       else
         @products[product_name] = price
       end
-      # if @products.include?(product_name)
-      #   raise ArgumentError, 'That product already exists'
-      # else
-      #   @products[product_name] => price
-      # end
+
     end
 
+    # returns a collection of Order instances,
+    # representing all of the Orders described in the CSV file
+
+    def self.all
+      # Opening orders.csv
+      data = CSV.open("data/orders.csv", headers: true).map do |item|
+        # Converting values 
+        item["id"] = item["id"].to_i
+        item["customer_id"] = item["customer_id"].to_i
+        item["fulfillment_status"] = item["fulfillment_status"].to_sym
+        item.to_h
+      end
+
+      # Converting product string to a hash
+      data.map do |main_hash|
+        # Creating empty hash to hold product key/value pairs
+        product_hash = {}
+        # Splitting products by ;
+        main_hash["products"].split(";").map do |pair|
+          # Splitting each product by :
+          item = pair.split(":")
+          # Adding item as key and dollar value as value
+          product_hash[item[0]] = item[1].to_f
+        end
+        main_hash["products"] = product_hash
+      end
+      return data
+    end
 end
 
 address = {
@@ -74,9 +95,6 @@ address = {
 }
 
 cassy = Customer.new(123, "a@a.co", address)
-# #
-
-# pending paid processing shipped complete
 pending_order = Order.new(123, {}, :pending, cassy)
 paid_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, :paid, cassy)
 
@@ -86,35 +104,4 @@ paid_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, :paid, cassy)
 # empty_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, cassy)
 # invalid_order = Order.new(123, {"banana" => 1.99, "cracker" => 3.00}, "garbage", cassy)
 
-# binding.pry
-
-
-
-# binding.pry
-# empty = Order.new(3, {}, cassy)
-# invalid = Order.new(3, {}, cassy, "garbage")
-# #Each new Order should include the following attributes:
-# - ID, a number (read-only)
-# - A collection of products and their cost.
-#This data will be given as a hash that looks like this:
-#     { "banana" => 1.99, "cracker" => 3.00 }
-#     ```
-#     - Zero products is permitted (an empty hash)
-#     - You can assume that there is **only one** of each product
-# - An instance of `Customer`, the person who placed this order
-# - A `fulfillment_status`, a symbol, one of `:pending`, `:paid`, `:processing`, `:shipped`, or `:complete`
-#   - If no `fulfillment_status` is provided, it will default to `:pending`
-#   - If a status is given that is not one of the above, an `ArgumentError` should be raised
-#
-# In addition, `Order` should have:
-# - A `total` method which will calculate the total cost of the order by:
-#   - Summing up the products
-#   - Adding a 7.5% tax
-
-
-
-### Optional:
-# Make sure to write tests for any optionals you implement!
-# - Add a `remove_product` method to the `Order` class which will take in one parameter,
-# a product name, and remove the product from the collection
-#   - If no product with that name was found, an `ArgumentError` should be raised
+binding.pry
