@@ -124,13 +124,13 @@ describe "Order Wave 2" do
       # Arrange / Act
         # Checking length of Order.all
       expect(orders.length).must_equal 100
-      
+
       # Checking that Order.all is an array
       orders.must_be_kind_of Array
 
     end
 
-    xit "Returns accurate information about the first order" do
+    it "Returns accurate information about the first order" do
       id = 1
       products = {
         "Lobster" => 17.18,
@@ -151,21 +151,27 @@ describe "Order Wave 2" do
     end
 
     xit "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      last = Order.all.first
+      expect(first.id).must_equal 1
     end
   end
 
   describe "Order.find" do
     xit "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      # TODO:
+      first = Order.find(1)
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     xit "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     xit "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(53145)).must_be_nil
     end
   end
 end
