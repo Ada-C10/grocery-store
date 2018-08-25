@@ -33,4 +33,29 @@ class Order
     end
   end
 
+  def self.all
+    orders = []
+
+    CSV.read('data/orders.csv').each do |order|
+
+      id = order[0].to_i
+
+      products_hash = {}
+      order_products = order[1].split(';')
+      order_products.each do |product|
+        separate = product.split(':')
+        products_hash[separate[0]] = separate[1].to_f
+      end
+      products = products_hash
+
+      customer = Customer.find(order[2].to_i)
+
+      fulfillment_status = order[3].to_sym
+
+      orders << Order.new(id, products, customer, fulfillment_status)
+    end
+
+    return orders
+  end
+
 end
