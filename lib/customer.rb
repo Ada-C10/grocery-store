@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 class Customer
 
@@ -18,7 +17,7 @@ class Customer
 
       csv_id = row[0].to_i
       csv_email = row[1].to_i
-      csv_address = row[2] + ' ' + row[3] + ' ' + row[4] + row[5]
+      csv_address = row[2] + ' ' + row[3] + ' ' + row[4] + ' ' + row[5]
       Customer.new(csv_id, csv_email, csv_address)
 
     end
@@ -26,6 +25,7 @@ class Customer
 
   end
 
+  # returns instance of Customer that matches id argument
   def self.find(id)
     list_of_customers = self.all
     matching_customer = list_of_customers.find do |customer|
