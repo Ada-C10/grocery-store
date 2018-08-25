@@ -5,9 +5,6 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
-  # #initialize class variable orders
-  # @@orders = []
-
   VALID_FULFILLMENTS = [:pending, :paid, :processing, :shipped, :complete]
 
   def initialize(id, products, customer,  fulfillment_status = :pending)
@@ -44,63 +41,42 @@ class Order
 
   def self.all
 
-
     orders = CSV.open('data/orders.csv', "r+").map do |order|
       order
 
       # Adzuki Beans:3.1; ....
-      #split customer[1] into each product => price
-      #pass in split product hashes, etc to instantiate
+      #split customer[1] into each then loop through to create product hash: product => price
       products = order[1].split(";")
       split_products_hash = {}
 
       products.each do |product|
 
         split_product = product.split(":")
-
         split_products_hash[split_product[0]] = split_product[1].to_f
 
       end
 
+      #pass in split product hashes, etc to instantiate
       Order.new(order[0].to_i, split_products_hash, Customer.find(order[-2].to_i), order[-1].to_sym)
     end
 
     return orders
   end
 
-
-  # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
-
   def self.find(id)
 
     @@orders ||= Order.all
 
-
     found_order = @@orders.find do |order|
 
-      #conditional
       order.id == id
 
     end
 
     return found_order
-
-
   end
-
-
-
-  # order array
-  # id = 1
-  # products = {
-  #   "Lobster" => 17.18,
-  #   "Annatto seed" => 58.38,
-  #   "Camomile" => 83.21
-  # }
-  # customer_id = 25
-  # fulfillment_status = :complete
-
-  # Order.find_by_customer(customer_id)
-  # customer = Customer.all
-  # end
 end
+
+
+# Optional:
+# Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.
