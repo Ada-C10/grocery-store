@@ -36,8 +36,8 @@ class Customer
         return customer
       end
     end
+    return raise ArgumentError.new("Invalid ID")
   end
-
 
 end
 
