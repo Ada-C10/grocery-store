@@ -98,12 +98,12 @@ end
 end
 
 # TEST
-run_method = Order.all
+# run_method = Order.all
 # puts "#{run_method}"
 
-index = 0
-while index < run_method.length
-  x = run_method[index]
-  puts "Order num: #{x.id} | products: #{x.products} | customer: #{x.customer} | status: #{x.fulfillment_status}"
-  index += 1
-end
+# index = 0
+# while index < run_method.length
+#   x = run_method[index]
+#   puts "Order num: #{x.id} | products: #{x.products} | customer: #{x.customer} | status: #{x.fulfillment_status}"
+#   index += 1
+# end
