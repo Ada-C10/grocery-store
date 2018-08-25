@@ -12,6 +12,8 @@ class Customer
     @address = address
   end
 
+  # Reads CSV and uses the data to create new instances of the Customer class
+  # Returns an array of all the Customer instances
   def self.all
     customer_data = []
     customer_data = CSV.open('data/customers.csv', 'r').map do |line|
@@ -26,6 +28,7 @@ class Customer
     return all_customers
   end
 
+  # Searches through all Customer instances to find a match given the id
   def self.find(id)
     all_customers = self.all
     all_customers.each do |customer|

@@ -18,6 +18,7 @@ class Order
     end
   end
 
+  # Calculates total cost of all items in products hash, including tax
   def total
     if @products.length == 0
       return 0
@@ -28,6 +29,7 @@ class Order
     end
   end
 
+  # Adds product (both key and value) to the products_hash
   def add_product(name, price)
     if @products[name] == nil
       @products[name] = price
@@ -36,6 +38,7 @@ class Order
     end
   end
 
+  # Removes product (both key and value) from the products_hash
   def remove_product (name)
     if @products[name] == nil
       raise ArgumentError.new("This product cannot be found.")
@@ -44,6 +47,8 @@ class Order
     end
   end
 
+  # Helper Method to create the products hash to use as a parameter in Order.all
+  # in creating new instances of the Order class from the csv file
   def self.create_product_hash(order)
     products_hash = {}
     a = order[1].split(";")
@@ -57,6 +62,8 @@ class Order
     return products_hash
   end
 
+  # Reads CSV and uses the data to create new instances of the Order class
+  # Returns an array of all the Order instances
   def self.all
     order_data = []
     order_data = CSV.open('data/orders.csv', 'r').map do |line|
@@ -72,6 +79,7 @@ class Order
     return all_orders
   end
 
+  # Searches through all Order instances to find a match given the id
   def self.find(id)
     orders = self.all
     orders.each do |order|
@@ -82,6 +90,7 @@ class Order
     return nil
   end
 
+  # Searches through all Order instances to find matches given the customer id
   def self.find_by_customer(customer_id)
     customer_list = []
     orders = self.all
