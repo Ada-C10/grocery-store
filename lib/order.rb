@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 class Order
 
@@ -100,8 +99,6 @@ class Order
     matching_order = list_of_orders.find do |order|
       order.customer.id == customer_id
     end
-
-    # binding.pry
 
     return matching_order
 
