@@ -22,4 +22,11 @@ class Customer
     return customers
   end
 
+  def self.find(id)
+    customers = Customer.all
+    customers.find do |customer|
+      customer.id == id
+    end
+  end
+
 end
