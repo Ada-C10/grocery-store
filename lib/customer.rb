@@ -18,13 +18,13 @@ class Customer
     end
   end
 
-    def self.all
-      self.make_customer_list
-      return @@customers
-    end
+  def self.all
+    self.make_customer_list
+    return @@customers
+  end
 
-    def self.find(id)
-      self.all
-      return @@customers.find {|customer| customer.id == id}
-    end
+  def self.find(id)
+    self.all
+    return @@customers.find {|customer| customer.id == id}
+  end
 end
