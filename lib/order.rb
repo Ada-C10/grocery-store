@@ -82,11 +82,14 @@ class Order
     return nil
   end
 
-  # def self.find_by_customer(customer_id)
-  #   customer_list = []
-  #   orders = self.all
-  #   orders.each do |order|
-  #     if order.
+  def self.find_by_customer(customer_id)
+    customer_list = []
+    orders = self.all
+    orders.each do |order|
+      if order.customer.id == customer_id
+        customer_list << order
+      end
+    end
+    return customer_list
+  end
 end
-
-ap Order.all
