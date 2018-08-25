@@ -101,8 +101,10 @@ def self.all
 end
 
 def self.find(order_id)
+  # Note: all_orders is an array of Order objects
   all_orders = Order.all
 
+  # Iterating through the all_orders array. all_orders is an array containing Order objects. If the Order object has an id that matches the order_id parameter, then return that Order object
   index = 0
   while index < all_orders.length
     if all_orders[index].id == order_id
@@ -111,6 +113,7 @@ def self.find(order_id)
     index += 1
   end
 
+  # If none of the Order objects have an id that matches the order_id parameter, then return nil
   return nil
 
 end

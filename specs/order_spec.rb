@@ -198,6 +198,7 @@ describe "Order Wave 2" do
       expect(order.id).must_equal order_id
       expect(order.products).must_equal order_products
       expect(order.customer).must_be_kind_of Customer
+      # Note: order.customer is returning a customer object so to retrieve the actual customer id number we need to enter into the customer object
       expect(order.customer.id).must_equal order_customer_id
       expect(order.fulfillment_status).must_equal order_status
     end
