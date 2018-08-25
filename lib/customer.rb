@@ -17,12 +17,30 @@ class Customer
   end
 
   def self.all
-    CSV.open('data/customers.csv', 'r').map do |row|
-      cust = Customer.new(row[0].to_i, row[1], address = {:street => row[2], :city => row[3], :state => row[4], :zip => row[5]
-      })
-      @@customers << cust
+    @@customers = CSV.open('data/customers.csv', 'r').map do |row|
+      id = row[0].to_i
+      email = row[1]
+      address = {
+        :street => row[2],
+        :city => row[3],
+        :state => row[4],
+        :zip => row[5]
+      }
+      Customer.new(id, email, address)
     end
     return @@customers
   end
 
+  def self.find(id)
+    x = ""
+    @@customers.length.times do |i|
+      if @@customers[i].id == id
+        x = @@customers[i]
+        break
+      else
+        x = nil
+      end
+    end
+    return x
+  end
 end
