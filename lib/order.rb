@@ -51,7 +51,7 @@ attr_reader :id
     end
     all_orders = []
     data.each do |order|
-      all_orders << Order.new(order[0].to_i, product_hash(order[1]), Customer.find(order[2]), order[3].to_sym)
+      all_orders << Order.new(order[0].to_i, product_hash(order[1]), Customer.find(order[2].to_i), order[3].to_sym)
     end
     return all_orders
   end

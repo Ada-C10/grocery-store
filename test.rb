@@ -19,16 +19,8 @@ def main
   # ap Customer.find(4)
   ap Order.all
 
-  def product_hash(order)
-      products = order.split(';')
-      products_hash = {}
-      products.each do |product|
-        products_hash[product.split(':')[0]]= product.split(':')[1].to_f
-      end
-      return products_hash
-  end
+  ap Order.all.first
 
-  puts product_hash("Lobster:17.18;Annatto seed:58.38;Camomile:83.21")
 end
 
 main
