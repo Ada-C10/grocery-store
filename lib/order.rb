@@ -63,4 +63,17 @@ attr_reader :id
     end
     return all_orders
   end
+
+  def self.find(id)
+    all_orders = Order.all
+    order = all_orders.select {|order| order.id == id}
+    return order[0]
+  end
+
+
+  def self.find_by_customer(customer_id)
+    all_orders = Order.all
+    orders_by_customer = all_orders.select { |order| order.customer.id == customer_id}
+    return orders_by_customer
+  end
 end
