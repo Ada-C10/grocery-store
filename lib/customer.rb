@@ -17,32 +17,52 @@ attr_accessor :email, :address
       customer
     end
 
-
     all_customers = customers.map do |customer|
-      @id = customer[0]
+      @id = customer[0].to_i
       @email = customer[1]
       @address = {:street => customer[2], :city => customer[3], :state => customer[4], :zip => customer[5]}
       Customer.new(@id, @email, @address)
     end
 
-    # binding.pry
     return all_customers
-
   end
 
   def self.find(id)
-    Customer.all
+    customers = Customer.all
 
-    return
+    existing_customer = customers.detect do |customer|
+      customer.id == id
+    end
+
+  #  Error handling? -- but does not pass test
+    # if existing_customer == nil
+    #   raise ArgumentError, "ID not found"
+    # else
+    #   return existing_customer
+    # end
+
+    return existing_customer
   end
+
+
 
 end
 
-# address = {
-#   street: "123 Main",
-#   city: "Seattle",
-#   state: "WA",
-#   zip: "98101"
-# }
-# customer = Customer.new(123, "a@a.co", address)
-puts Customer.all.class
+
+
+
+
+#
+#
+#   end
+#
+# end
+#
+# # address = {
+# #   street: "123 Main",
+# #   city: "Seattle",
+# #   state: "WA",
+# #   zip: "98101"
+# # }
+# # customer = Customer.new(123, "a@a.co", address)
+puts Customer.find(1)
