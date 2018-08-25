@@ -200,4 +200,24 @@ describe "Order Wave 2" do
       expect(Order.find(215)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Returns an array (of correct length) of Order instances" do
+      orders = Order.find_by_customer(19)
+
+      expect(orders.length).must_equal 3
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+      end
+    end
+
+    it "Returns accurate information where the customer id matches in each Order instance" do
+      order = Order.find_by_customer(26)
+      expect(order[0].customer.id).must_equal 26
+    end
+
+    it "Returns nil if customer id does not match any orders" do
+      expect(Order.find_by_customer(390)).must_be_nil
+    end
+  end
 end
