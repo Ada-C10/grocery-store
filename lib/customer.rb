@@ -1,6 +1,6 @@
 require 'csv'
 require 'awesome_print'
-require_relative 'order'
+
 
 class Customer
   attr_accessor :email, :address

@@ -1,6 +1,7 @@
 require 'csv'
 require 'awesome_print'
 require_relative 'customer'
+require 'pry'
 
 class Order
   # should products be only read only?
@@ -12,7 +13,6 @@ class Order
   def initialize(id, products, customer, fulfillment_status= :pending)
     @id = id
     @products = products
-    # customer is integer
     @customer = customer
     status_options = [:pending, :paid, :processing, :shipped, :complete]
     if status_options.include?(fulfillment_status)
@@ -58,12 +58,15 @@ class Order
       # changing array into hash
       # making values all floats
       products_hash = Hash[*products].map { |k,v| [k, v.to_f] }.to_h
-      Order.new(line[0].to_i, products_hash, line[2].to_i, line[3].to_sym)
+      customer_id = line[2].to_i
+      # binding.pry
+      Customer.all
+      # binding.pry
+      Order.new(line[0].to_i, products_hash, Customer.find(customer_id),
+      line[3].to_sym)
     end
 
     return total_orders
   end
 
 end
-
-ap Order.customer_info(20)
