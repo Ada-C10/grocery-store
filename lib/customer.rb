@@ -9,7 +9,6 @@ class Customer
     @id = id
     @email = email
     @address = address
-
   end
 
 
@@ -23,14 +22,24 @@ class Customer
       @address_hash[:state] = line[4]
       @address_hash[:zip] = line[5]
 
-      x = Customer.new(line[0].to_i, line[1], @address_hash)
+      new_customer = Customer.new(line[0].to_i, line[1], @address_hash)
 
-      all_customers << x
+      all_customers << new_customer
     end
     return all_customers
   end
 
+
+  def self.find(id)
+    Customer.all.each do |customer|
+      if customer.id == id
+        return customer
+      end
+    end
   end
+
+
+end
 
 
 
