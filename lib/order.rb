@@ -72,7 +72,7 @@ def self.all
     index = 0
     while index < all_products_into_array.length
       each_product_own_array = all_products_into_array[index].split(":")
-      product_hash[each_product_own_array[0]] = [each_product_own_array[1]]
+      product_hash[each_product_own_array[0]] = each_product_own_array[1].to_i
 
       index += 1
     end
@@ -91,7 +91,7 @@ end
 
 # TEST
 run_method = Order.all
-puts "#{run_method}"
+# puts "#{run_method}"
 
 index = 0
 while index < run_method.length
