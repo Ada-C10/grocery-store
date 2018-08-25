@@ -43,26 +43,26 @@ class Order
 
   def self.all
     @@orders = CSV.open('data/orders.csv', 'r').map do |line|
-      id = line[0]
+      id = line[0].to_i
       products = line[1].split(";")
-      customer_id = line[2]
-      fulfillment_status = line[3]
+      customer = line[2].to_i
+      fulfillment_status = line[3].to_sym
 
       products = products.map do |product|
         key_value = product.split(":")
+        key_value[1] = key_value[1].to_f
+        key_value
       end
 
-      products.to_h
-      binding.pry
-      # Order.new( @id = line[0], @products = {products:line[1], price: line[1] }
-      #   @address = {
-      #     street: line[2],
-      #     city: line[3],
-      #     state: line[4],
-      #     zip: line[5]
-      #     })
-      end
-        # return @@customer
+      products = products.to_h
+      Order.new(
+        id,
+        products,
+        Customer.find(customer),
+        fulfillment_status
+      )
     end
+
+  end
 
 end

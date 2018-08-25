@@ -10,32 +10,40 @@ class Customer
   @@customer = []
 
   def initialize(id, email, address)
-    @id =  id.to_i
+    @id =  id
     @email = email
     @address = {:street => address[:street], :city => address[:city],  :state => address[:state], :zip => address[:zip]}
   end
 
   def self.all
+
     @@customer = CSV.open('data/customers.csv', 'r').map do |line|
-      Customer.new( @id = line[0], @email = line[1],
-        @address = {
-          street: line[2],
-          city: line[3],
-          state: line[4],
-          zip: line[5]
-          })
-        end
-        return @@customer
-      end
+      id = line[0].to_i
+      email = line[1]
+      address = {
+        street: line[2],
+        city: line[3],
+        state: line[4],
+        zip: line[5]
+      }
+
+      Customer.new(id, email, address)
+    end
+    return @@customer
+  end
 
 
   def self.find(id)
-    # self.all
+
     # return @@customer[id - 1]
-    customer_id = @@customer.find do |instance|
+    if @@customer.size == 0
+      self.all
+    end
+
+    customer = @@customer.find do |instance|
       instance.id == id
     end
-      return customer_id
-    end
+    return customer
+  end
 
 end
