@@ -6,6 +6,10 @@ class Order
 
 attr_reader :id
 
+# The fulfillment_status = :pending sets a default value for fulfillment_status
+# Note: @products is a single hash that contains key: food_name and value: price
+# Example: @products = {"banana" => 2.25, "cookie" => 1.50}
+# The constructor's customer parameter is a Customer object NOT customer id
 def initialize(id, products, customer, fulfillment_status = :pending)
   @id = id
   @products = products
@@ -38,6 +42,7 @@ def total
   total_wo_tax = 0
   tax_rate = 0.075
 
+  # Iterating through products hash and summing all the values
   @products.each do |k,v|
     total_wo_tax += v
   end
