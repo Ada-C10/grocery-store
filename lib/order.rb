@@ -1,12 +1,12 @@
 require 'pry'
 require_relative 'customer'
-require 'json'
-
-@@orders = []
 
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
+
+  #initialize class variable orders
+  @@orders = []
 
   VALID_FULFILLMENTS = [:pending, :paid, :processing, :shipped, :complete]
 
@@ -48,7 +48,6 @@ class Order
       order
     end
 
-
     # Adzuki Beans:3.1; ....
     #split customer[1] into each product => price
     #pass in split product hashes, etc to instantiate
@@ -71,6 +70,8 @@ class Order
     return @@orders
   end
 
+  #populates orders class variable with cvs data by calling self.all method 
+  @@orders = self.all
 
   # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
 
