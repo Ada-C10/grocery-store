@@ -15,7 +15,6 @@ class Customer
 
   def self.all
     @@customers = CSV.read('data/customers.csv').map {|line| line}
-    #binding.pry
     @@customers = @@customers.map do |array|
       Customer.new(id = array[0].to_i, email = array[1],
         address = {

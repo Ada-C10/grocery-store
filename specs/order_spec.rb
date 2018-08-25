@@ -4,6 +4,7 @@ require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
 require_relative '../lib/order'
+require 'pry'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -18,7 +19,7 @@ describe "Order Wave 1" do
     Customer.new(123, "a@a.co", address)
   end
 
-  describe "#initialize" do
+  xdescribe "#initialize" do
     it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
@@ -61,11 +62,10 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "#total" do
+  xdescribe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
-
       expected_total = 5.36
 
       expect(order.total).must_equal expected_total
@@ -78,7 +78,7 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "#add_product" do
+  xdescribe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
@@ -113,11 +113,14 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
-    it "Returns an array of all orders" do
-      # TODO: Your test code here!
+    it 'Returns an array of all orders' do
+      customers = Order.all
+      expect(customers.length).must_equal 100
+      customers.each do |c|
+        expect(c).must_be_kind_of Order
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -129,8 +132,8 @@ describe "Order Wave 2" do
       }
       customer_id = 25
       fulfillment_status = :complete
-
       order = Order.all.first
+
 
       # Check that all data was loaded as expected
       expect(order.id).must_equal id
@@ -139,13 +142,29 @@ describe "Order Wave 2" do
       expect(order.customer.id).must_equal customer_id
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
-
+ 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+      order = Order.all.last
+
+
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end
