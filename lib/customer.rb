@@ -6,7 +6,6 @@ class Customer
 
   @@customers = []
 
-
   def initialize(id, email, address)
     @id = id
     @email = email
@@ -26,6 +25,6 @@ class Customer
 
     def self.find(id)
       self.all
-      return @@customers[id - 1]
+      return @@customers.find {|customer| customer.id == id}
     end
 end
