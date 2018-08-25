@@ -14,13 +14,16 @@ class Order
     @customer = customer
 
     list_of_statuses = [:pending, :paid, :processing, :shipped, :complete]
-    if !list_of_statuses.include? fulfillment_status
-      raise ArgumentError, "Unknown fulfillment status"
-    else
+
+    if list_of_statuses.include? fulfillment_status
       @fulfillment_status = fulfillment_status
+    else
+      raise ArgumentError, "Unknown fulfillment status"
     end
+
   end
 
+  # returns the total + tax of all the products in an instance of Order
   def total
     subtotal = @products.sum do |key, value|
       value
@@ -31,6 +34,7 @@ class Order
     return total.round(2)
   end
 
+  # adds a product to the instance of Order if it does not yet exist
   def add_product(product_name, price)
     if @products.has_key?(product_name)
       raise ArgumentError, "Product already exists in the system"
@@ -40,6 +44,7 @@ class Order
 
   end
 
+  # removes a product from the instance of Order if it does exist
   def remove_product(product_name)
     if @products.has_key?(product_name)
       @products.delete(product_name)
@@ -48,10 +53,11 @@ class Order
     end
   end
 
-  def self.get_product_list(produce_list)
-
+  # takes a string describing produce and returns a hash with the produce as keys and prices as values
+  def self.get_product_list(produce)
     products_list = {}
-    produce_list.split(';').each do |product|
+
+    produce.split(';').each do |product|
       product_array = product.split(':')
       products_list[product_array[0]] = product_array[1].to_f
     end
@@ -60,7 +66,7 @@ class Order
 
   end
 
-
+  # reads a CSV and returns a list of the data as a list of Orders
   def self.all
     all_orders = CSV.read('data/orders.csv').map do |row|
 
@@ -76,6 +82,7 @@ class Order
     return all_orders
   end
 
+  # returns instance of Order that matches order id argument
   def self.find(id_number)
     list_of_orders = self.all
     matching_order = list_of_orders.find do |order|
@@ -87,6 +94,7 @@ class Order
 
   end
 
+  # returns instance of Order that matches customer id argument
   def self.find_by_customer(customer_id)
     list_of_orders = self.all
     matching_order = list_of_orders.find do |order|
@@ -100,6 +108,3 @@ class Order
   end
 
 end
-
-# Optional:
-# Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.
