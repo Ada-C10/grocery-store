@@ -202,8 +202,10 @@ describe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal order_status
     end
 #
-#     it "Returns nil for an order that doesn't exist" do
-#       # TODO: Your test code here!
-#     end
+    it "Returns nil for an order that doesn't exist" do
+
+      order = Order.find(order_id = 200)
+      expect(order).must_equal nil
+    end
   end
 end
