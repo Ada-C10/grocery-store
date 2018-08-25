@@ -18,7 +18,7 @@ class Order
     end
   end
 
-# add new product, raise an argument error if the product already exists
+  # add new product, raise an argument error if the product already exists
   def add_product(product, price)
     # check if the product exists
     @products.each do |item, price|
@@ -32,18 +32,18 @@ class Order
     return @products
   end
 
-# Tally the total and return total cost with tax calculated
-def total
-  total = 0.00
-  if @products != nil
-    @products.each do |product, price|
-      # sums products
-      total += price
+  # Tally the total and return total cost with tax calculated
+  def total
+    total = 0.00
+    if @products != nil
+      @products.each do |product, price|
+        # sums products
+        total += price
+      end
+      # Adds a 7.5% tax
+      total += (total * 0.075)
     end
-    # Adds a 7.5% tax
-    total += (total * 0.075)
-  end
 
-  return total.round(2)
-end
+    return total.round(2)
+  end
 end
