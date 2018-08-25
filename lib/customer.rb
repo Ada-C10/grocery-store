@@ -30,14 +30,7 @@ class Customer
 
     def self.find(id)
       customers = self.all
-      customers.each do |instance|
-        binding.pry
-        if instance.id == id
-          return instance
-        else
-          return nil
-        end
-      end
+      customer = customers.select {|instance| instance.id == id}
+      return customer[0]
     end
-
   end
