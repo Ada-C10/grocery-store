@@ -5,48 +5,52 @@ class Order
   attr_accessor :products, :customer, :fulfillment_status
   @@valid_statuses = %i[pending paid processing shipped complete] # array of keys
   @@orders = []
-  #order = Order.new(1337, products, customer)
+  # example of input: order = Order.new(1337, products, customer)
+  # if fulfillment_status was not specified, it should have a pending status
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
-    #check_valid(@fulfillment_status)
+    check_valid(@fulfillment_status)
   end
 
+  # checks if the fulfillment_status has correct keys
+  # return argument error if it has invalid keys
   def check_valid(bogus_status)
-      if @@valid_statuses.include?(bogus_status)
-
-      else
-        raise ArgumentError, "bogus status!"
-      end
+    until @@valid_statuses.include?(bogus_status)
+      raise ArgumentError, "bogus status!"
+    end
   end
-  # products = { "banana" => 1.99, "cracker" => 3.00 }
+
+  # input = { "banana" => 1.99, "cracker" => 3.00 }
+  # returns the sums for all product
   def total
     prices = @products.values
     total = prices.sum
-    total_and_tax = total * 0.075 + total
-    total_and_tax = total_and_tax.round(2)
-    if total_and_tax == 0.0
-      return 0
-    else
-      return total_and_tax
-    end
-  end
-# order.add_product("salad", 4.25)
-  def add_product(key, value)
-    if @products.include?(key)
-      raise ArgumentError
-    end
-    @products[key] = value
+    # add a 7.5% tax to the total and round to 2 decimal points
+    total_and_tax = (total * 0.075 + total).round(2)
+    # return expected output
+    total_cost = total_and_tax == 0.0 ? 0 : total_and_tax
+    return total_cost
   end
 
-  #  order = Order.new(1, {}, customer, fulfillment_status)
-  #  [["1", #id
+  # input: order.add_product("salad", 4.25)
+  # adds the product to the hash of products
+  def add_product(key, value)
+    if @products.include?(key) # if it already exists
+      raise ArgumentError
+    end
+    @products[key] = value # add it to the products
+  end
+
+  #  input: [["1", #id
   # "Lobster:17.18;Annatto seed:58.38;Camomile:83.21", #products
   # "25", #customer
   # "complete"] # fulfillment_status
-  # id, products, customer, fulfillment_status
+  # expects: order = Order.new(1, {}, customer, fulfillment_status)
+  # meaning of parameters: id, products, customer, fulfillment_status
+  # returns a hash that contains the product as a key and the cost as the value
   def self.products_into_hash(string)
     products_hash = {}
     items = string.split(";")
@@ -58,6 +62,7 @@ class Order
     return products_hash
   end
 
+  # returns an array of order instances by taking input from a CSV file
   def self.all
     @@orders = CSV.read('data/orders.csv').map {|line| line}
     @@orders = @@orders.map do |array|
@@ -66,9 +71,11 @@ class Order
     return @@orders
   end
 
+  # input: id of order
+  # return order instance if it exist, or nil if it doesn't exist
   def self.find(id)
     @@orders = self.all
-    order = @@orders.select {|instance| instance.id == id}
+    order = @@orders.select {|instance| instance.id == id} # returns instance in an array
     return order[0]
   end
 
