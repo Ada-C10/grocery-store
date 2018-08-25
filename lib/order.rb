@@ -36,6 +36,14 @@ attr_reader :id
     end
   end
 
+  def remove_product(product_name)
+    if @products.keys.include?(product_name)
+      @products.reject! { |k| k == product_name }
+    else
+      raise ArgumentError, "The product does not exist in the order"
+    end
+  end
+
   def self.product_hash(order)
       products = order.split(';')
       products_hash = {}
