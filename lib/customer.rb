@@ -24,8 +24,6 @@ class Customer
     end
 
     @@customers = @@customers.map do |customer|
-
-
       Customer.new(customer[0].to_i, customer[1], address = {
         street: customer[2],
         city: customer[3],
@@ -38,34 +36,49 @@ class Customer
 
     end
 
+    # def self.find(id)
+    #   #find the matching element in array and return it if it's there
+    #   #else implict return of nil
+    #   customer = @@customers.find do |customer|
+    #
+    #     #conditional
+    #     customer.id == id
+    #
+    #   end
+    #
+    #   return customer
+    # end
+
+#self.find with .each 
     def self.find(id)
-      #find the matching element in array and return it if it's there
-      #else implict return of nil
-      customer = @@customers.find do |customer|
 
-        #conditional
-        customer.id == id
-
+      @@customers.each do |customer|
+        if customer.id == id
+          return customer
+        end
       end
 
-      return customer
+      return nil
 
     end
 
 
-  # # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
-  # # Customer.find should not parse the CSV file itself. Instead it should invoke Customer.all and search through the results for a customer with a matching ID.
-
-  # customer array
-  #     ID = 123
-  #     EMAIL = "a@a.co"
-  #     ADDRESS = {
-  #       street: "123 Main",
-  #       city: "Seattle",
-  #       state: "WA",
-  #       zip: "98101"
-  #     }
 
 
+    # # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
+    # # Customer.find should not parse the CSV file itself. Instead it should invoke Customer.all and search through the results for a customer with a matching ID.
 
-end
+
+    # customer array
+    #     ID = 123
+    #     EMAIL = "a@a.co"
+    #     ADDRESS = {
+    #       street: "123 Main",
+    #       city: "Seattle",
+    #       state: "WA",
+    #       zip: "98101"
+    #     }
+
+
+
+  end
