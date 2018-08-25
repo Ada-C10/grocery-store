@@ -1,5 +1,5 @@
 require 'csv'
-require 'pry'
+# require 'pry'
 # @@customers_array = CSV.read("data/customers.csv")
 
 class Customer
@@ -23,15 +23,15 @@ class Customer
   end
 
   def self.find(id)
+    found_customer = nil
+
     @@customers.each do |customer|
       if customer.id == id
-        return customer 
-        # return customer.id # returned all customers not just one
+        found_customer = customer
       end
-    end
-    # if id == self.name
-    #   return self
-    # end
+    end # end of customers loop
+
+    return found_customer
   end
 
 end
