@@ -7,7 +7,7 @@ require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -18,7 +18,7 @@ describe "Order Wave 1" do
     Customer.new(123, "a@a.co", address)
   end
 
-  describe "#initialize" do
+  xdescribe "#initialize" do
     it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
@@ -61,7 +61,7 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "#total" do
+  xdescribe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
@@ -85,7 +85,7 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "#add_product" do
+  xdescribe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
@@ -118,7 +118,7 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
-  describe "#remove_product" do
+  xdescribe "#remove_product" do
     it "Decreases the number of products" do
       # Arrange
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -151,7 +151,7 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-describe "Order Wave 2" do
+xdescribe "Order Wave 2" do
   describe "Order.all" do
     xit "Returns an array of all orders" do
       # TODO: Your test code here!
