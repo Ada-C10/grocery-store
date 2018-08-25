@@ -1,6 +1,4 @@
 require "csv"
-require "ap"
-require "pry"
 
 class Customer
 

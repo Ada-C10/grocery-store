@@ -1,7 +1,5 @@
 require 'csv'
-require 'ap'
 require_relative 'customer'
-require 'ap'
 
 class Order
 
@@ -63,7 +61,3 @@ class Order
   end
 
 end
-
-# orders = Order.all
-# puts "#{orders.class}"
-# puts "#{orders.length}"
