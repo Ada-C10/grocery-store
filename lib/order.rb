@@ -5,33 +5,39 @@ require_relative 'customer.rb'
 
 class Order
 
-attr_reader :id
-attr_accessor :products, :customer, :fulfillment_status
+  attr_reader :id
+  attr_accessor :products, :customer, :fulfillment_status
 
-FULLFILLMENT_STATUS = [:pending, :paid, :processing, :shipped, :complete]
+  FULLFILLMENT_STATUS = [:pending, :paid, :processing, :shipped, :complete]
 
-def initialize (id, products, customer, status = :pending)
-if FULLFILLMENT_STATUS.include?(status) == false
-  return raise ArgumentError, 'Not a status'
-end
-  @id = id
-  @products = products
-  @customer = customer
-  @fulfillment_status = status
+  def initialize (id, products, customer, status = :pending)
+    if FULLFILLMENT_STATUS.include?(status) == false
+      return raise ArgumentError, 'Not a status'
+    end
+    @id = id
+    @products = products
+    @customer = customer
+    @fulfillment_status = status
 
-end
-
-def add_product
-end
-
-def total
-  total = 0.00
-  @products.each_value do |value|
-    total += value
   end
-  total += (total * 0.075) #7.5% tax
-  return total.round(2)
-end
+
+  def add_product(item, price)
+    if @products.has_key?(item)
+      return raise ArgumentError, 'Item already on list'
+    else
+      new_item = {item => price}
+      @products = @products.merge(new_item)
+    end
+  end
+
+  def total
+    total = 0.00
+    @products.each_value do |value|
+      total += value
+    end
+    total += (total * 0.075) #7.5% tax
+    return total.round(2)
+  end
 
 end
 
@@ -48,4 +54,4 @@ end
 # products = { "banana" => 1.99, "cracker" => 3.00 }
 # myorder = Order.new(1337, products, customer)
 #
-# binding.pry
+# myorder.add_product("rice", 1.00)
