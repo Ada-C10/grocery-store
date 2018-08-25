@@ -36,8 +36,14 @@ class Order
       @products["#{product_name}"] = price
     end
   end
+
+  #
+  # self.all
+  # end
+
+  # self.find(id)
+  # end
+
+  # Order.find_by_customer(customer_id)
+  # end
 end
-
-
-# An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-# If a product with the same name has already been added to the order, an ArgumentError should be raised
