@@ -1,7 +1,7 @@
-# require 'pry'
-#
-# require_relative 'customer.rb'
-#
+require 'pry'
+
+require_relative 'customer.rb'
+
 
 class Order
 
@@ -24,22 +24,28 @@ end
 def add_product
 end
 
-def order_total
+def total
+  total = 0.00
+  @products.each_value do |value|
+    total += value
+  end
+  total += (total * 0.075) #7.5% tax
+  return total.round(2)
 end
 
 end
 
-# address = {
+# ID = 123
+# EMAIL = "a@a.co"
+# ADDRESS = {
 #   street: "123 Main",
 #   city: "Seattle",
 #   state: "WA",
 #   zip: "98101"
 # }
-# customer = Customer.new(123, "a@a.co", address)
+# customer = Customer.new(ID, EMAIL, ADDRESS)
 #
-# id = 1337
-# fulfillment_status = :shipped
-# products = {"banana" => 1.99, "cracker" => 3.00}
-# order = Order.new(id, products, customer, fulfillment_status)
+# products = { "banana" => 1.99, "cracker" => 3.00 }
+# myorder = Order.new(1337, products, customer)
 #
 # binding.pry
