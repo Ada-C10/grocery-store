@@ -76,18 +76,40 @@ class Order
 
     return existing_order
   end
+
+  def remove_product(product_name)
+
+    not_a_product = @products.keys.none? do |name|
+      name == product_name
+    end
+
+    if not_a_product
+      raise ArgumentError, "Product not in the list"
+    end
+
+    @products.delete_if do |name, price|
+      name == product_name
+    end
+
+  end
+
 end
 
 
 
-# address = {
-#   street: "123 Main",
-#   city: "Seattle",
-#   state: "WA",
-#   zip: "98101"
-# }
-# customer = Customer.new(123, "a@a.co", address)
-# products = { "banana" => 1.99, "cracker" => 3.00 }
-# order = Order.new(1337, products, customer)
-puts Order.all.first.id
-puts Order.find(1).id
+address = {
+  street: "123 Main",
+  city: "Seattle",
+  state: "WA",
+  zip: "98101"
+}
+customer = Customer.new(123, "a@a.co", address)
+products = { "banana" => 1.99, "cracker" => 3.00 }
+order = Order.new(1337, products, customer)
+order.add_product("apple", 9.99)
+puts order.products
+order.remove_product("banana")
+puts order.products
+order.remove_product("apple")
+puts order.products
+order.remove_product("apple")
