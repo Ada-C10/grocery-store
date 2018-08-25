@@ -34,7 +34,7 @@ attr_accessor :email, :address
       customer.id == id
     end
 
-  #  Error handling? -- but does not pass test
+  #  Error handling? --> but does not pass test
     # if existing_customer == nil
     #   raise ArgumentError, "ID not found"
     # else

@@ -1,4 +1,5 @@
 require_relative 'customer'
+require 'csv'
 require 'pry'
 
 class Order
@@ -39,18 +40,46 @@ class Order
     else
       @products["#{product_name}"] = price.to_f.round(2)
     end
-    
   end
+
+  def self.all
+    orders = CSV.read('data/orders.csv').map do |order|
+      order
+    end
+
+    all_orders = orders.map do |order|
+      @id = order[0].to_i
+      @products = {}
+        items_split = order[1].split(';')
+        product_and_prices_split = items_split.map do |item|
+          item.split(':')
+        end
+        product_and_prices_split.each do |product|
+          @products[product[0]]= product[1].to_f
+        end
+      @customer = Customer.find(order[2].to_i)
+      @fulfillment_status = order[3].to_sym
+      Order.new(@id, @products, @customer, @fulfillment_status)
+    end
+
+    return all_orders
+  end
+
+  def self.find(id)
+  end
+
+
+
 
 end
 
-address = {
-  street: "123 Main",
-  city: "Seattle",
-  state: "WA",
-  zip: "98101"
-}
-customer = Customer.new(123, "a@a.co", address)
-products = { "banana" => 1.99, "cracker" => 3.00 }
-order = Order.new(1337, products, customer)
-puts order.total
+# address = {
+#   street: "123 Main",
+#   city: "Seattle",
+#   state: "WA",
+#   zip: "98101"
+# }
+# customer = Customer.new(123, "a@a.co", address)
+# products = { "banana" => 1.99, "cracker" => 3.00 }
+# order = Order.new(1337, products, customer)
+puts Order.all
