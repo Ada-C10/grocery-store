@@ -25,14 +25,14 @@ class Customer
   def self.find(id)
     found_customer = nil
 
-    @@customers.each do |customer|
+    Customer.all.each do |customer|
       if customer.id == id
         found_customer = customer
       end
     end # end of customers loop
 
     return found_customer
-  end
+  end # end of def self.find
 
 end
 
