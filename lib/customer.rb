@@ -1,6 +1,6 @@
 require 'csv'
 class Customer
-  attr_reader :id, :email, :address
+  attr_reader :id
   attr_accessor :email, :address, :customers
 
   @@customers = []
@@ -10,7 +10,7 @@ class Customer
     @email = email
     @address = address
 
-    @@customers << self
+
   end
 
   def self.load_data(filename) #take file name and returns data from file in array of hashes
@@ -22,13 +22,15 @@ class Customer
 
   def self.format_data(data)
       data.each do |individual|
-        id = individual[0]
+        id = individual[0].to_i
         email = individual[1]
         address = {street: individual[2],
                    city: individual[3],
                    state: individual[4],
                    zip: individual[5]}
-        self.new(id, email, address)
+
+      @@customers << self.new(id, email, address)
+
       end
     return @@customers
   end
@@ -38,15 +40,16 @@ class Customer
    end
 
    def self.find(id)
-     @@customers.each do |@id|
-       if id == @id
-         return self
-
-     #search thgough the customer.all not the csv
-     return #instance of customer where value of id in csv matches th parameter`
+     @@customers.each do |customer|
+       if id.to_i == customer.id.to_i
+         return customer
+       end
+     end
+     return nil
    end
 end
 
-
-Customer.format_data(Customer.load_data('../data/test.csv'))
-p Customer.all
+ Customer.format_data(Customer.load_data('../data/customers.csv'))
+# # p Customer.find(6
+# p Customer.find(35)
+#Customer.all.length
