@@ -36,7 +36,7 @@ class Customer
         return customer
       end
     end
-    return raise ArgumentError.new("Invalid ID")
+    return nil
   end
 
 end
