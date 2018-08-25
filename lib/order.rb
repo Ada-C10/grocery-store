@@ -66,8 +66,8 @@ attr_reader :id
 
   def self.find(id)
     all_orders = Order.all
-    order = all_orders.select {|order| order.id == id}
-    return order[0]
+    order = all_orders.find {|order| order.id == id}
+    return order
   end
 
 
