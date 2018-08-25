@@ -13,7 +13,43 @@ class Order
     unless valid_status.include?(fulfillment_status)
       raise ArgumentError, 'Invalid order status'
     end
+  end
 
+  # self method to gather all order instances
+  def self.all
+    all_orders = []
+    # returns a collection of Customer instances, representing all Customers in csv
+    orders = CSV.open('data/orders.csv', 'r').map { |line| line }
+    orders.each do |ord|
+      #binding.pry
+      id = ord[0].to_i
+      # first split string into array by ;
+      # ord => "Sun dried tomatoes:90.16;Mastic:52.69;Nori:63.09;Cabbage:5.35"
+      ord_arr = ord[1].split(';')
+      # map array to new hash where k,v are split by :
+      # ord_arr => ["Sun dried tomatoes:90.16", "Mastic:52.69", "Nori:63.09", "Cabbage:5.35"]
+      products = Hash[ord_arr.map { |el| el.split(':', 2) }]
+      # products => {"Sun dried tomatoes"=>"90.16", "Mastic"=>"52.69", "Nori"=>"63.09", "Cabbage"=>"5.35"}
+      products.each { |k, v| products[k] = v.to_f }
+      # TODO: try regex approach ??
+      customer = Customer.find(ord[2].to_i)
+      fulfillment_status = ord[3].to_sym
+      # add each current instance to the all_customers array
+      all_orders << self.new(id, products, customer, fulfillment_status)
+      #binding.pry
+      end
+
+    # binding.pry
+    return all_orders
+  end
+
+  # method to find order instance based on id
+  def self.find(id)
+    # returns an instance of Customer where the value matches the id parameter
+    # provided !!invokes Customer.all and search through results for matching id
+    found = Order.all.find { |ord| ord.id == id }
+
+    return found
   end
 
 
@@ -21,9 +57,7 @@ class Order
   def total
     # input: products info
     # if no products return 0
-    if products.empty?
-      return 0
-    end
+    return 0 if products.empty?
     # sum of all product costs
     # add all of the product values .reduce to get sum
     # must call instance variable!
@@ -43,9 +77,7 @@ class Order
     # verify that product name is a string
     # verify that product price is a float
     # verify that the product name is unique does key already exist
-    if products.key? prod_name
-      raise ArgumentError, 'Item already exists'
-    end
+    raise ArgumentError, 'Item already exists' if products.key? prod_name
     products[prod_name] = prod_price
     # products << prod_hash
     add_msg = "#{prod_name} was added to the order with a price of #{prod_price}."
@@ -66,6 +98,6 @@ class Order
     end
     return rm_msg
   end
-
-
 end
+
+

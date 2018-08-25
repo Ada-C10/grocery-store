@@ -31,9 +31,9 @@ class Customer
 
     # binding.pry
     return all_customers
-    # TODO: Is it possible to DRY this up where CSV gets imported and each line
+    # TODO: 1st get a better understanding of self
+    #       Is it possible to DRY this up where CSV gets imported and each line
     #       is read into class instance of all customers array?????
-
   end
 
   def self.find(id)
@@ -42,14 +42,8 @@ class Customer
     found = Customer.all.find { |cust| cust.id == id }
 
     return found
+    # TODO: should self be implemented in this method ie does it need to be
+    #       included in the 'found =' statement?
   end
 
-  # def load_data(filename)
-  #   olympic_data = CSV.open(filename, 'r', headers: true).map do |item|
-  #     item.to_h
-  #   end
-    # p olympic_data.class
-    # return olympic_data
-
-  # end
 end
