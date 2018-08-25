@@ -11,12 +11,10 @@ class Customer
     @id = id
     @email = email
     @address = address
-    # {name: name, street: street, city: city, zipcode: zipcode}
-    # @@instances << self
   end
 
   def self.all
-    total_data = CSV.open("../data/customers.csv", 'r').map do |line|
+    total_data = CSV.open("data/customers.csv", 'r').map do |line|
       Customer.new(line[0].to_i, line[1], {street: line[2],city: line[3],state: line[4],zip: line[5]})
     end
 
@@ -31,17 +29,3 @@ class Customer
 
 
 end
-
-# ap Customer.find(36)
-
-# ap Customer.all
-# or
-# def initialize
-  # @id
-  # @email
-  # @name
-  # @street
-  # @city
-  # @zip
-  # @ address = {name: @name, street: @street, city: @city, zipcode: @zipcode}
-# end

@@ -53,7 +53,7 @@ class Order
   end
 
   def self.all
-    total_orders = CSV.open('../data/orders.csv', 'r').map do |line|
+    total_orders = CSV.open('data/orders.csv', 'r').map do |line|
       products = line[1].split(/[;:]/)
       # changing array into hash
       # making values all floats
