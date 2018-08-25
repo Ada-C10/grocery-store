@@ -1,5 +1,6 @@
 require 'csv'
 require 'awesome_print'
+require_relative 'customer.rb'
 
 class Order
 
@@ -64,23 +65,30 @@ def self.all
   all_order_instances = []
 
   CSV.open("data/orders.csv", "r").map do |line|
-    product_hash = {}
+    # Order number
     id = line[0].to_i
+
+    # Creating product hash
+    product_hash = {}
     all_products = line[1]
     all_products_into_array = all_products.split(";")
 
     index = 0
     while index < all_products_into_array.length
       each_product_own_array = all_products_into_array[index].split(":")
-      product_hash[each_product_own_array[0]] = each_product_own_array[1].to_i
+      product_hash[each_product_own_array[0]] = each_product_own_array[1].to_f
 
       index += 1
     end
 
+    # Retrieving customer object
     customer_id = line[2].to_i
+    customer_object = Customer::find(customer_id)
+
+    # Order fulfillment status
     status = line[3].to_sym
 
-    new_order = Order.new(id, product_hash, customer_id, status)
+    new_order = Order.new(id, product_hash, customer_object, status)
     all_order_instances << new_order
   end
 
