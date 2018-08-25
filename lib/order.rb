@@ -90,6 +90,10 @@ class Order
         customer_list << order
       end
     end
-    return customer_list
+    if customer_list.length > 0
+      return customer_list
+    else
+      return nil
+    end
   end
 end
