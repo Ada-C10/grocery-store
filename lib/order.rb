@@ -103,17 +103,18 @@ def self.find(order_id)
     if all_orders[index].id == order_id
       return all_orders[index]
     end
-
-  index += 1
+    index += 1
   end
+
+  return nil
 
 end
 
 end
 
 # TEST
-test_find = Order.find(3)
-puts "#{test_find}"
+# test_find = Order.find(3)
+# puts "#{test_find.products}"
 
 # run_method = Order.all
 # puts "#{run_method}"
