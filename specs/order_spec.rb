@@ -247,7 +247,51 @@ describe "Order Wave 2" do
       # TODO: Your test code here!
       expect(Order.find_by_customer(500)).must_be_nil
     end
+  end
 
+  describe "#remove_product" do
+    let(:customer) do
+      address = {
+        street: "123 Main",
+        city: "Seattle",
+        state: "WA",
+        zip: "98101"
+      }
+      Customer.new(123, "a@a.co", address)
+    end
+
+    it "Decreases the number of products" do
+
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25}
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("cracker")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removed to the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25}
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("cracker")
+      expect(order.products.include?("cracker")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is NOT already present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("salad")
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
   end
 
 end

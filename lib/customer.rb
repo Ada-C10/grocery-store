@@ -31,13 +31,8 @@ attr_accessor :email , :address
 
   def self.find(id)
     all_customers = Customer.all
-    all_customers.each do |customer|
-      if customer.id == id
-        return customer
-      end
-    end
-    return nil
-    #use enumerable find???
+    customer = all_customers.find {|customer| customer.id == id}
+    return customer
   end
 
 
