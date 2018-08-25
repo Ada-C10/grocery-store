@@ -23,9 +23,15 @@ class Customer
   end
 
   def self.find(id)
-    if id == Customer.id
-      return self
+    @@customers.each do |customer|
+      if customer.id == id
+        return customer 
+        # return customer.id # returned all customers not just one
+      end
     end
+    # if id == self.name
+    #   return self
+    # end
   end
 
 end
@@ -35,5 +41,4 @@ CSV.open("data/customers.csv",'r').each do |line|
   address = {street: line[2], city: line[3], state: line[4], zip: line[5]}
   cust = Customer.new(line[0], line[1], address)
   cust.add_to_customers
-    # Customer.new(line[0], line[1], {street: line[2], city: line[3], state: line[4], zip: line[5]})
 end
