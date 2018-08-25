@@ -5,7 +5,7 @@ class Customer
   attr_writer :email, :address
 
   @@customers = []
-  @@Customerdata = []
+
 
   def initialize(id, email, address)
     @id = id
