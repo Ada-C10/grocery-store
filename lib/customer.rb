@@ -22,11 +22,7 @@ class Customer
 
     customers = CSV.open('data/customers.csv', "r").map do |customer|
 
-      id = customer[0].to_i
-      email = customer[1]
-      address = {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]}
-
-      Customer.new(id, email, address)
+      Customer.new(customer[0].to_i, customer[1], address = {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]})
 
     end
     # binding.pry
@@ -54,7 +50,6 @@ class Customer
 
     return found_customer
   end
-
 
 
   # customer array

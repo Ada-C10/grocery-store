@@ -71,8 +71,21 @@ class Order
 
   # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
 
-  def self.find
+  def self.find(id)
+
     @@orders ||= Order.all
+
+
+    found_order = @@orders.find do |order|
+
+      #conditional
+      order.id == id
+
+    end
+
+    return found_order
+
+
   end
 
 
