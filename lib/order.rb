@@ -6,7 +6,7 @@ class Order
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
-    @products = {}
+    @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
 
@@ -15,5 +15,13 @@ class Order
       raise ArgumentError
     end
   end
-  
+
+  def total
+    all_prices = @products.values
+    subtotal = all_prices.sum
+    tax = subtotal * 0.075
+    total = subtotal + tax
+    return total.round(2)
+  end
+
 end
