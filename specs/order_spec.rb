@@ -173,13 +173,34 @@ describe "Order Wave 2" do
       order_status = :complete
 
       order = Order.find(1)
+
       expect(order.id).must_equal order_id
       expect(order.products).must_equal order_products
+      expect(order.customer).must_be_kind_of Customer
+      # Note: order.customer is returning a customer object so to retrieve the actual customer id number we need to enter into the customer object
+      expect(order.customer.id).must_equal order_customer_id
+      expect(order.fulfillment_status).must_equal order_status
     end
 #
-#     it "Can find the last order from the CSV" do
-#       # TODO: Your test code here!
-#     end
+    it "Can find the last order from the CSV" do
+      order_id = 100
+      order_products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+
+      order_customer_id = 20
+      order_status = :pending
+
+      order = Order.find(100)
+
+      expect(order.id).must_equal order_id
+      expect(order.products).must_equal order_products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal order_customer_id
+      expect(order.fulfillment_status).must_equal order_status
+    end
 #
 #     it "Returns nil for an order that doesn't exist" do
 #       # TODO: Your test code here!
