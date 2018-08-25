@@ -1,3 +1,9 @@
+require 'csv'
+
+csv = CSV.open("data/orders.csv", 'r').each do |line|
+  puts line
+end
+
 class Order
 
   attr_reader :id
@@ -7,7 +13,7 @@ class Order
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products # hash of products and costs
-
+    @customer = customer
     puts fulfillment_status
     @fulfillment_status = fulfillment_status
 
@@ -19,12 +25,17 @@ class Order
   end # end of def initialize
 
 
-  def total(products)
-    # @product_sum = products[:cost].sum * 1.075
-    if @products.empty?
+  def total
+    # if @products.empty?
+    if @products == {} || @products == 0
       @product_sum = 0
     else
-      @product_sum = @products.values.sum
+      # @product_sum = @products.values.sum
+      total = 0
+      @products.each_value do |value|
+        total += value
+        @product_sum = (total * 1.075).round(2)
+      end
     end
 
     return @product_sum
@@ -35,7 +46,7 @@ class Order
     if @products.include? product_name
       raise ArgumentError, "Product is already on product list."
     else
-      @products << {product_name: product_price}
+      @products[product_name] = product_price
     end
 
 
