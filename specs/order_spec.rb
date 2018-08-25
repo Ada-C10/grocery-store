@@ -161,10 +161,21 @@ describe "Order Wave 2" do
     end
   end
 #
-#   describe "Order.find" do
-#     it "Can find the first order from the CSV" do
-#       # TODO: Your test code here!
-#     end
+  describe "Order.find" do
+    it "Can find the first order from the CSV" do
+      order_id = 1
+      order_products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      order_customer_id = 25
+      order_status = :complete
+
+      order = Order.find(1)
+      expect(order.id).must_equal order_id
+      expect(order.products).must_equal order_products
+    end
 #
 #     it "Can find the last order from the CSV" do
 #       # TODO: Your test code here!
@@ -173,5 +184,5 @@ describe "Order Wave 2" do
 #     it "Returns nil for an order that doesn't exist" do
 #       # TODO: Your test code here!
 #     end
-#   end
+  end
 end
