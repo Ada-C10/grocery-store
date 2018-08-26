@@ -213,6 +213,16 @@ describe "Order Wave 2" do
 end
 
 describe "Order Optionals" do
+  let(:customer) do
+    address = {
+      street: "123 Main",
+      city: "Seattle",
+      state: "WA",
+      zip: "98101"
+    }
+    Customer.new(123, "a@a.co", address)
+  end
+  
   describe "#remove_product" do
     it "Decreases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
