@@ -29,6 +29,14 @@ class Order
     end
   end
 
+  def remove_product(item)
+    if @products.has_key?(item) == false
+      return raise ArgumentError, 'Item not on list'
+    else
+      @products = @products.delete_if { |key, value| key == item }
+    end
+  end
+
   def total
     total = 0.00
     @products.each_value do |value|
@@ -43,7 +51,7 @@ class Order
     CSV.open("./data/orders.csv", "r").each do |row|
       order_id = row[0].to_i
 
-      # go through CSV product list for the current customer, split each for processing into a hash to mee initialization requirement
+      # go through CSV product list for the current customer, split each for processing into a hash to meet initialization requirement
       order_products = {}
       raw_products = row[1]
       raw_products = raw_products.split(';')
@@ -54,8 +62,10 @@ class Order
           order_products = order_products.merge(product)
         end
 
+        # replace CSV customer ID with object of Customer
         customer_id = row[2].to_i
         customer = Customer.find(customer_id)
+
         order_status = row[3].to_s
         final_status = ""
         FULLFILLMENT_STATUS.each do |status|
