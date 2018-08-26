@@ -28,6 +28,11 @@ class Order
     @products[product] = cost
   end
 
+  def remove_product(product)
+    raise ArgumentError unless @products.keys.include?(product)
+    @products.delete(product)
+  end
+
   def self.all
     all_orders = CSV.read("../data/orders.csv").map do |order_info|
       id = order_info[0].to_i
