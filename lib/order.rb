@@ -109,12 +109,9 @@ end
 
   def self.find(id)
 
-#     Parse the list of products into a hash
-# This would be a great piece of logic to put into a helper method
-# You might want to look into Ruby's split method
-# We recommend manually copying the first product string from the CSV file and using pry to prototype this logic
-# Turn the customer ID into an instance of Customer
-# Didn't you just write a method to do this?
+    orders = self.all
+
+    return orders.find { |order| order.id == id }
   end
 
 end
