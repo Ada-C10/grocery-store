@@ -62,7 +62,14 @@ class Order
         fulfillment_status
       )
     end
+  end
 
+  def self.find(id)
+    orders = Order.all
+    found = orders.find do |instance|
+      instance.id == id
+    end
+    return found
   end
 
 end
