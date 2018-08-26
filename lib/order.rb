@@ -91,7 +91,7 @@ class Order
   # finding an order with an id paramenter
   def self.find(id)
     orders = self.all
-    orders.find {|order| id == order.id}
+    return orders.find {|order| id == order.id}
   end
 
 end
