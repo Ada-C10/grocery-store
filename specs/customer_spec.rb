@@ -45,7 +45,7 @@ describe "Customer Wave 2" do
     end
 
     it "Returns accurate information about the first customer" do
-      first = Customer.all.first
+      first = Customer.all.first\
       # p "first: #{first.id}"
       expect(first.id).must_equal 1
     end

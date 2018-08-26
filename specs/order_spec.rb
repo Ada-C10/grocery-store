@@ -18,7 +18,7 @@ describe "Order Wave 1" do
     Customer.new(123, "a@a.co", address)
   end
 
-  xdescribe "#initialize" do
+  describe "#initialize" do
     it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
@@ -61,7 +61,7 @@ describe "Order Wave 1" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
@@ -85,7 +85,7 @@ describe "Order Wave 1" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
@@ -118,7 +118,7 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
-  xdescribe "#remove_product" do
+  describe "#remove_product" do
     it "Decreases the number of products" do
       # Arrange
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -223,6 +223,42 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       expect(Order.find(123456)).must_be_nil
     end
+
+    it 'Returns array of found orders by customer_id' do
+      expect(Order.find_by_customer(26)).must_be_kind_of Array
+    end
+
+    it 'Returns all order instances that match customer_id' do
+      # puts Order.find_by_customer(26)
+      expect((Order.find_by_customer(26)).size).must_equal 6
+    end
+
+    it 'Returns correct order instance that match customer_id' do
+      id = 3
+      products = {
+        "Vegetable spaghetti" => 37.83,
+        "Dates" => 90.88,
+        "WhiteFlour" => 3.24,
+        "Caraway Seed" => 54.29
+      }
+      customer_id = 5
+      fulfillment_status = :processing
+      # ensure that only one order is getting returned
+      order_found = Order.find_by_customer(5).first
+      ap order_found
+      # Check that customer 5 data was loaded into 'found' array as expected
+      expect(order_found).must_be_kind_of Order
+      expect(order_found.id).must_equal id
+      expect(order_found.products).must_equal products
+      expect(order_found.customer).must_be_kind_of Customer
+      expect(order_found.customer.id).must_equal customer_id
+      expect(order_found.fulfillment_status).must_equal fulfillment_status
+    end
+
+    it 'Returns Argument Error if customer id not in order data' do
+      expect{Order.find_by_customer(666)}.must_raise ArgumentError
+    end
+
   end
 end
 
