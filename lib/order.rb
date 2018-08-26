@@ -29,7 +29,6 @@ class Order
   end
 
   def self.all
-
     all_orders = CSV.read("../data/orders.csv").map do |order_info|
       id = order_info[0].to_i
       products = {}
@@ -48,4 +47,9 @@ class Order
     return all_orders
   end
 
+  def self.find(id)
+    all_orders = self.all
+    found_order = all_orders.find { |order| order.id == id }
+    return found_order
+  end
 end
