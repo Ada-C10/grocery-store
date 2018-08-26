@@ -38,8 +38,8 @@ class Order
         id = individual[0].to_i
         products = parse_product_array(individual[1])
         customer = Customer.find(individual[2].to_i)
-        fulfillment_status = individual[3]
-        @@orders << self.new(id, products, customer, fulfillment_status = :pending)
+        fulfillment_status = individual[3].to_sym
+        @@orders << self.new(id, products, customer, fulfillment_status)
       end
     return @@orders
   end
