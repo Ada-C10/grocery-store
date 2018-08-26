@@ -1,8 +1,10 @@
-require_relative 'csv'
-
-
+require 'csv'
 
 class Order
+  attr_reader :id
+  attr_accessor :products, :products, :customer, :fulfillment_status
+
+  @@orders = []
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products #hash {item: cost}
@@ -12,9 +14,6 @@ class Order
     @fulfillment_status = fulfillment_status
   end
 
-  attr_reader :id
-  attr_accessor :products, :products, :customer, :fulfillment_status
-
   def self.load_data(filename) #take file name and returns data from file in array of hashes
     data = CSV.open(filename,'r', headers:false).map do |line|
     line.to_a
@@ -22,9 +21,7 @@ class Order
     return data
   end
 
-  #Lobster:17.18;Annatto seed:58.38;Camomile:83.21
-
-  def parse_product_array(string)#try regex /:|;/
+  def self.parse_product_array(string)#try regex /:|;/
     products_hash = {}
     products_array = string.split(';') #[lobster:17, annato seed:58]
     products_array.each do |product|
@@ -38,11 +35,9 @@ class Order
       data.each do |individual|
         id = individual[0].to_i
         products = parse_product_array(individual[1])
-        customer = individual[2]
+        customer = individual[2].to_i
         fulfillment_status = individual[3]
-
-      @@orders << self.new(id, products, customer, fulfillment_status = :pending)
-
+        @@orders << self.new(id, products, customer, fulfillment_status = :pending)
       end
     return @@orders
   end
@@ -72,10 +67,5 @@ class Order
   end
 end
 
-# parse_product_array('Lobster:17.18;Annatto seed:58.38;Camomile:83.21')
-# products = { "banana" => 1.99, "cracker" => 3.00 }
-# friday = Order.new(1337, products, 'customer')
-# p order.total(products)
-# order.add_product('banana', 4.25)
-# p order.products
-# p order.total(products)
+Order.format_data(Order.load_data('../data/sample.orders.csv'))
+p Order.all
