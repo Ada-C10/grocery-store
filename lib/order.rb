@@ -17,7 +17,7 @@ class Order
     if [:pending, :paid, :processing, :shipped, :complete].include?fulfillment_status
       @fulfillment_status = fulfillment_status
     else
-      raise ArgumentError
+      raise ArgumentError.new("Entry is a non-recognize symbol")
     end
   end
 
@@ -26,7 +26,7 @@ class Order
     # check if the product exists
     @products.each do |item, price|
       if item == product
-        raise ArgumentError
+        raise ArgumentError.new("Product already exists in the collection")
         # Adds the data to the product collection
       end
     end
@@ -54,9 +54,9 @@ class Order
 
   def remove_product(product)
     if @products == {}
-      raise ArgumentError
+      raise ArgumentError.new("The collection is empty")
     elsif @products.include?(product) == false
-      raise ArgumentError
+      raise ArgumentError.new("The item can't be found in the list")
     else
       return @products.delete_if{|item| item == product}
     end
