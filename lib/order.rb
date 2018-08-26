@@ -39,7 +39,7 @@ class Order
 
   def self.all
     @@orders = []
-    CSV.foreach("data/orders.csv") do |line|
+     CSV.foreach("data/orders.csv") do |line|
       product_hash = {}
       line[1].split(";").each do |item|
         split = item.split(":")
