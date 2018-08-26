@@ -12,11 +12,11 @@ class Customer
   end
 
   def self.all
-    @@customer_list = []
+    customer_list = []
     CSV.read('data/customers.csv').each do |line|
-      @@customer_list << Customer.new(line[0].to_i, line[1], { street: line[2], city: line[3], state: line[4], zip: line[5] })
+      customer_list << Customer.new(line[0].to_i, line[1], { street: line[2], city: line[3], state: line[4], zip: line[5] })
     end
-    return @@customer_list
+    return customer_list
   end
 
   def self.find(id)
