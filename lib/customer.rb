@@ -32,9 +32,9 @@ class Customer
     return customers
   end
 
-  def self.find(id_hey)
+  def self.find(id)
     Customer.all.each do |customer|
-      if customer.id == id_hey
+      if customer.id == id
         return customer
       end
     end
