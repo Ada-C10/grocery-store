@@ -1,6 +1,5 @@
 require 'csv'
 # require 'pry'
-# @@customers_array = CSV.read("data/customers.csv")
 
 class Customer
   attr_reader :id
@@ -33,7 +32,6 @@ class Customer
 
     return found_customer
   end # end of def self.find
-
 end
 
 # csv_array = []
