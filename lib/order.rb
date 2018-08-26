@@ -8,7 +8,6 @@ def products_costs_hash(string)
     i.split(":")
   end
   products_costs = Hash[*remove_colon.flatten]
-
   products_costs.each do |key, value|
     products_costs[key] = value.to_f
   end
@@ -17,6 +16,8 @@ def products_costs_hash(string)
 end
 
 class Order
+  @@order = []
+
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
@@ -55,7 +56,6 @@ class Order
     end
   end
 
-  @@order = []
   def self.all
     @@order = CSV.open('data/orders.csv', 'r').map do |line|
       customers = Customer.all
