@@ -215,7 +215,7 @@ describe "Order Wave 2" do
     end
   end
 
-  describe "remove product" do
+  describe "Order#remove_product" do
     it "Decreases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
       before_count = products.count
@@ -239,7 +239,7 @@ describe "Order Wave 2" do
       order = Order.new(1337, products, customer)
       before_total = order.total
 
-      expect(order.remove_product("apple")).must_equal nil
+      expect(order.remove_product("apple")).must_be_nil
 
       # The list of products should not have been modified
       expect(order.total).must_equal before_total

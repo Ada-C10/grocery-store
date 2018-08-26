@@ -4,7 +4,9 @@ class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
-    raise ArgumentError if ![:pending, :paid, :processing, :shipped, :complete].include? fulfillment_status
+    if ![:pending, :paid, :processing, :shipped, :complete].include? fulfillment_status
+      raise ArgumentError, "Invalid fulfillment status"
+    end
     @id = id
     @products = products
     @customer = customer
@@ -44,7 +46,9 @@ class Order
     customer_ids = Customer.all.map do |customer|
       customer.id
     end
-    raise ArgumentError if !customer_ids.include? cust_id
+    if !customer_ids.include? cust_id
+      raise ArgumentError, "Customer #{cust_id} not found"
+    end
     customer_orders = []
     Order.all.each do |order|
       if order.customer.id == cust_id
@@ -64,7 +68,7 @@ class Order
     if !@products[product_name]
       @products[product_name] = product_price
     else
-      raise ArgumentError
+      raise ArgumentError, "Product already on order"
     end
   end
 
