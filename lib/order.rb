@@ -1,4 +1,3 @@
-require 'pry'
 require 'csv'
 
 require_relative 'customer.rb'
@@ -51,12 +50,12 @@ class Order
       raw_products.each do |raw_product|
         raw_product = raw_product.split(':')
         product = { raw_product[0] =>
-          raw_product[1].to_i }
+          raw_product[1].to_f }
           order_products = order_products.merge(product)
         end
 
-        customer = row[2].to_i
-
+        customer_id = row[2].to_i
+        customer = Customer.find(customer_id)
         order_status = row[3].to_s
         final_status = ""
         FULLFILLMENT_STATUS.each do |status|
@@ -67,24 +66,16 @@ class Order
         order = Order.new(order_id, order_products, customer, final_status)
         @orders << order
       end
+      return @orders
     end
 
-  def self.find(search_id)
+    def self.find(id)
+      @orders = Order.all
+      @orders.each do |order|
+        if order.id == id
+          return order
+        end
+      end
+      return nil
+    end
   end
-end
-
-  # ID = 123
-  # EMAIL = "a@a.co"
-  # ADDRESS = {
-  #   street: "123 Main",
-  #   city: "Seattle",
-  #   state: "WA",
-  #   zip: "98101"
-  # }
-  # customer = Customer.new(ID, EMAIL, ADDRESS)
-  #
-  # products = { "banana" => 1.99, "cracker" => 3.00 }
-  # myorder = Order.new(1337, products, customer)
-  #
-  # myorder.add_product("rice", 1.00)
-  # all = Order.all
