@@ -3,11 +3,10 @@ require 'csv'
 require 'pry'
 require 'awesome_print'
 
-
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
   FULLFILLMENT_STATUS = [:pending, :paid, :processing, :shipped, :complete]
-  
+
   def initialize(id, products, customer, fulfillment_status=:pending)
     @id = id
     @products = products
@@ -48,13 +47,13 @@ class Order
     all_orders = orders.map do |order|
       @id = order[0].to_i
       @products = {}
-        items_split = order[1].split(';')
-        product_and_prices_split = items_split.map do |item|
-          item.split(':')
-        end
-        product_and_prices_split.each do |product|
-          @products[product[0]]= product[1].to_f
-        end
+      items_split = order[1].split(';')
+      product_and_prices_split = items_split.map do |item|
+        item.split(':')
+      end
+      product_and_prices_split.each do |product|
+        @products[product[0]]= product[1].to_f
+      end
       @customer = Customer.find(order[2].to_i)
       @fulfillment_status = order[3].to_sym
       Order.new(@id, @products, @customer, @fulfillment_status)
