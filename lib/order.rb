@@ -48,7 +48,7 @@ class Order
       products.each do |key, value|
         products[key] = value.to_f
       end
-      customer = line[2]
+      customer = Customer.find(line[2].to_i)
       fulfillment_status = :"#{line[3]}"
 
       Order.new(id, products, customer, fulfillment_status)
@@ -57,7 +57,16 @@ class Order
   end
 
   def self.find(id)
-
+    x = ""
+    Order.all.each do |ord|
+      if ord.id == id
+        x = ord
+        break
+      else
+        x = nil
+      end
+    end
+    return x
   end
 
 end
