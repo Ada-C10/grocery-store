@@ -12,7 +12,7 @@ class Customer
   end
 
   def self.all
-    customers = CSV.read('./data/customers.csv').map do | customer_array |
+    customers = CSV.read('./data/customers.csv').map do |customer_array|
       id = customer_array[0].to_i
       email = customer_array[1]
       address = customer_array[2..5].join(", ")
@@ -22,7 +22,7 @@ class Customer
   end
 
   def self.find(id)
-    self.all.select do | customer_array |
+    self.all.select do |customer_array|
       return customer_array if customer_array.id == id
     end
     return nil
