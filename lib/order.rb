@@ -45,12 +45,16 @@ class Order
     orders = @@order.map do |order_data|
       online_id = order_data[0].to_i
       products = Hash[*order_data[1].split(/:|;/)]
-      customer_id = order_data[2].to_i
+      products.each do |product, cost|
+        products[product] = cost.to_f
+      end
+      customer_id = Customer.find(order_data[2].to_i)
       status = order_data[3].to_sym
+
 
       order = Order.new(online_id, products, customer_id, status)
     end
-    
+
     return orders
   end
 end
