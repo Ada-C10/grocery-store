@@ -35,6 +35,6 @@ class Customer
 # find a customer from the data provided from the csv file
   def self.find(id)
     customers = self.all
-    customers.find {|customer| id == customer.id}
+    return customers.find {|customer| id == customer.id}
   end
 end
