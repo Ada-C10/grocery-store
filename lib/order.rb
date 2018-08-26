@@ -76,38 +76,14 @@ class Order
           products = product_hash
           Order.new(id, products, customer, status)
       end
-
-
-
-       # item["customer"] = Customer.find(item["customer"].to_i)
-       # item["fulfillment_status"] = item["fulfillment_status"].to_sym
-       # return data
     end
-    #
 
-    #     ######## DO THIS #####################################
-    #   # TODO # Create array of orders from array of order hashes
-    #     # EACH hash = Create a new instance CUSTOMER class
-    # #   order_array = data.map do |order|
-    # #    # Using CSV hashes for Customer values
-    # #     Order.new(id = order["id"].to_i, products = order["products"],
-    # #       customer = order["customer"], fulfillment_status = order["fulfillment_status"]
-    # #      )
-    # #   end
-    # #   return order_array
-    # # end
-    #
-    #
-    # end
-
-    # self.find(id) - Returns an instance of Customer where values
+    # self.find(id) - Returns an instance of Order where values
       # in id field in the CSV match the passed parameter
     def self.find(id)
       # Returns customer if id is found
       return self.all.find { |order| order.id == id }
     end
-
-
 end
 
 
