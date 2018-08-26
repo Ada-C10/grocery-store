@@ -13,14 +13,24 @@ class Customer
 
   def self.all
      all =  CSV.open('data/customers.csv', 'r').map do |customer|
-      Customer.new(customer[0].to_i, customer[1], { street: customer[2],
-      city: customer[3], state: customer[4], zip: customer[5]})
+        Customer.new(customer[0].to_i, customer[1], { street: customer[2],
+        city: customer[3], state: customer[4], zip: customer[5]})
     end
     return all
   end
+
+  def self.find(id)
+    found = Customer.all.select { |customer| customer.id == id }
+
+     if found == []
+        return nil #"Customer not found"
+      else
+        return found
+      end
+  end
 end
 
-maryam = Customer.new(2, 'maryam@gmail.com', {street: "605 15th Ave", city: "Seattle", zip_code: 98112 })
+# maryam = Customer.new(2, 'maryam@gmail.com', {street: "605 15th Ave", city: "Seattle", zip_code: 98112 })
 # puts maryam.address
 
-# ap Customer.all
+# ap Customer.find(50)
