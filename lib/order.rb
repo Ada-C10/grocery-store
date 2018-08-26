@@ -69,5 +69,5 @@ class Order
   end
 end
 
-Order.format_data(Order.load_data('../data/sample.orders.csv'))
-p Order.all
+Order.format_data(Order.load_data('../data/orders.csv'))
+p Order.all.length

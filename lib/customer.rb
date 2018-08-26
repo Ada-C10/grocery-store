@@ -10,7 +10,6 @@ class Customer
     @email = email
     @address = address
 
-
   end
 
   def self.load_data(filename) #take file name and returns data from file in array of hashes
