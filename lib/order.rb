@@ -6,15 +6,12 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
-  # @@all_orders = []
-
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
     validate_fulfillment_status
-    # @@all_orders << self
   end
 
 
@@ -52,26 +49,37 @@ class Order
     end
   end
 
-  # def self.all
-  #   return @@all_orders
-  # end
 
-
-
-  def self.transform_csv
+  def self.all
     all_orders = []
     CSV.open("data/orders.csv", "r").each do |array|
       order = []
+
       id = array.slice(0)
       products = array.slice(1..(array.length - 3))
       customer = array.slice (-2)
       fulfillment_status = array.slice(-1)
-      order << id
-      order << products
-      order << customer
-      order << fulfillment_status
-      all_orders << order
+
+      products_new = products[0].split(';')
+
+      products_hash = {}
+      products_new.each do |product|
+        product2 = product.split(':')
+        products_hash[product2[0]] = product2[1]
+      end
+
+      new_order = Order.new(id, products_hash, customer, fulfillment_status.to_sym)
+      all_orders << new_order
+
     end
     return all_orders
+  end
+
+  def self.new_customer_instance
+    self.all.each do |order|
+      if Customer.find(order.id)
+        new_customer = Customer.new(customer.id, customer.email, customer.address)
+      end
+    end
   end
 end
