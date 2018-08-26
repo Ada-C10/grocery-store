@@ -1,4 +1,5 @@
 require 'csv'
+require 'pry'
 
 # Wave 1 customer creations
 
@@ -14,7 +15,7 @@ class Customer
     @address = address
   end
 
-#  Wave 2
+  #  Wave 2
   # everytime the mini test spec is run it randomly chooses the order of operation. If find comes before the method all then it fails.
   # In order to mitigate that problem Zac showed me a trick to make a global varaible that loads the data ones and saves it in the class to be used using the following method.
 
@@ -30,6 +31,12 @@ class Customer
   # has one paramenter id
   # it should invote customer.all and search
   def self.find(id)
+    # # # @@customers ||= Customer.all
+    # # # customers = Customer.all
+    # customer = @@customers.find{|id| id == id}
+    # return  customer
+
+    # return @@customers.find{|id| id == id}
     @@customers.each do |customer|
       if customer.id == id
         return customer
@@ -51,6 +58,6 @@ CSV.read("data/customers.csv").map do |line|
     zip:  line[5]
   }
 
-  customer_info = Customer.new(id, email, address)
-  customer_info.save
+  customer = Customer.new(id, email, address)
+  customer.save
 end
