@@ -9,7 +9,6 @@ class Order
     @id = id
     @products = products
     @customer = customer
-
     valid_statuses = [:pending, :paid, :processing, :shipped, :complete]
     raise ArgumentError unless valid_statuses.include? fulfillment_status
     @fulfillment_status = fulfillment_status
@@ -22,7 +21,6 @@ class Order
       product_price_array = product_price.split(':')
       product_hash[product_price_array[0]] = product_price_array[1].to_f
     end
-
     return product_hash
   end
 
@@ -57,7 +55,6 @@ class Order
     @products.each do |item, cost|
       total += cost
     end
-
     total *= 1.075
     return total.round(2)
   end
