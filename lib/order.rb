@@ -30,6 +30,14 @@ class Order
     return @products.merge!(name => price)
   end
 
+  def remove_product(name, price)
+    unless @products.has_key?(name)
+      raise ArgumentError, 'This product does not exist in order!'
+    end
+    return @products.delete(name)
+  end
+
+
 end
 #
 
