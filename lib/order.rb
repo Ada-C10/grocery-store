@@ -1,5 +1,7 @@
 class Order
 
+  require 'csv'
+
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
@@ -32,6 +34,11 @@ class Order
 
   def add_product(product, price)
     @products.keys.include?(product) ? raise(ArgumentError) : @products[product] = price
+  end
+
+
+  def remove_product(product)
+    @products.keys.include?(product) ? @products.delete(product) : raise(ArgumentError)
   end
 
 
