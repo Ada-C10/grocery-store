@@ -37,7 +37,7 @@ class Order
 
       product_with_price.split(';').each do |product|
         name_and_price = product.split(":")
-        products[name_and_price[0]] = name_and_price[1]
+        products[name_and_price[0]] = name_and_price[1].to_f
       end
 
       customer = Customer.find(order_info[2].to_i)
