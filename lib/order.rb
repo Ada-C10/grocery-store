@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'customer'
 require 'pry'
 
 class Order
@@ -9,7 +10,7 @@ class Order
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id.to_i
-    @products = products # hash of products and costs
+    @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
 
@@ -17,12 +18,12 @@ class Order
 
     unless @fulfillment_options.include? @fulfillment_status
       raise ArgumentError, 'Fulfillment status must be :pending, :paid, :processing, :shipped, or :complete. '
-    end # end of Argument Error unless
-  end # end of def initialize
+    end
+  end
 
   # Calculate total of Order instance products
   def total
-    # if @products.empty?
+    # if @products.empty, product sum is 0
     if @products == {} || @products == 0
       @product_sum = 0
     else
@@ -35,7 +36,7 @@ class Order
     end
 
     return @product_sum
-  end # end of def total
+  end
 
   # Add product to this instance of Order
   def add_product(product_name, product_price)
@@ -44,7 +45,7 @@ class Order
     else
       @products[product_name] = product_price
     end
-  end # end of def add_product
+  end
 
   def add_to_orders
     @@all_orders << self
@@ -53,12 +54,11 @@ class Order
   def self.all
     @@all_orders
   end
-
-end # end of class Order # why unexpected??
+end
 
 CSV.open("data/orders.csv", 'r').each do |line|
   # line = ["1", "Lobster:17.18;Annatto seed:58.38;Camomile:83.21","25","complete"]
-  id = line[0] # id = "1"
+  id = (line[0].to_i)
 
   products_string = line[1]
   # products_string =  "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
@@ -71,29 +71,12 @@ CSV.open("data/orders.csv", 'r').each do |line|
   # product = "Lobster:17.18"
     ind = product.split(":")
     # ind = ["Lobster", "17.18"]
-    # product_hash = {ind[0] => (ind[1].to_f)} # only has one?
     product_hash[ind[0]] = (ind[1].to_f)
-
-# binding.pry
-
-
-  # products_string_array.map do |product|
-  #   ind = product.split(":")
-    # => [["Lobster", "17.18"],
- #      ["Annatto seed", "58.38"],
- #      ["Chamomile", "83.21"]]
-
-      # product.each do |arr|
-      #   arr.each do |ar|
-      #     product_hash[ar[0]] = [ar[1]]
-      #   end
-      # end
-
   end
 
+  customer = Customer.find(line[2].to_i)
 
-  new_order = Order.new(id, product_hash, line[2], line[3].to_sym)
+  new_order = Order.new(id, product_hash, customer, line[3].to_sym)
 
-  # order = Order.new(line[0], products, line[2], line[3].to_sym)
   new_order.add_to_orders
 end
