@@ -1,5 +1,7 @@
 #require_relative '..lib/customer'
 class Order
+  @@orders = []
+
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
 
@@ -39,5 +41,23 @@ class Order
     return expected_total.round(2)
   end
 
+  def self.all
+    @@orders = CSV.open('data/orders.csv', 'r').map do |line|
+      id = line[0].to_i
+      products = Hash[*line[1].split(/:|;/)]
+      products.each do |key, value|
+        products[key] = value.to_f
+      end
+      customer = line[2]
+      fulfillment_status = :"#{line[3]}"
+
+      Order.new(id, products, customer, fulfillment_status)
+    end
+    return @@orders
+  end
+
+  def self.find(id)
+
+  end
 
 end

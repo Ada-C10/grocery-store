@@ -33,9 +33,9 @@ class Customer
 
   def self.find(id)
     x = ""
-    @@customers.length.times do |i|
-      if @@customers[i].id == id
-        x = @@customers[i]
+    Customer.all.each do |cust|
+      if cust.id == id
+        x = cust
         break
       else
         x = nil
