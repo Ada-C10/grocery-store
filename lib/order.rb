@@ -50,36 +50,110 @@ class Order
   end
 
 
-  def self.all
-    all_orders = []
-    CSV.open("data/orders.csv", "r").each do |array|
-      order = []
+  # def self.all
+  #   all_orders = []
+  #   CSV.open("data/orders.csv", "r").each do |array|
+  #     order = []
+  #
+  #     id = array.slice(0)
+  #     products = array.slice(1..(array.length - 3))
+  #     customer = array.slice (-2)
+  #     fulfillment_status = array.slice(-1)
+  #
+  #     products_new = products[0].split(';')
+  #
+  #     products_hash = {}
+  #     products_new.each do |product|
+  #       product2 = product.split(':')
+  #       products_hash[product2[0]] = product2[1]
+  #     end
+  #
+  #     new_order = Order.new(id, products_hash, customer, fulfillment_status.to_sym)
+  #     all_orders << new_order
+  #
+  #   end
+  #   return all_orders
+  # end
 
-      id = array.slice(0)
-      products = array.slice(1..(array.length - 3))
-      customer = array.slice (-2)
-      fulfillment_status = array.slice(-1)
 
-      products_new = products[0].split(';')
-
-      products_hash = {}
+  def self.create_product_hash(products)
+    products.each do |product|
+      products_new = product.split(';')
+      @products_hash = {}
       products_new.each do |product|
         product2 = product.split(':')
-        products_hash[product2[0]] = product2[1]
+        @products_hash[product2[0]] = product2[1]
       end
+      return @products_hash
+    end
+  end
 
-      new_order = Order.new(id, products_hash, customer, fulfillment_status.to_sym)
-      all_orders << new_order
 
+  def self.transform_data
+    all_orders = []
+    CSV.open("data/orders.csv", "r").each do |array|
+      order = {}
+
+      products = create_product_hash(array.slice(1..(array.length - 3)))
+
+      order[:id] = array.slice(0).to_i
+      order[:products] = products
+      order[:customer] = array.slice(-2)
+      order[:fulfillment_status] = array.slice(-1).to_sym
+
+      all_orders << order
     end
     return all_orders
   end
 
-  def self.new_customer_instance
-    self.all.each do |order|
-      if Customer.find(order.id)
-        new_customer = Customer.new(customer.id, customer.email, customer.address)
-      end
-    end
-  end
+
+  # def self.all
+  #   data = transform_data
+  #   return data
+  # end
+
+
+    #
+    # def self.all
+    #   all_orders = []
+    #   CSV.open("data/orders.csv", "r").each do |array|
+    #     order = []
+    #
+    #     id = array.slice(0)
+    #     products = array.slice(1..(array.length - 3))
+    #     customer = array.slice (-2)
+    #     fulfillment_status = array.slice(-1)
+    #
+    #     products_new = products[0].split(';')
+    #
+    #     products_hash = {}
+    #     products_new.each do |product|
+    #       product2 = product.split(':')
+    #       products_hash[product2[0]] = product2[1]
+    #     end
+    #
+    #     new_order = Order.new(id, products_hash, customer, fulfillment_status.to_sym)
+    #     all_orders << new_order
+    #
+    #   end
+    #   return all_orders
+    # end
+    #
+
+
+
+
+
+
+
+  #
+  #
+  # def self.new_customer_instance
+  #   self.all.each do |order|
+  #     if Customer.find(order.id)
+  #       new_customer = Customer.new(customer.id, customer.email, customer.address)
+  #     end
+  #   end
+  # end
+
 end
