@@ -1,3 +1,6 @@
+require 'csv'
+require_relative 'Customer'
+
 class Order
   attr_reader :id, :customer
   attr_accessor :products, :fulfillment_status
@@ -22,7 +25,27 @@ class Order
 
   def add_product(product, cost)
     raise ArgumentError if @products.keys.include?(product)
-      @products[product] = cost
+    @products[product] = cost
+  end
+
+  def self.all
+
+    all_orders = CSV.read("../data/orders.csv").map do |order_info|
+      id = order_info[0].to_i
+      products = {}
+      product_with_price = order_info[1]
+
+      product_with_price.split(';').each do |product|
+        name_and_price = product.split(":")
+        products[name_and_price[0]] = name_and_price[1]
+      end
+
+      customer = Customer.find(order_info[2].to_i)
+      fulfillment_status = order_info[3].to_sym
+
+      Order.new(id, products, customer, fulfillment_status)
+    end
+    return all_orders
   end
 
 end
