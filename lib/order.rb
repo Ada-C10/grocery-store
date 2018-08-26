@@ -24,10 +24,7 @@ class Order
   end
 
   def total()
-    total_cost = 0
-    products.each do |product_name, cost|
-      total_cost += cost
-    end
+    total_cost = products.values.inject(:+).to_f
 
     total_cost_plus_tax = total_cost + (total_cost * 0.075)
     return total_cost_plus_tax.round(2)
@@ -44,10 +41,12 @@ class Order
   def self.all
     orders = @@order.map do |order_data|
       online_id = order_data[0].to_i
+
       products = Hash[*order_data[1].split(/:|;/)]
       products.each do |product, cost|
         products[product] = cost.to_f
       end
+
       customer_id = Customer.find(order_data[2].to_i)
       status = order_data[3].to_sym
 
@@ -58,7 +57,7 @@ class Order
   end
 
   def self.find(id)
-    Order.all.each do |online_order|
+    Order.all.select do |online_order|
       if online_order.id == id
         return online_order
       end
