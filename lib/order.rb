@@ -23,14 +23,21 @@ class Order
 
 
   end
-
+  # binding.pry
   # total method to sum products
   # add 7.5% tax
   # # round 2 decimal places
+
+
     def total
-      
+      price_array = @products.map do |item, price|
+        price
+      end
+      pre_total = price_array.reduce(0, :+)
+      tax_total = (pre_total * 0.075) + pre_total
+      return tax_total.round(2)
     end
-  #
+
   # # add data to product collection[]
   #   def add_product(product, price)
   #   end
