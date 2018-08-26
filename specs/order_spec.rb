@@ -117,7 +117,7 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      
+
       orders = Order.all
 
       expect(orders.length).must_equal 100
@@ -145,23 +145,61 @@ describe "Order Wave 2" do
       expect(order.customer.id).must_equal customer_id
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
-
+# 100,Amaranth:83.81;Smoked Trout:70.6;Cheddar:5.63,20,pending
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+        id = 100
+        products = {
+          "Amaranth" => 83.81,
+          "Smoked Trout" => 70.6,
+          "Cheddar" => 5.63,
+        }
+        customer_id = 20
+        fulfillment_status = :pending
+
+        order = Order.all.last
+
+        expect(order.id).must_equal id
+        expect(order.products).must_equal products
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_equal customer_id
+        expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(740)).must_be_nil
+    end
+  end
+
+## TODO: Optionals make test for remove_product and find_by_customer
+  describe "Order.remove_product" do
+    it "Removes customer" do
+    end
+
+    it "Raises ArgumentError if customer does not exist" do
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Returns customer" do
+    end
+
+    it "Raises ArgumentError if customer does not exist" do
     end
   end
 end

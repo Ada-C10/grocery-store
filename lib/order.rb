@@ -54,28 +54,49 @@ class Order
     end
 
     def self.all
-
-    # goes through each line of csv file == order, creates an instance of Order class
-    # for each order and returns all products on file
-          all = CSV.open('data/orders.csv', 'r').map do |order|
-            products = {}
-            # collects all the products from each line of csv file and seperates
-            # them from the rest of the data
-            product_array = order[1].split(',')
-            # separates and goes through all the products and assigns them to a :product and :price key in the products hash
-            product_array[0].split(";").each do |item|
-                products[item.split(':')[0]] = item.split(':')[1].to_f
+      # goes through each line of csv file == order, creates an instance of Order class
+      # for each order and returns all products on file
+      all = CSV.open('data/orders.csv', 'r').map do |order|
+          products = {}
+          # collects all the products from each line of csv file and seperates
+          # them from the rest of the data
+          product_array = order[1].split(',')
+          # separates and goes through all the products and assigns them to a :product and :price key in the products hash
+          product_array[0].split(";").each do |item|
+              products[item.split(':')[0]] = item.split(':')[1].to_f
           end
-
+          # turns customer id into instance of Customer class
           customer = Customer.find(order[2].to_i)
           # creates an instance of Order class using the info from the order details, all matching the data types of Order's instance variables
           Order.new(order[0].to_i, products, customer, order[3].to_sym)
+
         end
-
       return all
-
     end
 
+    def self.find(id)
+        find = Order.all.select { |order| order.id == id }
+
+        if find == []
+          return nil
+        end
+
+        Order.all.each do |order|
+          if order.id == id
+            return order
+          end
+        end
+    end
+
+## TODO: Optional method:  returns a list of Order instances where the value of the customer's ID matches the passed parameter.
+    def self.find_by_customer(customer_id)
+    #   client = Order.all.select { |customer| customer == customer_id }
+    #   if client == []
+    #     return nil
+    #   else
+    #     return client
+    #   end
+    end
 
 end
 
@@ -83,7 +104,12 @@ end
 # maryam = Customer.new(2, 'maryam@gmail.com', {street: "605 15th Ave", city: "Seattle", zip_code: 98112 })
 # ordering = Order.new(3, { "banana" => 1.99, "cracker" => 3.00 }, maryam, :shipped)
 
-ap Order.all
+# ap Order.all
+
+# puts "find by customer: "
+# ap Order.find_by_customer(3)
+# puts "find by customer: "
+# ap Order.find_by_customer(50)
 
 # puts "adds beans: "
 # p ordering.add_product('beans', 2)
