@@ -1,10 +1,12 @@
 require 'csv'
+require_relative 'customer.rb'
 
 class Order
   attr_reader :id
   attr_accessor :products, :products, :customer, :fulfillment_status
 
   @@orders = []
+
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products #hash {item: cost}
@@ -35,7 +37,7 @@ class Order
       data.each do |individual|
         id = individual[0].to_i
         products = parse_product_array(individual[1])
-        customer = individual[2].to_i
+        customer = Customer.find(individual[2].to_i)
         fulfillment_status = individual[3]
         @@orders << self.new(id, products, customer, fulfillment_status = :pending)
       end
