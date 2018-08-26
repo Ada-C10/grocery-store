@@ -5,11 +5,9 @@ require 'minitest/skip_dsl'
 require_relative '../lib/customer'
 require_relative '../lib/order'
 
-require 'pry'
-
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -164,17 +162,22 @@ describe "Order Wave 2" do
       end
     end
 
-    xdescribe "Order.find" do
+    describe "Order.find" do
       it "Can find the first order from the CSV" do
-        # TODO: Your test code here!
-      end
+        first = Order.find(1)
 
-      it "Can find the last order from the CSV" do
-        # TODO: Your test code here!
-      end
+        expect(first).must_be_kind_of Order
+        expect(first.id).must_equal 1      end
 
-      it "Returns nil for an order that doesn't exist" do
-        # TODO: Your test code here!
+        it "Can find the last order from the CSV" do
+          last = Order.find(100)
+
+          expect(last).must_be_kind_of Order
+          expect(last.id).must_equal 100
+        end
+
+        it "Returns nil for an order that doesn't exist" do
+          expect(Order.find(999)).must_be_nil
+        end
       end
     end
-  end
