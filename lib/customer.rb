@@ -1,10 +1,5 @@
-# Create a class called Customer. Each new Customer should include the following attributes:
-#
-# ID, a number
-# Email address, a string
-# Delivery address, a hash
-# ID should be readable but not writable; the other two attributes can be both read and written.
-
+require 'csv'
+require 'pry'
 
 class Customer
   attr_reader :id
@@ -16,5 +11,17 @@ class Customer
     @address = address #gonna be a hash
   end
 
+  def self.all
+    customers = []
+    CSV.read('./data/customers.csv').map do | customer |
+      id = customer[0].to_i
+      email = customer[1]
+      address = customer[2..5].join(", ")
+      customers << Customer.new(id, email, address)
+      end
+      return customers
+    end
 
-end
+    # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the parameter
+
+  end
