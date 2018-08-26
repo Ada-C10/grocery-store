@@ -5,7 +5,6 @@ require 'awesome_print'
 
 
 class Order
-  FULLFILLMENT_STATUS = %w(:pending :paid :processing :shipped :complete)
   attr_reader :id, :products, :customer, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status=:pending)
@@ -90,7 +89,23 @@ class Order
     @products.delete_if do |name, price|
       name == product_name
     end
+  end
 
+  def self.find_by_customer(customer_id)
+    orders = Order.all
+    str = "List of Customers:"
+    list = ""
+
+    matching_orders = orders.select do |order|
+      order.customer.id == customer_id
+    end
+
+    matching_orders.each_with_index do |order_instance, i|
+      each_instance = "\n#{i + 1}. #{order_instance}"
+      list << each_instance
+    end
+
+    return str + list
   end
 
 end
@@ -113,3 +128,5 @@ end
 # order.remove_product("apple")
 # puts order.products
 # order.remove_product("apple")
+puts Order.find(1)
+puts Order.find_by_customer(25)
