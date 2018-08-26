@@ -6,13 +6,10 @@ class Order
   attr_accessor :products, :fulfillment_status
 
   def initialize(id, products, customer, fulfillment_status = :pending)
-
     valid_statuses = %i[pending paid processing shipped complete]
-
     @id = id
     @products = products
     @customer = customer
-
     raise ArgumentError unless valid_statuses.include?(fulfillment_status)
     @fulfillment_status = fulfillment_status
   end
@@ -60,7 +57,6 @@ class Order
 
   def self.find_by_customer(customer_id)
     raise ArgumentError if Customer.find(customer_id) == nil
-
     all_orders = self.all
     all_orders.find_all do |order|
       order.customer.id == customer_id
