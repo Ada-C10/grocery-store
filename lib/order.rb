@@ -20,14 +20,14 @@ class Order
     return total.round(2)
   end
 
-  def add_product(product, cost)
-    raise ArgumentError if @products.keys.include?(product)
-    @products[product] = cost
+  def add_product(product_name, cost)
+    raise ArgumentError if @products.keys.include?(product_name)
+    @products[product_name] = cost
   end
 
-  def remove_product(product)
-    raise ArgumentError unless @products.keys.include?(product)
-    @products.delete(product)
+  def remove_product(product_name)
+    raise ArgumentError unless @products.keys.include?(product_name)
+    @products.delete(product_name)
   end
 
   def self.all
@@ -49,9 +49,9 @@ class Order
     return all_orders
   end
 
-  def self.find(id)
+  def self.find(order_id)
     all_orders = self.all
-    found_order = all_orders.find { |order| order.id == id }
+    found_order = all_orders.find { |order| order.id == order_id }
     return found_order
   end
 

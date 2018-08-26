@@ -20,9 +20,9 @@ class Customer
     return all_customers
   end
 
-  def self.find(id)
+  def self.find(customer_id)
     all_customers = self.all
-    found_customer = all_customers.find { |customer| customer.id == id }
+    found_customer = all_customers.find { |customer| customer.id == customer_id }
     return found_customer
   end
 end
