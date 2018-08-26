@@ -1,3 +1,25 @@
+require_relative 'csv'
+
+def self.load_data(filename) #take file name and returns data from file in array of hashes
+  data = CSV.open(filename,'r', headers:false).map do |line|
+  line.to_a
+  end
+  return data
+end
+
+def self.format_data(data)
+    data.each do |individual|
+      id = individual[0].to_i
+      products = individual[1]
+      customer =
+      customer_status
+
+    @@orders << self.new(id, products, customer, fulfillment_status = :pending)
+
+    end
+  return @@orders
+end
+
 class Order
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -21,6 +43,21 @@ class Order
     raise ArgumentError, "Repeated Item" if @products.keys.include? product_name
     @products[product_name] = price
   end
+
+  def self.all
+    return @@orders#collection of Customer instances - all of the ifno from csv file
+  end
+
+  def self.find(id)
+    @@orders.each do |order|
+      if id.to_i == order.id.to_i
+        return order
+      end
+    end
+    return nil
+  end
+end
+
 
 end
 
