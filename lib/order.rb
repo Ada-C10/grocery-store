@@ -5,6 +5,7 @@ class Order
 
 
   def initialize(id, product_hash, customer, fulfillment_status = :pending)
+    # TODO error handling on initalize variables
     @id = id
     @products = product_hash
     @customer = customer
@@ -18,15 +19,15 @@ class Order
   end
 
   def total
-    sum = @product.values.sum
+    sum = @products.values.sum
     return (sum*1.075).round(2)
   end
 
   def add_product(name, price)
-    if @product.each_key == name
+    if @products.has_key?(name)
       raise ArgumentError, 'This product already exists in order!'
     end
-    return @product.merge!(name => price)
+    return @products.merge!(name => price)
   end
 
 end
