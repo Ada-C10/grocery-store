@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 class Customer
   attr_reader :id
@@ -30,7 +29,6 @@ class Customer
 
   def self.find(id)
     @customers = Customer.all
-    # testing_id = id
     @customers.each do |customer|
       if customer.id == id
         return customer
