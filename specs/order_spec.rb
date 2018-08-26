@@ -245,7 +245,7 @@ describe "Order Wave 2" do
       fulfillment_status = :processing
       # ensure that only one order is getting returned
       order_found = Order.find_by_customer(5).first
-      ap order_found
+      # ap order_found
       # Check that customer 5 data was loaded into 'found' array as expected
       expect(order_found).must_be_kind_of Order
       expect(order_found.id).must_equal id

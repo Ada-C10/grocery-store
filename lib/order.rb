@@ -59,7 +59,7 @@ class Order
     end
 
     if found.empty?
-      raise ArgumentError.new ('Customer ID does not exist')
+      raise ArgumentError, 'Customer ID does not exist'
     else
       return found
     end
