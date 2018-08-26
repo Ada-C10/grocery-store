@@ -11,9 +11,13 @@ class Customer
   end
 
   def self.all
-    all_customers = []
-    CSV.read("../data/customers.csv").each do |customer_info|
-      all_customers << Customer.new(customer_info[0].to_i, customer_info[1], customer_info[2])
+    all_customers = CSV.read("../data/customers.csv").map do |customer_info|
+
+      id = customer_info[0].to_i
+      email = customer_info[1]
+      address = customer_info[2]
+
+      Customer.new(id, email, address)
     end
     return all_customers
   end
@@ -21,6 +25,6 @@ class Customer
   def self.find(id)
     all_customers = self.all
     found_customer = all_customers.find { |customer| customer.id == id }
-      return found_customer
+    return found_customer
   end
 end
