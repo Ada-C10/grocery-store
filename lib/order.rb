@@ -18,7 +18,7 @@ class Order
     end
   end
 
-  # Calculates total cost of all items in products hash, including tax
+  # Calculates total cost of all items in products hash, and adds on tax
   def total
     if @products.length == 0
       return 0
