@@ -7,7 +7,7 @@ require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -202,17 +202,26 @@ describe "Order Wave 2" do
         first = Order.find(1)
 
         expect(first).must_be_kind_of Order
-        expect(first.id).must_equal 1      end
+        expect(first.id).must_equal 1
+      end
 
-        it "Can find the last order from the CSV" do
-          last = Order.find(100)
+      it "Can find the last order from the CSV" do
+        last = Order.find(100)
 
-          expect(last).must_be_kind_of Order
-          expect(last.id).must_equal 100
-        end
+        expect(last).must_be_kind_of Order
+        expect(last.id).must_equal 100
+      end
 
-        it "Returns nil for an order that doesn't exist" do
-          expect(Order.find(999)).must_be_nil
-        end
+      it "Returns nil for an order that doesn't exist" do
+        expect(Order.find(999)).must_be_nil
       end
     end
+
+    describe "#find_by_customer" do
+      it "Returns an array of orders for a specific customer ID" do
+        orders_by_cust = Order.find_by_customer(25)
+        orders_by_cust.must_be_kind_of Array
+        orders_by_cust.length.must_equal 6
+      end
+    end
+  end
