@@ -1,3 +1,6 @@
+require 'csv'
+require 'pry'
+require 'awesome_print'
 require_relative 'customer'
 
 
@@ -31,35 +34,62 @@ class Order
     end
 
     def add_product(product, price)
-        if @products.keys.include?(product)
-            raise ArgumentError
-        else
-             # products_and_costs.merge!(product => price)
-            @products[product] = price
-        end
+      # raises an error if the product is already the list
+      if @products.keys.include?(product)
+          raise ArgumentError
+      else
+      # adds the product to product hash if no error was raised
+          @products[product] = price
+      end
     end
 
     def remove_product(product_name)
+      # raises error if product is not in list
       if !(@products.keys.include?(product_name))
           raise ArgumentError
       else
+      # checks product hash for a product with the same name as product_name
           @products.delete(product_name)
       end
+    end
+
+    def self.all
+
+    # goes through each line of csv file == order, creates an instance of Order class
+    # for each order and returns all products on file
+          all = CSV.open('data/orders.csv', 'r').map do |order|
+            products = {}
+            # collects all the products from each line of csv file and seperates
+            # them from the rest of the data
+            product_array = order[1].split(',')
+            # separates and goes through all the products and assigns them to a :product and :price key in the products hash
+            product_array[0].split(";").each do |item|
+                products[item.split(':')[0]] = item.split(':')[1].to_f
+          end
+
+          customer = Customer.find(order[2].to_i)
+          # creates an instance of Order class using the info from the order details, all matching the data types of Order's instance variables
+          Order.new(order[0].to_i, products, customer, order[3].to_sym)
+        end
+
+      return all
+
     end
 
 
 end
 
-maryam = Customer.new(2, 'maryam@gmail.com', {street: "605 15th Ave", city: "Seattle", zip_code: 98112 })
-ordering = Order.new(3, { "banana" => 1.99, "cracker" => 3.00 }, maryam, :shipped)
+###########
+# maryam = Customer.new(2, 'maryam@gmail.com', {street: "605 15th Ave", city: "Seattle", zip_code: 98112 })
+# ordering = Order.new(3, { "banana" => 1.99, "cracker" => 3.00 }, maryam, :shipped)
 
+ap Order.all
 
 # puts "adds beans: "
 # p ordering.add_product('beans', 2)
 
 # puts "current products: "
 # p ordering.products
-#
 #
 # puts "remove beans: "
 # p ordering.remove_product('beans')

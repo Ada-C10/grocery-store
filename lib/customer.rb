@@ -1,6 +1,7 @@
 require 'csv'
 require 'awesome_print'
 
+
 class Customer
   attr_reader :id
   attr_accessor :email, :address
@@ -24,13 +25,18 @@ class Customer
 
      if found == []
         return nil #"Customer not found"
-      else
-        return found
-      end
+     end
+
+    Customer.all.each do |customer|
+       if customer.id == id
+         return customer
+       end
+    end
+
   end
 end
 
 # maryam = Customer.new(2, 'maryam@gmail.com', {street: "605 15th Ave", city: "Seattle", zip_code: 98112 })
 # puts maryam.address
 
-# ap Customer.find(50)
+ap Customer.find(1)
