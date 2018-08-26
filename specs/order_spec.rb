@@ -222,7 +222,7 @@ describe "Order Optionals" do
     }
     Customer.new(123, "a@a.co", address)
   end
-  
+
   describe "#remove_product" do
     it "Decreases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -254,6 +254,30 @@ describe "Order Optionals" do
 
       # The list of products should not have been modified
       expect(order.total).must_equal before_total
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Returns an array of orders if customer is found" do
+      orders = Order.find_by_customer(20)
+
+      expect(orders).must_be_kind_of Array
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+      end
+    end
+
+    it "Returns an empty array if customer is not found" do
+      orders = Order.find_by_customer(123)
+
+      expect(orders).must_be_kind_of Array
+      expect(orders).must_be_empty
+    end
+
+    it "Returns accurate number of orders" do
+      Order.find_by_customer(20)
+
+      expect(orders.length).must_equal 7
     end
   end
 end
