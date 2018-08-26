@@ -5,14 +5,10 @@ class Order
   attr_reader :id
   attr_accessor :customer, :products, :fulfillment_status
 
-
-
-  def initialize (id, products, customer, fulfillment_status = :pending)
+  def initialize(id, products, customer, fulfillment_status = :pending)
     raise ArgumentError if ![:pending, :paid, :processing, :shipped, :complete].include? (fulfillment_status)
     @id = id
     @products = products #give as a hash with name of item and price ("banana" => 1.99)
-    # an empty products hash is permitted, meaning nothing for sale
-    # assume only one of each product
     @customer = customer # person who placed the order.  An instance of customer class
     @fulfillment_status = fulfillment_status
 
@@ -30,7 +26,7 @@ class Order
     end
   end
 
-  def add_product (product_name, price)
+  def add_product(product_name, price)
     if @products.has_key?(product_name)
       raise ArgumentError
     else
