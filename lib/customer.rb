@@ -28,14 +28,14 @@ def self.all
   return @customers
 end
 
-def self.find(search_id)
+def self.find(id)
   @customers = Customer.all
   last = @customers.last
-  if last.id == search_id
+  if last.id == id
     return last
   end
   @customers.each do |customer|
-    if customer.id == search_id
+    if customer.id == id
       return customer
     else
       return nil
