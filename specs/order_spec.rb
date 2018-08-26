@@ -225,4 +225,18 @@ describe "Order Wave 2" do
       expect(Order.find(3914)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Returns a list with at least one order instance" do
+    first = Order.find_by_customer(25)
+
+    expect(first.include?("1. #<Order:")).must_equal true
+    end
+
+    it "Returns empty string if customer_id is not found" do
+    not_valid = Order.find_by_customer(78910)
+
+    expect(not_valid).must_equal ""
+    end
+  end
 end
