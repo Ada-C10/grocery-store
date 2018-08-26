@@ -6,22 +6,25 @@ class Customer
   attr_accessor :email, :address
 
   def initialize (id, email, address)
-    @id = id # gonna be an int
-    @email = email # gonna be a string
-    @address = address #gonna be a hash
+    @id = id
+    @email = email
+    @address = address
   end
 
   def self.all
-    customers = []
-    CSV.read('./data/customers.csv').map do | customer |
-      id = customer[0].to_i
-      email = customer[1]
-      address = customer[2..5].join(", ")
-      customers << Customer.new(id, email, address)
-      end
-      return customers
+    customers = CSV.read('./data/customers.csv').map do | customer_array |
+      id = customer_array[0].to_i
+      email = customer_array[1]
+      address = customer_array[2..5].join(", ")
+      Customer.new(id, email, address)
     end
-
-    # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the parameter
-
+    return customers
   end
+
+  def self.find(id)
+    self.all.select do | customer_array |
+      return customer_array if customer_array.id == id
+    end
+    return nil
+  end
+end
