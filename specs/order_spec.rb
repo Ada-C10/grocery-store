@@ -275,7 +275,7 @@ describe "Order Optionals" do
     end
 
     it "Returns accurate number of orders" do
-      Order.find_by_customer(20)
+      orders = Order.find_by_customer(20)
 
       expect(orders.length).must_equal 7
     end
