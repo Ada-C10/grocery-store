@@ -5,9 +5,11 @@ require 'minitest/skip_dsl'
 require_relative '../lib/customer'
 require_relative '../lib/order'
 
+require 'pry'
+
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -113,14 +115,17 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
+
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+
+      Order.all.must_be_kind_of Array
+
+      Order.all.length.must_equal 100
     end
 
-    it "Returns accurate information about the first order" do
+    xit "Returns accurate information about the first order" do
       id = 1
       products = {
         "Lobster" => 17.18,
@@ -140,12 +145,12 @@ describe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    it "Returns accurate information about the last order" do
+    xit "Returns accurate information about the last order" do
       # TODO: Your test code here!
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end
