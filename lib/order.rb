@@ -6,18 +6,15 @@ require 'awesome_print'
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
-
+  FULLFILLMENT_STATUS = [:pending, :paid, :processing, :shipped, :complete]
+  
   def initialize(id, products, customer, fulfillment_status=:pending)
     @id = id
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
 
-    until @fulfillment_status == :pending ||
-      @fulfillment_status == :paid ||
-      @fulfillment_status == :processing ||
-      @fulfillment_status == :shipped ||
-      @fulfillment_status == :complete
+    until FULLFILLMENT_STATUS.include?(@fulfillment_status)
       raise ArgumentError, "Unknown status - status is not in the provided list"
     end
   end
