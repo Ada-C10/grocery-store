@@ -188,7 +188,6 @@ describe "Order Wave 2" do
 
         order = Order.all.last
 
-
         expect(order.id).must_equal id
         expect(order.products).must_equal products
         expect(order.customer).must_be_kind_of Customer
@@ -222,6 +221,19 @@ describe "Order Wave 2" do
         orders_by_cust = Order.find_by_customer(25)
         orders_by_cust.must_be_kind_of Array
         orders_by_cust.length.must_equal 6
+      end
+
+      it "Raises an error if the customer does not exist" do
+        expect {
+          Order.find_by_customer(255555)
+        }.must_raise ArgumentError
+      end
+
+      it "Returns an empty array if the customer has no orders" do
+
+        orders_by_cust = Order.find_by_customer(22)
+        orders_by_cust.must_be_kind_of Array
+        orders_by_cust.length.must_equal 0
       end
     end
   end
