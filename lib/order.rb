@@ -51,10 +51,19 @@ class Order
       customer_id = Customer.find(order_data[2].to_i)
       status = order_data[3].to_sym
 
-
       order = Order.new(online_id, products, customer_id, status)
     end
 
     return orders
+  end
+
+  def self.find(id)
+    Order.all.each do |online_order|
+      if online_order.id == id
+        return online_order
+      end
+    end
+
+    return nil
   end
 end
