@@ -20,4 +20,9 @@ class Order
     return total.round(2)
   end
 
+  def add_product(product, cost)
+    raise ArgumentError if @products.keys.include?(product)
+      @products[product] = cost
+  end
+
 end
