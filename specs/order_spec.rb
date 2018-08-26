@@ -114,7 +114,6 @@ describe "Order Wave 1" do
   end
 
   describe "#remove_product" do
-
     it "Deletes products that are in the order" do
       products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
       before_count = products.count
@@ -150,7 +149,6 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
-
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
@@ -181,9 +179,6 @@ describe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-
-      # 100,Amaranth:83.81;Smoked Trout:70.6;Cheddar:5.63,20,pending
-
       id = 100
       products = {
         "Amaranth" => 83.81,
@@ -221,6 +216,58 @@ describe "Order Wave 2" do
 
     it "Returns nil for an order that doesn't exist" do
       expect(Order.find(101)).must_be_nil
+    end
+  end
+
+
+  describe "Order.find_by_customer" do
+
+    #[<Order:0x00007fca7b1b32d8 @id=15, @products={"Cranberry"=>85.36}, @customer=#<Customer:0x00007fca7b1a1268 @id=8, @email="jey@cruickshankcronin.org", @address={:street=>"93968 Elissa Greens", :city=>"East Garnet", :state=>"WY", :zip=>"96410-6413"}>, @fulfillment_status=:pending>,
+
+    #<Order:0x00007fca7b240b60 @id=63, @products={"Dandelion"=>55.85, "Porcini mushrooms"=>80.33}, @customer=#<Customer:0x00007fca7b1a1268 @id=8, @email="jey@cruickshankcronin.org", @address={:street=>"93968 Elissa Greens", :city=>"East Garnet", :state=>"WY", :zip=>"96410-6413"}>, @fulfillment_status=:pending>]
+
+    it "returns an array of different Orders" do
+
+      customer_id = 8
+      customer_orders = Order.find_by_customer(customer_id)
+      expect(customer_orders).must_be_kind_of Array
+      expect(customer_orders[0]).must_be_kind_of Order
+      expect(customer_orders[0]).wont_equal customer_orders[1]
+    end
+
+    it "raises argument error if customer id does not exist" do
+
+      customer_id_2 = 188
+
+      expect {
+        Order.find_by_customer(customer_id_2)
+      }.must_raise ArgumentError
+    end
+
+    it "can find the first order that matches customer" do
+
+    end
+
+    it "can find the last order that matches customer" do
+
+    end
+
+    it "the id in the customer id field matches that of th actual passed in customer id" do
+
+    end
+  end
+
+  describe "Order.print_list_of_customer_orders" do
+    it "will return a string" do
+
+      customer_id = 8
+
+      statement = Order.print_list_of_customer_orders(customer_id)
+      statement.must_be_kind_of String
+    end
+
+    it "will return this exact statement" do
+      #TODO populate this with the statement you expected
     end
   end
 end

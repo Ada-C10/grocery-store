@@ -1,4 +1,3 @@
-require 'pry'
 require 'csv'
 
 class Customer
@@ -17,15 +16,13 @@ class Customer
     customers = CSV.open('data/customers.csv', "r").map do |customer|
 
       Customer.new(customer[0].to_i, customer[1], address = {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]})
-
     end
 
     return customers
   end
 
   def self.find(id)
-    ##or equals will assign if nil
-    #otherwise skip
+
     #false, set.. otherwise, skip
     @@customers ||= Customer.all
 
@@ -33,9 +30,7 @@ class Customer
     #else implict return of nil
     found_customer = @@customers.find do |customer|
 
-      #conditional
       customer.id == id
-
     end
 
     return found_customer
