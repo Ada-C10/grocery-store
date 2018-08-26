@@ -29,20 +29,32 @@ class Order
     return ((sum + sum * 0.075) * 100).round / 100.0
   end
 
+
   def add_product(product_name, price)
 
     if @products.has_key?(product_name)
-      raise ArgumentError.new("")
+      raise ArgumentError.new("Adding product that already exists")
 
     else
       @products["#{product_name}"] = price
     end
   end
 
+  #OPTIONAL WAVE 1
+  def remove_product(product_name)
+
+    if !(@products.has_key?(product_name))
+      raise ArgumentError.new("Can't remove product that does not exist.")
+    end
+
+    @products.delete(product_name)
+
+  end
+
   def self.all
 
     orders = CSV.open('data/orders.csv', "r+").map do |order|
-      order
+      # order
 
       # Adzuki Beans:3.1; ....
       #split customer[1] into each then loop through to create product hash: product => price
@@ -78,5 +90,5 @@ class Order
 end
 
 
-# Optional:
+# OPTIONAL WAVE 2
 # Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.

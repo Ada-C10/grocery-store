@@ -23,7 +23,6 @@ class Customer
     return customers
   end
 
-
   def self.find(id)
     ##or equals will assign if nil
     #otherwise skip
