@@ -109,7 +109,7 @@ class Order
 
     return customer_orders.reduce(start_statement) do |return_statement, customer_order|
 
-      return_statement + "\n" + "Order id " + "#{(customer_order.id)} with #{customer_order.products.map { |product, price| product}.to_s}"
+      return_statement + "\n" + "Order id " + "#{(customer_order.id)} with #{customer_order.products.keys}"
     end
   end
 end

@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'pry'
 
 require_relative '../lib/customer'
 require_relative '../lib/order'
@@ -261,6 +262,8 @@ describe "Order Wave 2" do
     it "will return a string" do
 
       customer_id = 8
+
+      binding.pry
 
       statement = Order.print_list_of_customer_orders(customer_id)
       statement.must_be_kind_of String
