@@ -52,7 +52,6 @@ class Order
       end
 
       customer = Customer.find(line[2].to_i)
-
       fulfillment_status = line[3].to_sym
 
       Order.new(id, products, customer, fulfillment_status)
@@ -61,14 +60,14 @@ class Order
   end
 
 
-  # def self.find(id)
-  #   Order.all.each do |order|
-  #     if order.id == id
-  #       return order
-  #     else
-  #       return nil
-  #     end
-  #   end
-  # end
+  def self.find(id)
+    @@orders = Order.all.each do |order|
+      if order.id == id
+        return order
+      else
+        return nil
+      end
+    end
+  end
 
 end

@@ -36,6 +36,7 @@ class Customer
       if customer.id == id
         return customer
       else
+        # Not sure why this fails test 2 on the Customer.find test
         return nil
       end
     end
