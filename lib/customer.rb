@@ -18,25 +18,49 @@ class Customer
   attr_reader :id
   attr_accessor :email, :address
 
-  @@customers = [] #empty array to hold customers
-
   def initialize(id, email, address)
     @id = id
     @email = email
-    @address = address
-    # @@customers << self
+    @address = address #addres1/street, city, state, zip
   end
 
   def self.all
-    # returns a collection of Customer instances, representing all of the Customer described in the CSV file
+    @@customers = [] #empty array to hold customers
+
+    CSV.open('data/customers.csv', headers: true).each do |customer|
+      customer_info = customer.to_h
+      address = customer_info.slice("street", "city", "state", "zip")
+
+      @@customers << Customer.new(customer_info["id"].to_i, customer_info["email"], address)
+    end
+
+    return @@customers
+    #CREATING customer instances with the info from the CSV
   end
 
-  # def self.find(id)
-  #   # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
-  #   # should not parse the CSV file itself. Instead it should invoke Customer.all and search through the results for a customer with a matching ID.
-  #   all_info = []
-  #   all_info << Customer.all
-  #   return all_info.select{|@id| id}
-  #
-  # end
+  def self.find(id)
+    Customer.all #invokes all to populate @@customer 
+
+    @@customers.each do |customer|
+      return customer if id == customer.id
+    end
+
+    return nil #nil if no customer id found
+  end
+
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
