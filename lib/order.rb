@@ -12,8 +12,8 @@ class Order
     @customer = customer
     @fulfillment_status = fulfillment_status
 
-    @@valid_statuses = %i[pending paid processing shipped complete]
-    unless @@valid_statuses.include?(@fulfillment_status)
+    valid_statuses = [:pending, :paid, :processing, :shipped, :complete]
+    unless valid_statuses.include?(@fulfillment_status)
       raise ArgumentError, ":fulfillment_status is invalid. Try: " \
                            "[:pending (default), :paid, :processing, " \
                            ":shipped, :complete]"
@@ -35,10 +35,10 @@ class Order
   end
 
   def remove_product(product_name)
-    unless @products.keys.include?(product_name)
-      raise ArgumentError, "There isn't a product with that name in your order."
-    end
-    return @products.delete(product_name)
+    return @products.delete(product_name) { raise ArgumentError, "There isn't" \
+                                            " a product with that name in " \
+                                            "your order."
+                                          }
   end
 
   def self.all
@@ -102,13 +102,17 @@ class Order
   # matches the passed parameter.
   # return nil if no matching orders are found.
     all_orders = self.all
-    orders_by_cust = all_orders.select{ |obj| obj.customer.id == customer_id }
-    return orders_by_cust.empty? ? orders_by_cust = nil : orders_by_cust
+    orders_by_customer = all_orders.select do |obj|
+      obj.customer.id == customer_id
+    end
+    return orders_by_customer.empty? ? nil : orders_by_customer
   end
 end
 
 # TODO:
+# remove the "../" in filenames
 # refactor without having to write a new CSV file with headers.
+# https://github.com/Ada-C10/grocery-store/pull/11/files Daniela's!
 # put csv parsing stuff in separate method.
 # both Order and Customer classes use a lot of the same stuff. can I mixin?
 # rake isn't working. why not?
