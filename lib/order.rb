@@ -14,11 +14,15 @@ class Order
     @id = id
     @products = products
     @customer = customer
+    # binding.pry
     @fulfillment_status = fulfillment_status
+
 
     valid_statuses = %i[pending paid processing shipped complete]
 
     unless valid_statuses.include?(fulfillment_status) then
+      # binding.pry
+
       raise ArgumentError, "wrong status entered"
     end
     order_push
@@ -48,7 +52,7 @@ class Order
     return @@orders
   end
 
-def order_push
+  def order_push
     @@orders.push(self)
   end
 
@@ -58,21 +62,19 @@ def order_push
         return order
       end
     end
+    puts ""
   end
 end
 
-# 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
-
 
 CSV.read('../data/orders.csv').each do |cust_row|
-product_hash = {}
- puts a = cust_row[1].split(';')
-   a.each do |product|
-     b = product.split(':')
-     # puts b
-     product_hash[b[0]] = b[1]
-   end
+  product_hash = {}
+  puts a = cust_row[1].split(';')
+  a.each do |product|
+    b = product.split(':')
+    product_hash[b[0]] = b[1].to_f
+  end
 
-customer = Customer.find(cust_row[2].to_i)
- Order.new(cust_row[0], product_hash, customer, cust_row[3])
+  customer = Customer.find(cust_row[2].to_i)
+  Order.new(cust_row[0].to_i, product_hash, customer, cust_row[3].to_sym)
 end
