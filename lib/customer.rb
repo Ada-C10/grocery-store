@@ -10,6 +10,8 @@ class Customer
     @address = address  #<-- hash
   end
 
+  # instantiate each row in csv as new Customer instances
+  # returns an array with each Customer object
   def self.all
     all_customers = CSV.open("data/customers.csv", 'r').map do |line|
       id = line[0].to_i
@@ -28,6 +30,8 @@ class Customer
     return all_customers
   end
 
+  # find and return instance of Customer based on id
+  # if id does not exist, return nil
   def self.find(id)
     customers = self.all
     return customers.find { |customer| customer.id == id }

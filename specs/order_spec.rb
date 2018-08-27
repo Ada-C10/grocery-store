@@ -213,6 +213,9 @@ describe "Order Wave 2" do
   end
 
   describe "Order.find_by_customer" do
+  # NOTE: for this and the next test, I really wanted to do something like:
+  # expect(first[2].id).must_equal 1 thinking I'd get customer.id ...
+  # but that didn't work...
     it "Can find the order(s) from customer with lowest ID in Order CSV" do
       first = Order.find_by_customer(1)
 

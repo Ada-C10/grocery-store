@@ -11,6 +11,8 @@ class Order
     @fulfillment_status = check_fulfillment_status(fulfillment_status) #<-- symbol
   end
 
+  # check whether a valid fulfillment status was entered
+  # if not, raise exception
   def check_fulfillment_status(fulfillment_status)
     case fulfillment_status
     when :pending, :paid, :processing, :shipped, :complete
@@ -20,6 +22,7 @@ class Order
     end
   end
 
+  # find total cost of an order
   def total()
     total_cost = 0
 
@@ -36,6 +39,8 @@ class Order
     return total_cost.to_f
   end
 
+  # add product to an order
+  # if it's a duplicate, raise exception
   def add_product(name, price)
     if @products.include? name
       raise ArgumentError, "This product has already been added to the order."
@@ -44,19 +49,17 @@ class Order
     end
   end
 
+  # remove product from an order
+  # if product doesn't exist in the order, raise exception
   def remove_product(product_name)
     if @products.keys.include? product_name
       return @products.delete_if {|product| product == product_name}
     else
-    return raise ArgumentError, "There are no products by that name to remove."
-
+      return raise ArgumentError, "There are no products by that name to remove."
     end
   end
 
-  def read_file()
-
-  end
-
+  # return a hash of products from csv file string
   def self.create_products_hash(products_input)
     products = {}
 
@@ -70,6 +73,8 @@ class Order
     return products
   end
 
+  # instantiate each row in csv as new Order instances
+  # returns an array with each Order object
   def self.all()
     file = "data/orders.csv"
 
@@ -86,11 +91,15 @@ class Order
     return all_orders
   end
 
+  # find and return instance of Order based on id
+  # if id does not exist, return nil
   def self.find(id)
     orders = self.all
     return orders.find { |order| order.id == id }
   end
 
+  # find and return instance of Order based on Customer id
+  # if Customer id does not exist, return nil
   def self.find_by_customer(customer_id)
     orders = self.all
     order_matches = orders.find_all { |order| order.customer.id == customer_id }
