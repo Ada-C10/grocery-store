@@ -7,7 +7,9 @@ class Customer
       @id = id
       @email = email
       @address = address
-      @@customers << self
+      if @id < 36
+        @@customers << self
+      end
   end
   attr_accessor :id
   attr_accessor :email, :address
@@ -33,5 +35,3 @@ CSV.open("../data/customers.csv",'r').map do |line|
   address = {street: "#{line[2]}", city: "#{line[3]}", state: "#{line[4]}", zip:  "#{line[5]}"}
   Customer.new(id, email, address)
 end
-
-ap Customer.all
