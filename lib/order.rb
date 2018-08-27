@@ -23,7 +23,7 @@ class Order
   def initialize(id, products, customer, fulfillment_status = :pending)
 
     @id = id
-    @products = products
+    @products = products #hash
     @customer = customer
 
     case fulfillment_status #fulfillment_status special cases
@@ -59,10 +59,45 @@ class Order
     @products.delete(product_name) {|product| raise ArgumentError}
   end
 
-  def self.find_customer_by_id(id)
+  def self.all
+    @@orders = []
+
+
+    CSV.open('data/orders.csv', headers: true).each do |order|
+      order_info = order.to_h #from csv row object to hash
+      customer = Customer.find(order_info["customer"].to_i)
+      products = order_info["products"].split(";")
+
+      products.map! do |string|
+        info = string.split(":")
+        {info[0] => info[1].to_f} #hash of the split info array, where the first element is the key, and the second element is the value converted to a floating pt
+      end
+
+      products = products.reduce(Hash.new, :merge) #merges array of hashes created via map! to one hash of key, value pairs
+
+      @@orders << Order.new(order_info["id"].to_i, products, customer, order_info["fulfillment_status"].to_sym) #id (to integer), new products hash, customer info, and status(as symbol) is pushed into orders array
+    end
+    #
+    return @@orders
+    #create instance of customer with id #, use customer find id, store, then pass arg into order.new
+    #create ORDERS; order id, product hash, customer id, status
+  end
+
+  def self.find(id) #find order by order id
+    Order.all
+
+    @@orders.each do |order|
+      return order if id == order.id
+    end
+
+    return nil #nil if no order found
+  end
+
+  def self.find_customer_by_id(id) #find orders of customer with id
   end
 
 end
+
 
 
 

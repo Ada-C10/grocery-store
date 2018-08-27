@@ -27,11 +27,11 @@ class Customer
   def self.all
     @@customers = [] #empty array to hold customers
 
-    CSV.open('data/customers.csv', headers: true).each do |customer|
-      customer_info = customer.to_h
-      address = customer_info.slice("street", "city", "state", "zip")
+    CSV.open('data/customers.csv', headers: true).each do |customer| #added headers to csv for hash creation
+      customer_info = customer.to_h #from csv row object to hash
+      address = customer_info.slice("street", "city", "state", "zip") #creates hash called address with sliced info
 
-      @@customers << Customer.new(customer_info["id"].to_i, customer_info["email"], address)
+      @@customers << Customer.new(customer_info["id"].to_i, customer_info["email"], address) #id, email, and new address hash is pushed into customers array
     end
 
     return @@customers
@@ -39,7 +39,7 @@ class Customer
   end
 
   def self.find(id)
-    Customer.all #invokes all to populate @@customer 
+    Customer.all #invokes all to populate @@customer
 
     @@customers.each do |customer|
       return customer if id == customer.id
