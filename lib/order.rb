@@ -1,20 +1,17 @@
 require_relative 'customer' #brining customer.rb file into order.rb
 require 'csv' #requiring csv ruby module into order.rb
+require 'pry'
 
 class Order
   attr_reader :id, :products
   attr_accessor :products, :customer, :fulfillment_status
-
-#fulfillment_status is set to :pending as a default
-#id , products customer , fulfilment status, should be symbols?
-# order = Order.new(id, {}, customer, fulfillment_status)
 
   def initialize(id, products, customer, fulfillment_status= :pending) #should id and ful_st be different?
     @id = id
     @products = products
     @customer = customer#(should this be different?)
     valid_status = [:pending, :paid, :processing, :shipped, :complete]
-    raise ArgumentError.new("hey, that is an invalid status") unless valid_status.include?(fulfillment_status)
+    raise ArgumentError.new("That is an invalid fulfillment status") unless valid_status.include?(fulfillment_status)
     @fulfillment_status = fulfillment_status
   end
 
@@ -38,8 +35,6 @@ class Order
     @products[name] = price
   end
 
-  # Lobster:17.18;Annatto seed:58.38;Camomile:83.21
-  #.split
   def self.convert_to_hash(products_string)
     array = products_string.split(";")
     array2 = []
@@ -53,7 +48,8 @@ class Order
 #   representing all of the Orders described in the CSV file
   def self.all
     CSV.open('data/orders.csv', 'r').map do |row|
-      Order.new(row[0].to_i, self.convert_to_hash(row[1]), row[2].to_i, row[3].to_sym)
+      Order.new(row[0].to_i, self.convert_to_hash(row[1]), Customer.find(row[2].to_i), row[3].to_sym)
+       # row[2] issue Expected "25" to be a kind of Customer, not String.
     end
   end
 
