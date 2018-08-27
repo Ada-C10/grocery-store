@@ -1,5 +1,6 @@
 require 'pry'
-# create Order class
+# create Order class tracks many orders, each customer can have
+# many orders
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status

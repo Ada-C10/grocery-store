@@ -50,8 +50,8 @@ class Customer
 # get a list of found orders once find_by_customer id is called
 # ????????????????????????????????
   def summary
-    info = "Customer ##{customer.id} has the following orders:"
-    found_arr = Order.find_by_customer(customer.id)
+    info = "Customer ##{customer_id} has the following orders:"
+    found_arr = Order.find_by_customer(customer_id)
     found_arr.each_with_index do |ord, i|
       prods = ord.products.keys
       prods.each do |item|
