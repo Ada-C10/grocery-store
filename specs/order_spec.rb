@@ -236,6 +236,14 @@ describe "Order Wave 2" do
       expect(customer_orders[0]).wont_equal customer_orders[1]
     end
 
+    it "the id in the customer id field matches that of the actual passed in customer id" do
+
+        customer_id = 8
+        customer_orders = Order.find_by_customer(customer_id)
+        expect(customer_orders[0].customer.id).must_equal customer_id
+        expect(customer_orders[1].customer.id).must_equal customer_id
+    end
+
     it "raises argument error if customer id does not exist" do
 
       customer_id_2 = 188
@@ -243,21 +251,6 @@ describe "Order Wave 2" do
       expect {
         Order.find_by_customer(customer_id_2)
       }.must_raise ArgumentError
-    end
-
-    it "can find the first order that matches customer" do
-        #TODO populate this with the statement you expected
-
-    end
-
-    it "can find the last order that matches customer" do
-        #TODO populate this with the statement you expected
-
-    end
-
-    it "the id in the customer id field matches that of the actual passed in customer id" do
-        #TODO populate this with the statement you expected
-
     end
   end
 
@@ -270,7 +263,17 @@ describe "Order Wave 2" do
       statement = Order.print_list_of_customer_orders(customer_id)
 
       expect(statement).must_be_kind_of String
-      expect(statement).must_equal "Customer with id 8 and email jey@cruickshankcronin.org has ordered the following:\nOrder id 15 with Cranberry\nOrder id 63 with Dandelion, Porcini mushrooms"
+      # binding.pry
+      expect(statement).must_equal "Customer with id 8 and email jey@cruickshankcronin.org has ordered the following: \nOrder id 15 with Cranberry\nOrder id 63 with Dandelion, Porcini mushrooms"
+    end
+
+    it "raises argument error if customer id does not exist" do
+
+      customer_id_2 = 188
+
+      expect {
+        Order.find_by_customer(customer_id_2)
+      }.must_raise ArgumentError
     end
   end
 end

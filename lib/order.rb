@@ -84,7 +84,6 @@ class Order
     return found_order
   end
 
-
   def self.find_by_customer(customer_id)
     @@orders ||= Order.all
 
@@ -105,8 +104,11 @@ class Order
 
     customer_orders = Order.find_by_customer(customer_id)
 
-    start_statement = "Customer with id #{customer_orders[0].customer.id} and email #{customer_orders[0].customer.email} has ordered the following:"
+    if customer_orders.empty?
+      raise ArgumentError.new("Customer doesn't exist")
+    end
 
+    start_statement = "Customer with id #{customer_orders[0].customer.id} and email #{customer_orders[0].customer.email} has ordered the following: "
 
     return customer_orders.reduce(start_statement) do |return_statement, customer_order|
 
