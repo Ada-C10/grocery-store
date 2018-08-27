@@ -48,14 +48,17 @@ class Order
 #   representing all of the Orders described in the CSV file
   def self.all
     CSV.open('data/orders.csv', 'r').map do |row|
-      Order.new(row[0].to_i, self.convert_to_hash(row[1]), Customer.find(row[2].to_i), row[3].to_sym)
-       # row[2] issue Expected "25" to be a kind of Customer, not String.
+      Order.new(row[0].to_i, self.convert_to_hash(row[1]), Customer.find(row[2].to_i), row[3].to_sym) # row[2] issue Expected "25" to be a kind of Customer, not String.
     end
   end
 
-
 # self.find(id) - returns an instance of Order where
 # the value of the id field in the CSV matches the passed parameter
+  def self.find(id)
+    self.all.find do |order|
+      order.id == id
+    end
+  end
 
 
 end
