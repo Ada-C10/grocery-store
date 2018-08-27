@@ -107,9 +107,10 @@ class Order
 
     start_statement = "Customer with id #{customer_orders[0].customer.id} and email #{customer_orders[0].customer.email} has ordered the following:"
 
+
     return customer_orders.reduce(start_statement) do |return_statement, customer_order|
 
-      return_statement + "\n" + "Order id " + "#{(customer_order.id)} with #{customer_order.products.keys}"
+      return_statement + "\n" + "Order id " + "#{(customer_order.id)} with #{customer_order.products.keys.join(', ')}"
     end
   end
 end

@@ -246,14 +246,17 @@ describe "Order Wave 2" do
     end
 
     it "can find the first order that matches customer" do
+        #TODO populate this with the statement you expected
 
     end
 
     it "can find the last order that matches customer" do
+        #TODO populate this with the statement you expected
 
     end
 
-    it "the id in the customer id field matches that of th actual passed in customer id" do
+    it "the id in the customer id field matches that of the actual passed in customer id" do
+        #TODO populate this with the statement you expected
 
     end
   end
@@ -263,9 +266,11 @@ describe "Order Wave 2" do
 
       customer_id = 8
 
+      customer_order = Order.find_by_customer(customer_id)
       binding.pry
 
       statement = Order.print_list_of_customer_orders(customer_id)
+
       statement.must_be_kind_of String
     end
 
