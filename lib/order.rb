@@ -54,6 +54,19 @@ class Order
   def self.all
     @@all_orders
   end
+
+  def self.find(id)
+    found_order = nil
+
+    Order.all.each do |order|
+      if order.id == id.to_i 
+        found_order = order
+      end
+    end
+
+    return found_order
+  end
+
 end
 
 CSV.open("data/orders.csv", 'r').each do |line|
