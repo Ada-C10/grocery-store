@@ -42,10 +42,9 @@ class Order
         split = order.split(":")
         product_hash[split[0]] = split[1].to_f
       end
-    @@orders_array << Order.new(line[0].to_i, product_hash, line[2].to_i, line[3].to_sym)
-    binding.pry
+    @@orders_array << Order.new(line[0].to_i, product_hash, Customer.find(line[2].to_i), line[3].to_sym)
     end
-    return @@orders
+    return @@orders_array
   end
 end
 
