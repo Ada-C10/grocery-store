@@ -90,17 +90,18 @@ class Order
 
 ## TODO: Optional method:  returns a list of Order instances where the value of the customer's ID matches the passed parameter.
     def self.find_by_customer(customer_id)
+
     #   client = Order.all.select { |customer| customer == customer_id }
     #   if client == []
     #     return nil
     #   else
     #     return client
     #   end
-    end
+    # end
 
 end
 
-###########
+##########
 # maryam = Customer.new(2, 'maryam@gmail.com', {street: "605 15th Ave", city: "Seattle", zip_code: 98112 })
 # ordering = Order.new(3, { "banana" => 1.99, "cracker" => 3.00 }, maryam, :shipped)
 

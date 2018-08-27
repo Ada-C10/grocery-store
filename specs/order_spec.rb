@@ -111,6 +111,41 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expect(order.products.include?("banana")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is not present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("rice")
+      }.must_raise ArgumentError
+
+      expect(order.total).must_equal before_total
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
@@ -145,7 +180,7 @@ describe "Order Wave 2" do
       expect(order.customer.id).must_equal customer_id
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
-# 100,Amaranth:83.81;Smoked Trout:70.6;Cheddar:5.63,20,pending
+
     it "Returns accurate information about the last order" do
         id = 100
         products = {
@@ -186,17 +221,13 @@ describe "Order Wave 2" do
     end
   end
 
-## TODO: Optionals make test for remove_product and find_by_customer
-  describe "Order.remove_product" do
-    it "Removes customer" do
-    end
-
-    it "Raises ArgumentError if customer does not exist" do
-    end
-  end
-
+## TODO: Optionals make test for find_by_customer
   describe "Order.find_by_customer" do
-    it "Returns customer" do
+    it "Can find the first customer from the CSV" do
+      # first_customer = Order.find_by_customer(1)
+      #
+      # # expect(first).must_be_kind_of Order
+      # expect(order.customer.id).must_equal 1
     end
 
     it "Raises ArgumentError if customer does not exist" do
