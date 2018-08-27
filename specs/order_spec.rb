@@ -256,9 +256,13 @@ describe "Order Wave 2" do
     end
 
     it 'Returns Argument Error if customer id not in order data' do
-      expect{Order.find_by_customer(666)}.must_raise ArgumentError
+      expect{ Order.find_by_customer(666) }.must_raise ArgumentError
     end
 
+    it 'prints a list of orders' do
+      # NOT SURE HOW TO GET customer.summary METHOD TO WORK
+      #   #TODO write a test for string return of all customer orders end
+    end
   end
 end
 

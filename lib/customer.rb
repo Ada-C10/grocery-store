@@ -45,5 +45,21 @@ class Customer
     # TODO: should self be implemented in this method ie does it need to be
     #       included in the 'found =' statement?
   end
+#####
+# ???????? Can't figure out how to call this method to
+# get a list of found orders once find_by_customer id is called
+# ????????????????????????????????
+  def summary
+    info = "Customer ##{customer.id} has the following orders:"
+    found_arr = Order.find_by_customer(customer.id)
+    found_arr.each_with_index do |ord, i|
+      prods = ord.products.keys
+      prods.each do |item|
+        info << "\n#{i + 1}.  #{item}"
+      end
+    end
+
+    return info
+  end
 
 end

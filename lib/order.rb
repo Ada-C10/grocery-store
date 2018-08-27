@@ -52,20 +52,22 @@ class Order
     return found
   end
 
+  # method to search all orders to find all instances where
+  # customer id matches the requested customer id
   def self.find_by_customer(customer_id)
     found = Order.all.find_all do |order|
       # ap order.customer.id
       order.customer.id == customer_id
     end
-
-    if found.empty?
-      raise ArgumentError, 'Customer ID does not exist'
-    else
-      return found
-    end
-    # ap found
-    # return found
+    # raise error if customer id is not found
+    raise ArgumentError, 'Customer ID does not exist'if found.empty?
+    # found.summary
+    # else return array of order instances
+    return found
+    # return found.summary
   end
+
+
 
   # calc total cost of order
   def total
