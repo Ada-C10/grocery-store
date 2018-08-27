@@ -147,7 +147,8 @@ describe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      last = Order.all.last
+      expect(last.id).must_equal 100
     end
   end
 
@@ -160,11 +161,14 @@ describe "Order Wave 2" do
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(235234)).must_be_nil
     end
   end
 end
