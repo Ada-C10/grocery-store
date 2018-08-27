@@ -3,7 +3,6 @@ require 'pry'
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
-
   def initialize(id, product_hash, customer, fulfillment_status = :pending)
     # TODO error handling on initalize variables
     @id = id
@@ -36,14 +35,4 @@ class Order
     end
     return @products.delete(name)
   end
-
-
 end
-#
-
-# order = Order.new(1337, {}, 'customer', fulfillment_status: :shipped)
-# products = { "banana" => 1.99, "cracker" => 3.00 }
-# my_order = Order.new(3332, products, 'customer A')
-# # my_order.add_product("coffee", 2.99)
-#
-# binding.pry
