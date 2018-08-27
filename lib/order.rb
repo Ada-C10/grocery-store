@@ -1,4 +1,4 @@
-#Products { "banana" => 1.99, "cracker" => 3.00 }
+#Products structure { "banana" => 1.99, "cracker" => 3.00 }
 #Fulfuillment_status: :pending, :paid, :processing, :shipped, or :complete
 require_relative 'customer.rb'
 
@@ -10,6 +10,7 @@ attr_reader :id
     @products = products
     @customer = customer
 
+    #Verifies the fulfillment status is one that matches expected input
     if [:pending, :paid, :processing, :shipped,:complete].include?(fulfillment_status)
       @fulfillment_status = fulfillment_status
     else
@@ -17,6 +18,7 @@ attr_reader :id
     end
   end
 
+  #Adds the total cost of the products and includes tax (7.5%)
   def total
     if @products.length == 0
       return 0
@@ -28,6 +30,7 @@ attr_reader :id
     end
   end
 
+  #Add's a product to the product hash in the order if it doesn't already exist
   def add_product(product_name, price)
     if @products.keys.include?(product_name)
       raise ArgumentError,"The product is already in the order"
@@ -36,6 +39,7 @@ attr_reader :id
     end
   end
 
+  #Removes a product from the product hash in the order if it already exists
   def remove_product(product_name)
     if @products.keys.include?(product_name)
       @products.reject! { |k| k == product_name }
@@ -44,6 +48,7 @@ attr_reader :id
     end
   end
 
+  #Method to create the product Hash from CSV input structure
   def self.product_hash(order)
       products = order.split(';')
       products_hash = {}
@@ -53,6 +58,7 @@ attr_reader :id
       return products_hash
   end
 
+  #Creates all the orders from the orders.csv file
   def self.all
     data = CSV.open('data/orders.csv', 'r').map do |line|
       line.to_a
@@ -64,13 +70,14 @@ attr_reader :id
     return all_orders
   end
 
+  #Finds an order based on the order id
   def self.find(id)
     all_orders = Order.all
     order = all_orders.find {|order| order.id == id}
     return order
   end
 
-
+  #Finds all orders associated with a customer id and returns it in an array
   def self.find_by_customer(customer_id)
     all_orders = Order.all
     orders_by_customer = all_orders.select { |order| order.customer.id == customer_id}

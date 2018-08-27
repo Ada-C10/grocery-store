@@ -1,7 +1,7 @@
 # ID, a number
 # Email address, a string
 # Delivery address, a hash
-#{street: "123 Main",city: "Seattle",state: "WA",zip: "98101"})
+
 #Customer Class
 require 'csv'
 # require_relative '../data/customers.csv'
@@ -17,6 +17,7 @@ attr_accessor :email , :address
     @address = address
   end
 
+  #Creates all the customers from the CSV
   def self.all
     data = CSV.open('data/customers.csv', 'r').map do |line|
       line.to_a
@@ -29,6 +30,7 @@ attr_accessor :email , :address
     return all_customers
   end
 
+  #Finds an individual customer object based on the customer id
   def self.find(id)
     all_customers = Customer.all
     customer = all_customers.find {|customer| customer.id == id}
