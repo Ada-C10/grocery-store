@@ -113,8 +113,15 @@ describe "Order Wave 1" do
   end
 end
 
+
+
+####
+# Tests for wave 2  were not written  and this section NOT completed
+###
+
+
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
@@ -142,6 +149,7 @@ xdescribe "Order Wave 2" do
 
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      id =
     end
   end
 

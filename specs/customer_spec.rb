@@ -56,7 +56,7 @@ describe "Customer Wave 2" do
     end
   end
 
-  xdescribe "Customer.find" do
+  xdescribe "Customer.find" do #NOT COMPLETED (ST notes)
     it "Can find the first customer from the CSV" do
       first = Customer.find(1)
 
