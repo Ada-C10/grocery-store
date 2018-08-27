@@ -114,9 +114,16 @@ describe "Order Wave 1" do
 end
 
 describe "Order Wave 2" do
+
   describe "Order.all" do
     it "Returns an array of all orders" do
-      expect(Order.all).must_be_instance_of Array
+      #expect(Order.all).must_be_instance_of Array
+      orders = Order.all
+
+      expect(orders.length).must_equal 100
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -146,7 +153,10 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
