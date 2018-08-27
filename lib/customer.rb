@@ -19,17 +19,21 @@ class Customer
   end
 
   def self.find(id)
+    if id < 1 || id > 35
+      return nil
+    end
     working_array = Customer.all
     working_array.each do |cust|
-    if cust[0] == id
+
+    if cust.id == id
       return cust
     end
-  end
+    end
   end
 
 end
 
-CSV.open("../data/customers.csv",'r').map do |line|
+CSV.open("data/customers.csv",'r').map do |line|
   id = line[0].to_i
   email = line[1]
   address = {street: "#{line[2]}", city: "#{line[3]}", state: "#{line[4]}", zip:  "#{line[5]}"}
