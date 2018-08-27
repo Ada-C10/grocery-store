@@ -51,4 +51,14 @@ class Order
   def self.find(id)
     return self.all[id - 1]
   end
+
+  def self.find_by_customer(customer_id)
+    all_orders = self.all
+    matching_orders = []
+    all_orders.each do |order|
+      matching_orders << order unless order.customer.id != customer_id
+      # binding.pry
+    end
+    return matching_orders
+  end
 end

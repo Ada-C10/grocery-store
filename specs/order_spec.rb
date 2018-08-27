@@ -192,4 +192,14 @@ describe "Order Wave 2" do
       expect(non_existant_order).must_be_nil
     end
   end
+
+  it "Returns a list of Order instances where the value of the customer's ID matches the passed parameter" do
+    orders = []
+    orders = Order.find_by_customer(10)
+
+    expect(orders.length).must_equal 4
+    orders.each do |order|
+      expect(order).must_be_kind_of Order
+    end
+  end
 end
