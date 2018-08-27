@@ -32,7 +32,6 @@ describe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
@@ -44,18 +43,18 @@ describe "Customer Wave 2" do
       end
     end
 
-    it "Returns accurate information about the first customer" do
+    xit "Returns accurate information about the first customer" do
       first = Customer.all.first
       expect(first.id).must_equal 1
     end
 
-    it "Returns accurate information about the last customer" do
+    xit "Returns accurate information about the last customer" do
       last = Customer.all.last
       expect(last.id).must_equal 35
     end
   end
 
-  describe "Customer.find" do
+  xdescribe "Customer.find" do
     it "Can find the first customer from the CSV" do
       first = Customer.find(1)
 
