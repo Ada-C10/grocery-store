@@ -135,13 +135,6 @@ print Order.all
 
 
 
-
-
-
-
-
-
-
     # key = product_info[0]
     # value = product_info[1]
     # split_products[key] = value
@@ -150,30 +143,10 @@ print Order.all
   #   # info = info.to_h
   #   # holder << info
   #   # holder
-  #
-  # #
-
-
-
-
 
 
 # print holder
 # ap split_products
-
-
-
-
-
-  # #
-
-
-
-
-
-
-
-
 
 
 
