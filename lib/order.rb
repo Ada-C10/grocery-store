@@ -29,7 +29,14 @@ class Order
       raise ArgumentError, "Your order already has a product with this name."
     end
 
-    @products[product_name] = price
+    return @products[product_name] = price
   end
 
+  def remove_product(product_name)
+    unless @products.keys.include?(product_name)
+      raise ArgumentError, "There isn't a product with that name in your order."
+    end
+
+    return @products.delete(product_name)
+  end
 end
