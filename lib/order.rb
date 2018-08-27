@@ -109,15 +109,6 @@ end
 
 find = Order.find_customer_by_id(15)
 
-ap find
-
-
-
-
-
-
-
-
 
 
 
