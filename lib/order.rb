@@ -1,4 +1,5 @@
 require 'csv'
+require 'pry'
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -30,38 +31,24 @@ class Order
     end
   end
 
-  def self.product_hash
-    order_array = []
-    product_hash = {}
-
-    Order.all.each do |line|
-      order_array = line[1].split(";")
-    end
-
-    order_array.each do |order|
-      split = order.split(":")
-      product_hash[split[0]] = split[1].to_f
-    end
-    return product_hash
-  end
-
   def self.all
-    order_array = []
-    product_hash = {}
-
+    @@orders_array = []
     CSV.open("data/orders.csv", 'r').map do |line|
-
+      order_array = []
+      product_hash = {}
       order_array = line[1].split(";")
 
       order_array.each do |order|
         split = order.split(":")
         product_hash[split[0]] = split[1].to_f
       end
+    @@orders_array << Order.new(line[0].to_i, product_hash, line[2].to_i, line[3].to_sym)
+    binding.pry
     end
-    return Order.new(line[0].to_i, product_hash, line[2].to_i, line[3])
+    return @@orders
   end
+end
 
   # def self.find(id)
   #
   # end
-end
