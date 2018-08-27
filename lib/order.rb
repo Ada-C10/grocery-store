@@ -49,11 +49,3 @@ class Order
     @products["#{product_name}"] = price
   end
 end
-# order = Order.new(1337, {"banana" => 1.99, "cracker" => 3.00}, 22)
-#
-# order.add_product("sandwich", 4.25)
-# order.products.include?("sandwich")
-#testrun = Order.new(20,{},22)
-
- #testrun.add_product("Bananas", 20.0)
-# testrun.total
