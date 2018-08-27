@@ -42,9 +42,10 @@ class Order
   end
 
   def self.all
-  # return collection of Orders from CSV
+  # return a collection of Orders from CSV
     all_orders = []
 
+    # write a new copy of CSV with headers if it doesn't already exist
     unless File.exist?("../data/orders_with_headers.csv")
       headers = [:order_id, :products, :customer_id, :status]
       new_csv = CSV.read("../data/orders.csv").unshift(headers)
@@ -53,12 +54,14 @@ class Order
       }
     end
 
+    # import CSV with headers as array of hashes
     imported_csv = CSV.read("../data/orders_with_headers.csv", headers: true,
                             :header_converters => :symbol,
                             :converters => :integer).map{ |r| r.to_h}
     # [{:order_id=>1, :products=>"Lobster:17.18;Annatto seed:58.38;
     # Camomile:83.21", :customer_id=>25, :status=>"complete"}, ... etc. ]
 
+    # parse [:products] to Hash
     imported_csv.map do |h| # make this a sep method
       str = h[:products].gsub(/:/, ";")
       arr = str.split(";")
@@ -71,6 +74,7 @@ class Order
     # [{:order_id=>1, :products=>{"Lobster"=>17.18, "Annatto seed"=>58.38,
     # "Camomile"=>83.21}, :customer_id=>25, :status=>"complete"}, ... etc. ]
 
+    # make new Order instances and collect in all_orders Array
     imported_csv.each do |h|
       id = h[:order_id]
       products = h[:products]
@@ -88,23 +92,23 @@ class Order
   end
 
   def self.find(id)
-  # returns instance of Order where id = id
+  # return instance of Order where id = id
     all_orders = self.all
     return all_orders.find{|obj| obj.id == id}
   end
 
   def self.find_by_customer(customer_id)
-  # returns a list of Order instances where the value of the customer's ID
+  # return a list of Order instances where the value of the customer's ID
   # matches the passed parameter.
+  # return nil if no matching orders are found.
     all_orders = self.all
-    orders_by_customer = all_orders.select{ |obj| obj.customer.id == customer_id}
-    return orders_by_customer.empty? ? orders_by_customer = nil : orders_by_customer
+    orders_by_cust = all_orders.select{ |obj| obj.customer.id == customer_id }
+    return orders_by_cust.empty? ? orders_by_cust = nil : orders_by_cust
   end
 end
 
-# To Do:
-# make better comments to guide reader through doc
-# csv parsing stuff in separate method
-# consistent indentation for comments in customer.rb
-# what's wrong with rake?
-# format code wrapping
+# TODO:
+# refactor without having to write a new CSV file with headers.
+# put csv parsing stuff in separate method.
+# both Order and Customer classes use a lot of the same stuff. can I mixin?
+# rake isn't working. why not?
