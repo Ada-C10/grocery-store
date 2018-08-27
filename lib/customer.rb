@@ -45,13 +45,17 @@ class Customer
     end
 
     return all_customers
+    # [#<Customer:0x00007fc965030148 @id=1, @email="leonard.rogahn@hagenes.org",
+    # @address={:address_1=>"71596 Eden Route", :city=>"Connellymouth",
+    # :state=>"LA", :zip_code=>"98872-9105"}>, ... etc. ]
 
   end
 
-  # def self.find(id)
-  #   # return instance from self.all with id = id
-  # end
+  def self.find(id)
+    # return instance from self.all with id = id
+    # invoke Customer.all (don't parse CSV file)
+    all_customers = self.all
+    return all_customers.find{|obj| obj.id == id}
+  end
 
 end
-
-p Customer.all
