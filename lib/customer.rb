@@ -11,7 +11,7 @@ class Customer
     @address = address
   end
 
-
+  # Return array of Customer instances from CSV
   def self.all
     customers = []
 
@@ -19,7 +19,12 @@ class Customer
 
       id = customer[0].to_i
       email = customer[1]
-      address = {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]}
+      address = {
+        street: customer[2],
+        city: customer[3],
+        state: customer[4],
+        zip: customer[5]
+      }
 
       customers << Customer.new(id, email, address)
     end
@@ -27,7 +32,7 @@ class Customer
     return customers
   end
 
-
+  # Return Customer instance from customer id
   def self.find(id)
     customers = Customer.all
 

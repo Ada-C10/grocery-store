@@ -9,7 +9,6 @@ class Order
   VALID_STATUSES = [:pending, :paid, :processing, :shipped, :complete]
 
 
-  # Instance Methods
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
@@ -17,39 +16,41 @@ class Order
     @fulfillment_status = fulfillment_status
 
     unless VALID_STATUSES.include? (fulfillment_status)
-      raise ArgumentError
+      raise ArgumentError, "Not a valid status."
     end
   end
 
 
+  # Instance Methods
   def total
     subtotal = @products.values.sum
-    tax = 0.075
+    tax = 0.075 * subtotal
 
-    total = subtotal + (subtotal * tax)
+    total = subtotal + tax
 
     return total.round(2)
   end
 
 
   def add_product(product, price)
-    @products.keys.include?(product) ? raise(ArgumentError) : @products[product] = price
+    @products.keys.include?(product) ? raise(ArgumentError, "Duplicate product.") : @products[product] = price
   end
 
 
   def remove_product(product)
-    @products.keys.include?(product) ? @products.delete(product) : raise(ArgumentError)
+    @products.keys.include?(product) ? @products.delete(product) : raise(ArgumentError, "Product doesn't exist.")
   end
 
 
   # Class Methods
+  # Return array of Order instances from CSV
   def self.all
     orders = []
 
     CSV.read('data/orders.csv').each do |order|
 
       id = order[0].to_i
-      products = FormatData.parse_to_hash(order[1])
+      products = Format.parse_to_hash(order[1])
       customer = Customer.find(order[2].to_i)
       fulfillment_status = order[3].to_sym
 
@@ -59,7 +60,7 @@ class Order
     return orders
   end
 
-
+  # Return Order instance from order id
   def self.find(id)
     orders = Order.all
 
@@ -68,7 +69,7 @@ class Order
     end
   end
 
-
+  # Return array of Order instances from customer id
   def self.find_by_customer(customer_id)
     orders = Order.all
 
@@ -81,7 +82,8 @@ end
 
 
 # Helper Methods
-module FormatData
+module Format
+  # Return hash from string
   def self.parse_to_hash(string)
     hash = {}
 
@@ -92,4 +94,5 @@ module FormatData
 
     return hash
   end
+  
 end
