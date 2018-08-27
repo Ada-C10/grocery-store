@@ -1,12 +1,17 @@
 require 'csv'
 require 'awesome_print'
 
+# class includes attributes of id, email & address
 class Customer
+  # class variable defined
   @@customers = []
+
+  # method initializes instance variables
   def initialize(id, email, address)
       @id = id
       @email = email
       @address = address
+      # ensures that only 35 instances are stored in class variable
       if @id < 36
         @@customers << self
       end
@@ -14,10 +19,12 @@ class Customer
   attr_accessor :id
   attr_accessor :email, :address
 
+  # returns list of all customer instances
   def self.all
     return @@customers
   end
 
+  # helps find instance by searching with id
   def self.find(id)
     if id < 1 || id > 35
       return nil
@@ -33,6 +40,7 @@ class Customer
 
 end
 
+# creates instaces based on input from csv file
 CSV.open("data/customers.csv",'r').map do |line|
   id = line[0].to_i
   email = line[1]
