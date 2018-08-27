@@ -8,12 +8,13 @@ class Customer
     @id = id #<-- int
     @email = email #<-- string
     @address = address  #<-- hash
-
   end
 
   def self.all
-
     all_customers = CSV.open("data/customers.csv", 'r').map do |line|
+      id = line[0].to_i
+      email = line[1]
+
       address = {
         street: line[2],
         city: line[3],
@@ -21,13 +22,7 @@ class Customer
         zip: line[5]
       }
 
-      cust_hash = {
-        id: line[0].to_i,
-        email: line[1],
-        address: address
-      }
-
-      new_cust = Customer.new(cust_hash[:id], cust_hash[:email], cust_hash[:address])
+      new_cust = self.new(id, email, address)
     end
 
     return all_customers
@@ -35,7 +30,6 @@ class Customer
 
   def self.find(id)
     customers = self.all
-
     return customers.find { |customer| customer.id == id }
   end
 end

@@ -8,17 +8,17 @@ class Order
   def initialize(id, products, customer, fulfillment_status=:pending)
     @id = id #<-- int
     @products= products #<-- hash
-    @customer = customer #<-- class Customer
-    @fulfillment_status = fulfillment_status #<-- symbol
+    @customer = customer #<-- object (Customer)
+    @fulfillment_status = check_fulfillment_status(fulfillment_status) #<-- symbol
+  end
 
-    # TODO + QUESTION: make this its own def??
-    case @fulfillment_status
+  def check_fulfillment_status(fulfillment_status)
+    case fulfillment_status
     when :pending, :paid, :processing, :shipped, :complete
-      return @fulfillment_status
+      return fulfillment_status
     else
-      raise ArgumentError, "This is not a recognized fulfillment_status."
+      return raise ArgumentError, "This is not a recognized fulfillment status."
     end
-
   end
 
   def total()
@@ -29,9 +29,7 @@ class Order
     end
 
     @products.each do |product, cost|
-
       total_cost += cost
-
     end
 
     total_cost += (total_cost * 0.075)
@@ -47,72 +45,54 @@ class Order
     end
   end
 
-  def self.create_products_hash(file)
-    # index = 0
-    # split_products = {}
-    # key = ""
-    # value = ""
-    # all_items= []
-    #
-    # CSV.open(file, 'r').each do |line|
-    #   items = line[1].split(";")
-    #
-    #     items = items.each { |item| item.split(":")}
-    #
-    #     key = items[0]
-    #     value = items[1]
-    #     split_products = {key => value}
-    #
-    #     end
-    #
-    #
-    #
-    # return split_products
+  def remove_product(product_name)
+    if @products.keys.include? product_name
+      return @products.reject! {|product| product == product_name}
+    else
+    return raise ArgumentError, "There are no products by that name to remove."
+
+    end
+  end
+
+  def read_file()
+
+  end
+
+  def self.create_products_hash(products_input)
+    products = {}
+
+    products_input.split(";").each do |items|
+      items = items.split(":")
+      key = items[0]
+      value = items[1]
+      products[key] = value.to_f
+    end
+
+    return products
   end
 
   def self.all()
-    # TODO: create helper functions here and in customer
-    # TODO: WRITE TESTS
     file = "data/orders.csv"
 
-
     all_orders = CSV.open(file, 'r').map do |line|
-      products = {}
 
-      line[1].split(";").map do |items|
-        items = items.split(":")
-        key = items[0]
-        value = items[1]
-        products[key] = value.to_f
-        products
+      id = line[0].to_i
+      products = create_products_hash(line[1])
+      customer = Customer.find(line[2].to_i)
+      fulfillment_status = line[3].to_sym
 
-      end
+      new_order = self.new(id, products, customer, fulfillment_status)
+    end
 
-
-
-
-
-    customer = Customer.find(line[2].to_i)
-
-    order_hash = {
-      id: line[0].to_i,
-      products: products,
-      customer: customer,
-      fulfillment_status: line[3].to_sym
-    }
-
-      new_order = Order.new(order_hash[:id], order_hash[:products], order_hash[:customer], order_hash[:fulfillment_status])
-
+    return all_orders
   end
-  return all_orders
-end
 
   def self.find(id)
-
     orders = self.all
-
     return orders.find { |order| order.id == id }
   end
+
+
 
 end
 
@@ -126,12 +106,13 @@ ADDRESS = {
 }
 
 products = { "banana" => 1.99, "cracker" => 3.00 }
-
+#
 customer = Customer.new(ID, EMAIL, ADDRESS)
 order = Order.new(1337, products, customer)
 
-
-print Order.all
+print order.remove_product("banana")
+#
+# print Order.all
 
 
 
