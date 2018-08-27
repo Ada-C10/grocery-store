@@ -11,6 +11,7 @@ class Customer
     @address = address
 
   end
+  
 
   def self.load_data(filename) #take file name and returns data from file in array of hashes
     data = CSV.open(filename,'r', headers:false).map do |line|

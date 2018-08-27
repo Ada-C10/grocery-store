@@ -1,5 +1,6 @@
 require 'csv'
 require_relative 'customer.rb'
+require 'pry'
 
 class Order
   attr_reader :id
@@ -55,6 +56,12 @@ class Order
     @products[product_name] = price
   end
 
+  def remove_product(product_name)
+    raise ArgumentError, "Item not found in order" unless @products.keys.include? product_name
+    @products.delete_if {|key, value| key == product_name}
+  end
+
+
   def self.all
     return @@orders#collection of Customer instances - all of the ifno from csv file
   end
@@ -67,7 +74,17 @@ class Order
     end
     return nil
   end
+
+  def self.find_by_customer(customer_id_number)#need to rewrite test for 
+    customer_orders = []
+    @@orders.each do |order| #consider raising argument for customers with no order
+      if customer_id_number.to_i == order.customer.id.to_i
+        customer_orders << order
+      end
+    end
+    return customer_orders
+  end
 end
 
 Order.format_data(Order.load_data('../data/orders.csv'))
-p Order.all.length
+p Order.find_by_customer(1)

@@ -111,6 +111,55 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  describe "#remove_product" do
+    it "decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25}
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25}
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("sandwich")
+      expect(order.products.include?("sandwich")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is not present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+
+      expect {
+        order.remove_product("cheese")
+      }.must_raise ArgumentError
+
+      expect(order.total).must_equal before_total
+
+    end
+
+    it "Updates order total for item removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "cheese" => 4.25}
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      order.remove_product("cracker")
+      updated_total = 6.71
+      expect(order.total).must_equal updated_total
+
+
+      # The list of products should not have been modified
+
+  end
+end
 end
 
 # : change 'xdescribe' to 'describe' to run these tests
@@ -165,4 +214,19 @@ describe "Order Wave 2" do
       expect(Order.find(234234)).must_be_nil
     end
   end
+
+  # describe "Order.find_by_customer" do
+  #   it "Can find the first customer from the CSV" do
+  #     first = Order.find_by_customer(1)
+  #
+  #     expect(first.find.customer.id).must_equal 1
+  #   end
+  #
+  #   it "Can find multiple orders for the same customer_id" do
+  #     p customer_22_orders = Order.find_by_customer(22)
+  #
+  #     expect(customer_22_orders.length).must_equal 7
+  #     expect(order.customer.id.to_i).must_equal 22
+  #   end
+  # end
 end
