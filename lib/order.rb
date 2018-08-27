@@ -1,5 +1,4 @@
 require_relative "customer"
-require "ap"
 
 class Order
   attr_reader :id
@@ -47,7 +46,7 @@ class Order
 
   def remove_product(product_name)
     if @products.keys.include? product_name
-      return @products.reject! {|product| product == product_name}
+      return @products.delete_if {|product| product == product_name}
     else
     return raise ArgumentError, "There are no products by that name to remove."
 
@@ -92,43 +91,14 @@ class Order
     return orders.find { |order| order.id == id }
   end
 
+  def self.find_by_customer(customer_id)
+    orders = self.all
+    order_matches = orders.find_all { |order| order.customer.id == customer_id }
 
-
+    if order_matches.length > 0
+      return order_matches
+    else
+      return nil
+    end
+  end
 end
-
-ID = 123
-EMAIL = "a@a.co"
-ADDRESS = {
-  street: "123 Main",
-  city: "Seattle",
-  state: "WA",
-  zip: "98101"
-}
-
-products = { "banana" => 1.99, "cracker" => 3.00 }
-#
-customer = Customer.new(ID, EMAIL, ADDRESS)
-order = Order.new(1337, products, customer)
-
-print order.remove_product("banana")
-#
-# print Order.all
-
-
-
-    # key = product_info[0]
-    # value = product_info[1]
-    # split_products[key] = value
-    # split_products
-
-  #   # info = info.to_h
-  #   # holder << info
-  #   # holder
-
-
-# print holder
-# ap split_products
-
-
-
-# print all_products

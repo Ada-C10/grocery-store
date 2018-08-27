@@ -33,39 +33,3 @@ class Customer
     return customers.find { |customer| customer.id == id }
   end
 end
-
-
-# ID = 123
-# EMAIL = "a@a.co"
-# ADDRESS = {
-#   street: "123 Main",
-#   city: "Seattle",
-#   state: "WA",
-#   zip: "98101"
-# }
-#
-# products = { "banana" => 1.99, "cracker" => 3.00 }
-#
-# customer = Customer.new(ID, EMAIL, ADDRESS)
-# puts customer.address
-#
-# id_2 = 44
-# email_2 = "omg@gmail.com"
-# address_2 = {
-#   street: "306 blanchard st",
-#   city: "Seattle",
-#   state: "WA",
-#   zip: "98121"
-# }
-#
-# customer_2 = Customer.new(id_2, email_2, address_2)
-# puts customer_2.address
-# puts "--now for both--"
-#
-# print Customer.all
-# order = Order.new(1337, products, customer)
-#
-#
-# puts order.total
-
-# puts Customer.find(34)

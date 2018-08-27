@@ -211,4 +211,26 @@ describe "Order Wave 2" do
       expect(Order.find(1986)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Can find the order(s) from customer with lowest ID in Order CSV" do
+      first = Order.find_by_customer(1)
+
+      expect(first).must_be_kind_of Array
+      expect(first[0].id).must_equal 19
+      expect(first.length).must_equal 1
+    end
+
+    it "Can find the order(s) from customer with higest ID in Order CSV" do
+      last = Order.find_by_customer(35)
+
+      expect(last).must_be_kind_of Array
+      expect(last[0].id).must_equal 4
+      expect(last.length).must_equal 4
+    end
+
+    it "Returns nil for a customer that doesn't exist in Order CSV" do
+      expect(Order.find_by_customer(53145)).must_be_nil
+    end
+  end
 end
