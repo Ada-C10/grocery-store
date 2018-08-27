@@ -97,7 +97,7 @@ class Order
     #   else
     #     return client
     #   end
-    # end
+    end
 
 end
 
