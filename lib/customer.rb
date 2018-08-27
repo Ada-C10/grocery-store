@@ -13,12 +13,14 @@ class Customer
   end
 
   def self.all
+# return collection of Customers from CSV
     all_customers = []
-    # return collection of Customers from CSV
-    # TODO: do this ONLY if new file doesn't exist yet
-    headers = [:customer_id, :email, :address_1, :city, :state, :zip_code]
-    new_csv = CSV.read("../data/customers.csv").unshift(headers)
-    CSV.open("../data/customers_with_headers.csv", "w", headers: headers) { |f| new_csv.each { |a| f << a } }
+    
+    unless File.exist?("../data/customers_with_headers.csv")
+      headers = [:customer_id, :email, :address_1, :city, :state, :zip_code]
+      new_csv = CSV.read("../data/customers.csv").unshift(headers)
+      CSV.open("../data/customers_with_headers.csv", "w", headers: headers) { |f| new_csv.each { |a| f << a } }
+    end
 
     imported_csv = CSV.read("../data/customers_with_headers.csv", headers: true, :header_converters => :symbol, :converters => :integer).map{ |r| r.to_h}
     # [{:customer_id=>1, :email=>"leonard.rogahn@hagenes.org",
@@ -48,14 +50,14 @@ class Customer
     # [#<Customer:0x00007fc965030148 @id=1, @email="leonard.rogahn@hagenes.org",
     # @address={:address_1=>"71596 Eden Route", :city=>"Connellymouth",
     # :state=>"LA", :zip_code=>"98872-9105"}>, ... etc. ]
-
   end
 
   def self.find(id)
-    # return instance from self.all with id = id
-    # invoke Customer.all (don't parse CSV file)
+# return instance from self.all with id = id
     all_customers = self.all
     return all_customers.find{|obj| obj.id == id}
   end
 
 end
+
+Customer.all
