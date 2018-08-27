@@ -215,4 +215,45 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Returns an Array of Order instances" do
+      orders = Order.find_by_customer(14)
+      expect(orders).must_be_kind_of Array
+      expect(orders.first).must_be_kind_of Order
+      expect(orders.last).must_be_kind_of Order
+    end
+
+    it "Returns all instances of orders by the same customer" do
+      orders = find_by_customer(25)
+      expect(orders.size).must_equal 6
+      expect(orders.last.id).must_equal 95
+    end
+
+    it "Retains accurate information about the first order" do
+      id = 1
+      products = {"Lobster"=>17.18,
+                  "Annatto seed"=>58.38,
+                  "Camomile"=>83.21
+                 }
+      customer_id = 25
+      customer_address_zip = 57138
+      fulfillment_status = :complete
+
+      order = find_by_customer(25).first
+
+      # Check that all data was collected as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.customer.address.zip_code).must_equal customer_address_zip
+      expect(order.fulfillment_status).must_equal fulfillment_status
+    end
+
+    it "Returns nil for a customer that doesn't exist" do
+      expect(Order.find_by_customer(53145)).must_be_nil
+    end
+
+  end
 end
