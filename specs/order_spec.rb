@@ -117,7 +117,6 @@ describe "Order Wave 2" do
 
   describe "Order.all" do
     it "Returns an array of all orders" do
-      #expect(Order.all).must_be_instance_of Array
       orders = Order.all
 
       expect(orders.length).must_equal 100
