@@ -1,16 +1,18 @@
-require_relative 'customer'
+require_relative 'customer' #brining customer.rb file into order.rb 
+require 'csv' #requiring csv ruby module into order.rb
 
 class Order
   attr_reader :id, :products
+  attr_accessor :products, :customer, :fulfillment_status
 
 #fulfillment_status is set to :pending as a default
 #id , products customer , fulfilment status, should be symbols?
 # order = Order.new(id, {}, customer, fulfillment_status)
 
-  def initialize(id, products, customer, fulfillment_status = :pending) #should id and ful_st be different?
+  def initialize(id, products, customer, fulfillment_status= :pending) #should id and ful_st be different?
     @id = id
-    @products = {}
-    @customer = customer #(should this be different?)
+    @products = products
+    @customer = customer#(should this be different?)
     valid_status = [:pending, :paid, :processing, :shipped, :complete]
     raise ArgumentError.new("hey, that is an invalid status") unless valid_status.include?(fulfillment_status)
     @fulfillment_status = fulfillment_status
@@ -39,7 +41,13 @@ class Order
 
 end
 
-# p new_order = Order.new(111, {"tea" => 5.5, "coffee" => 9}, "kay", fulfillment_status: :shipped)
+# id = 1337
+# fulfillment_status = :shipped
+# order = Order.new(id, {}, customer, fulfillment_status)
+#
+# p kay = Customer.new(2822, "kay@mail.com", :street => "2920", :city =>"seattle", :state =>"wa", :zip =>98192)
+#
+# p new_order = Order.new(111, {"tea" => 5.5, "coffee" => 9}, kay, fulfillment_status: :shipped)
 # p new_order.total
 # p new_order.add_product("water", 100)
 # p new_order.products
