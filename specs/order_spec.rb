@@ -18,7 +18,7 @@ describe "Order Wave 1" do
     Customer.new(123, "a@a.co", address)
   end
 
-  xdescribe "#initialize" do
+  describe "#initialize" do
     it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
@@ -61,7 +61,7 @@ describe "Order Wave 1" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
