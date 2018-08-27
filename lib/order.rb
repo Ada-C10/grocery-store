@@ -17,7 +17,8 @@ def load_data(csv_orders)
   return csv_order_data
 end
   puts load_data('data/orders.csv')
-
+###################################################################
+cus_order = [1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete]
 class Order
   attr reader :id
   attr accessor :email, :address :products #collection: products = {"banana" => 2.99}
