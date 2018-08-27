@@ -43,27 +43,14 @@ class Order
         product_hash[split[0]] = split[1].to_f
       end
     orders_array << Order.new(line[0].to_i, product_hash, Customer.find(line[2].to_i), line[3].to_sym)
+    # binding.pry
     end
     return orders_array
   end
 
   def self.find(id)
-    order = ""
-    order_list = self.all
-    order_list.each do |each_order|
-      if each_order.id == id
-        each_order = order
-      elsif
-        order = nil
-      end
-    end
-    return order
+    orders = Order.all
+    return orders.find{|order| order.id == id}
   end
-
-    # order = order_list.find do |each_order|
-    #   each_order.id == id
-  #   end
-  #   return order
-  # end
 
 end
