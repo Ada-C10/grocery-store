@@ -30,23 +30,22 @@ class Order
     @products.delete(product_name)
   end
 
+  def self.get_products_from_csv(csv_input)
+    products = {}
+    product_with_price = csv_input.split(';')
+
+    product_with_price.each do |pair|
+      name, price = pair.split(':')
+      products[name] = price.to_f
+    end
+    return products
+  end
+
   def self.all
     all_orders = CSV.read("data/orders.csv").map do |order_info|
       id = order_info[0].to_i
-
-      products = {}
-
-
-      product_with_price = order_info[1]
-
-      product_with_price.split(';').each do |product|
-        name_and_price = product.split(":")
-        products[name_and_price[0]] = name_and_price[1].to_f
-      end
-
+      products = self.get_products_from_csv(order_info[1])
       customer_id = order_info[2].to_i
-
-
       customer = Customer.find(customer_id)
       fulfillment_status = order_info[3].to_sym
 
