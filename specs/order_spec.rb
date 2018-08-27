@@ -7,7 +7,7 @@ require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -18,7 +18,7 @@ xdescribe "Order Wave 1" do
     Customer.new(123, "a@a.co", address)
   end
 
-  xdescribe "#initialize" do
+  describe "#initialize" do
     it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
