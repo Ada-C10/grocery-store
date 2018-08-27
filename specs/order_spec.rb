@@ -262,8 +262,7 @@ describe "Order Wave 2" do
   end
 
   describe "Order.print_list_of_customer_orders" do
-    it "will return a string" do
-
+    it "will return a string with the correct statement and values" do
       customer_id = 8
 
       customer_order = Order.find_by_customer(customer_id)
@@ -272,10 +271,6 @@ describe "Order Wave 2" do
 
       expect(statement).must_be_kind_of String
       expect(statement).must_equal "Customer with id 8 and email jey@cruickshankcronin.org has ordered the following:\nOrder id 15 with Cranberry\nOrder id 63 with Dandelion, Porcini mushrooms"
-    end
-
-    it "will return this exact statement" do
-      #TODO populate this with the statement you expected
     end
   end
 end
