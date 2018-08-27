@@ -21,16 +21,16 @@ class Customer
 
 
   def self.all
-    all_customers = []
+    @@all_customers = []
     CSV.open("data/customers.csv", "r").each do |line|
 
       create_address_hash(line)
 
       new_customer = Customer.new(line[0].to_i, line[1], @address_hash)
 
-      all_customers << new_customer
+      @@all_customers << new_customer
     end
-    return all_customers
+    return @@all_customers
   end
 
 
