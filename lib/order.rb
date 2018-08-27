@@ -1,15 +1,18 @@
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
+# integer, hash, Class::Customer, symbol
   def initialize(id, products, customer, fulfillment_status = :pending)
-    @id = id # integer
+    @id = id
     @products = products # { "banana" => 1.99, "cracker" => 3.00 }
-    @customer = customer # Class::Customer
+    @customer = customer
     @fulfillment_status = fulfillment_status
 
     @@valid_statuses = %i[pending paid processing shipped complete]
     unless @@valid_statuses.include?(@fulfillment_status)
-      raise ArgumentError, "Fulfillment Status must be one of these, or blank: :pending (default), :paid, :processing, :shipped, :complete)"
+      raise ArgumentError, ":fulfillment_status is invalid. Try: " \
+                           "[:pending (default), :paid, :processing, " \
+                           ":shipped, :complete]"
     end
   end
 
@@ -19,10 +22,14 @@ class Order
     return total = (subtotal*1.075).round(2)
   end
 
+# string, float/integer
   def add_product(product_name, price)
-# take 2 parameters
-# add product to collection
-# raise ArgumentError if the order already has a product with the same name
+
+    if @products.keys.include?(product_name)
+      raise ArgumentError, "Your order already has a product with this name."
+    end
+
+    @products[product_name] = price
   end
 
 end
