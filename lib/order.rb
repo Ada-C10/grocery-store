@@ -1,6 +1,5 @@
 require 'csv'
 require_relative 'customer'
-require 'pry'
 
 class Order
   attr_reader :id
@@ -8,14 +7,15 @@ class Order
 
   @@all_orders = []
 
+  # Constructor method to initialize all Order.new instances
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id.to_i
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
 
+    # Raise ArgumentError if fulfillment_status is not one of five options
     @fulfillment_options = [:pending, :paid, :processing, :shipped, :complete]
-
     unless @fulfillment_options.include? @fulfillment_status
       raise ArgumentError, 'Fulfillment status must be :pending, :paid, :processing, :shipped, or :complete. '
     end
@@ -47,19 +47,22 @@ class Order
     end
   end
 
+  # Add Order instance to array of all Order instances
   def add_to_orders
     @@all_orders << self
   end
 
+  # Return arrray of all Order instances
   def self.all
     @@all_orders
   end
 
+  # Find Order by id number
   def self.find(id)
     found_order = nil
 
     Order.all.each do |order|
-      if order.id == id.to_i 
+      if order.id == id.to_i
         found_order = order
       end
     end
@@ -69,6 +72,7 @@ class Order
 
 end
 
+# Open CSV file and parse strings for Order instance parameters
 CSV.open("data/orders.csv", 'r').each do |line|
   # line = ["1", "Lobster:17.18;Annatto seed:58.38;Camomile:83.21","25","complete"]
   id = (line[0].to_i)
