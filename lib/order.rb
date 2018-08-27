@@ -48,10 +48,14 @@ class Order
     unless File.exist?("../data/orders_with_headers.csv")
       headers = [:order_id, :products, :customer_id, :status]
       new_csv = CSV.read("../data/orders.csv").unshift(headers)
-      CSV.open("../data/orders_with_headers.csv", "w", headers: headers) { |f| new_csv.each { |a| f << a } }
+      CSV.open("../data/orders_with_headers.csv", "w", headers: headers) { |f|
+        new_csv.each { |a| f << a }
+      }
     end
 
-    imported_csv = CSV.read("../data/orders_with_headers.csv", headers: true, :header_converters => :symbol, :converters => :integer).map{ |r| r.to_h}
+    imported_csv = CSV.read("../data/orders_with_headers.csv", headers: true,
+                            :header_converters => :symbol,
+                            :converters => :integer).map{ |r| r.to_h}
     # [{:order_id=>1, :products=>"Lobster:17.18;Annatto seed:58.38;
     # Camomile:83.21", :customer_id=>25, :status=>"complete"}, ... etc. ]
 
@@ -84,9 +88,17 @@ class Order
   end
 
   def self.find(id)
-# returns instance of Order where id = id
+  # returns instance of Order where id = id
     all_orders = self.all
     return all_orders.find{|obj| obj.id == id}
+  end
+
+  def self.find_by_customer(customer_id)
+  # returns a list of Order instances where the value of the customer's ID
+  # matches the passed parameter.
+    all_orders = self.all
+    orders_by_customer = all_orders.select{ |obj| obj.customer.id == customer_id}
+    return orders_by_customer.empty? ? orders_by_customer = nil : orders_by_customer
   end
 end
 
@@ -95,3 +107,4 @@ end
 # csv parsing stuff in separate method
 # consistent indentation for comments in customer.rb
 # what's wrong with rake?
+# format code wrapping
