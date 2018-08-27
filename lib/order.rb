@@ -83,12 +83,12 @@ class Order
     # :state=>"MO", :zip_code=>57138}>, @fulfillment_status=:complete>, ... ]
   end
 
-#   def self.find(id)
-# # returns instance of Order where id = id
-#     all_orders = self.all
-#     return all_orders.find{|obj| obj.id == id}
-#   end
- end
+  def self.find(id)
+# returns instance of Order where id = id
+    all_orders = self.all
+    return all_orders.find{|obj| obj.id == id}
+  end
+end
 
 # To Do:
 # make better comments to guide reader through doc
