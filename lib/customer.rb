@@ -1,4 +1,3 @@
-require 'pry'
 require 'csv'
 
 class Customer
@@ -18,11 +17,11 @@ class Customer
     return all_customers
   end
 
-  def self.find(id_num)
+  def self.find(id)
     all_customers = self.all
 
     all_customers.length.times do |i|
-      if all_customers[i].id == id_num
+      if all_customers[i].id == id
         return all_customers[i]
       end
     end
