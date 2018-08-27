@@ -5,9 +5,9 @@ Congratulations! You're submitting your assignment.
 
 Question | Response
 --- | ---
-What is accomplished with `raise ArgumentError`? |
-Why do you think we made the `.all` & `.find` methods class methods?  Why not instance methods? |
-Think about the relation between `Order` and `Customer`. Is this relation one-to-one, one-to-many, or something else? How does that compare to the Solar System project? |
+What is accomplished with `raise ArgumentError`? |It let's you know the arguments are wrong due to the wrong number of errors and/or if the argument itself is wrong
+Why do you think we made the `.all` & `.find` methods class methods?  Why not instance methods? | It is easier to assign attributes to a class versus instance variables, we can assign the same behavior to all of the orders and customers instead of creating a new instance of them.
+Think about the relation between `Order` and `Customer`. Is this relation one-to-one, one-to-many, or something else? How does that compare to the Solar System project? | There are 35 customers and 100 orders therefore it is possible for each customer to have multiple order, the relationship would be 1 to many. The Solar System project was one to many because there is one solar system with multiple planets.
 How is the relation between `Order` and `Customer` tracked in the CSV file? How is it tracked in your program? Why might these be different? |
-Did the presence of automated tests change the way you thought about the problem? How? |
-CS Fun: If there are `C` customers listed in `customers.csv` and `R` orders listed in `orders.csv`, what is the time complexity of calling `Customer.find`? What is the time complexity of `Order.find`? |
+Did the presence of automated tests change the way you thought about the problem? How? | Yes, I was more aware of how my code behaved!
+CS Fun: If there are `C` customers listed in `customers.csv` and `R` orders listed in `orders.csv`, what is the time complexity of calling `Customer.find`? What is the time complexity of `Order.find`? | It would be Constant (O1) because you would only need to go through the arrays once since you are retrieving a particular element. 
