@@ -2,6 +2,9 @@ require "pry"
 require "csv"
 require_relative "customer"
 
+ORDERS_FILENAME_NO_HEADERS = "data/orders.csv"
+ORDERS_FILENAME_HEADERS = "data/orders_with_headers.csv"
+
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
 
@@ -46,16 +49,16 @@ class Order
     all_orders = []
 
     # write a new copy of CSV with headers if it doesn't already exist
-    unless File.exist?("../data/orders_with_headers.csv")
+    unless File.exist?(ORDERS_FILENAME_HEADERS)
       headers = [:order_id, :products, :customer_id, :status]
-      new_csv = CSV.read("../data/orders.csv").unshift(headers)
-      CSV.open("../data/orders_with_headers.csv", "w", headers: headers) { |f|
+      new_csv = CSV.read(ORDERS_FILENAME_NO_HEADERS).unshift(headers)
+      CSV.open(ORDERS_FILENAME_HEADERS, "w", headers: headers) { |f|
         new_csv.each { |a| f << a }
       }
     end
 
     # import CSV with headers as array of hashes
-    imported_csv = CSV.read("../data/orders_with_headers.csv", headers: true,
+    imported_csv = CSV.read(ORDERS_FILENAME_HEADERS, headers: true,
                             :header_converters => :symbol,
                             :converters => :integer).map{ |r| r.to_h}
     # [{:order_id=>1, :products=>"Lobster:17.18;Annatto seed:58.38;

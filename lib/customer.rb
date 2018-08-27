@@ -1,5 +1,8 @@
 require "csv"
 
+CUSTOMERS_FILENAME_NO_HEADERS = "data/customers.csv"
+CUSTOMERS_FILENAME_HEADERS = "data/customers_with_headers.csv"
+
 class Customer
   attr_accessor :email, :address
   attr_reader :id
@@ -17,16 +20,16 @@ class Customer
     all_customers = []
 
     # write a new copy of CSV with headers if it doesn't already exist
-    unless File.exist?("../data/customers_with_headers.csv")
+    unless File.exist?(CUSTOMERS_FILENAME_HEADERS)
       headers = [:customer_id, :email, :address_1, :city, :state, :zip_code]
-      new_csv = CSV.read("../data/customers.csv").unshift(headers)
-      CSV.open("../data/customers_with_headers.csv", "w", headers: headers){ |f|
+      new_csv = CSV.read(CUSTOMERS_FILENAME_NO_HEADERS).unshift(headers)
+      CSV.open(CUSTOMERS_FILENAME_HEADERS, "w", headers: headers){ |f|
         new_csv.each { |a| f << a }
       }
     end
 
     # import CSV with headers as array of hashes
-    imported_csv = CSV.read("../data/customers_with_headers.csv", headers: true,
+    imported_csv = CSV.read(CUSTOMERS_FILENAME_HEADERS, headers: true,
                             :header_converters => :symbol, :converters =>
                             :integer).map{ |r| r.to_h}
     # [{:customer_id=>1, :email=>"leonard.rogahn@hagenes.org",
