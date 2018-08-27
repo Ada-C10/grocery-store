@@ -94,9 +94,25 @@ class Order
   end
 
   def self.find_customer_by_id(id) #find orders of customer with id
+    Order.all
+
+    order_history = []
+
+    @@orders.each do |order|
+        order_history << order if order.customer.id == id
+    end
+
+    return order_history.empty? ? nil : order_history
   end
 
 end
+
+find = Order.find_customer_by_id(15)
+
+ap find
+
+
+
 
 
 

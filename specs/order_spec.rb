@@ -249,4 +249,45 @@ describe "Order Wave 2" do
       expect(Order.find(250)).must_be_nil
     end
   end
+
+  describe "Order.find_customer_by_id" do
+    it "Can find the order of customer in form of array" do
+
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+
+      order = Order.find_customer_by_id(25)
+
+      expect(order).must_be_kind_of Array
+      expect(order[0]).must_be_kind_of Order
+      expect(order[0].id).must_equal id
+      expect(order[0].products).must_equal products
+      expect(order[0].customer).must_be_kind_of Customer
+      expect(order[0].customer.id).must_equal customer_id
+      expect(order[0].fulfillment_status).must_equal fulfillment_status
+    end
+
+    it "Can collect multiple of orders of same customer" do
+      # [
+      #     [0] #<Order:0x00007fa0dd1039e0 @id=14, @products={"Semolina"=>12.79, "Quinoa"=>19.0}, @customer=#<Customer:0x00007fa0dd1134f8 @id=15, @email="bria_anderson@kub.io", @address={"street"=>"430 Herzog Rest", "city"=>"East Lonie", "state"=>"DE", "zip"=>"44921"}>, @fulfillment_status=:complete>,
+      #     [1] #<Order:0x00007fa0dd10a740 @id=22, @products={"Chestnut"=>40.91, "Chives"=>28.63}, @customer=#<Customer:0x00007fa0dd11a398 @id=15, @email="bria_anderson@kub.io", @address={"street"=>"430 Herzog Rest", "city"=>"East Lonie", "state"=>"DE", "zip"=>"44921"}>, @fulfillment_status=:paid>,
+      #     [2] #<Order:0x00007fa0dd119420 @id=52, @products={"Nashi Pear"=>70.41, "Dates"=>64.76, "Flathead"=>83.44}, @customer=#<Customer:0x00007fa0dd129640 @id=15, @email="bria_anderson@kub.io", @address={"street"=>"430 Herzog Rest", "city"=>"East Lonie", "state"=>"DE", "zip"=>"44921"}>, @fulfillment_status=:shipped>
+      # ]
+
+      order = Order.find_customer_by_id(15)
+
+      expect(order).must_be_kind_of Array
+      expect(order.length).must_equal 3
+    end
+    #
+    it "Returns nil for a customer that doesn't exist" do
+      expect(Order.find_customer_by_id(45)).must_be_nil
+    end
+  end
 end
