@@ -1,4 +1,4 @@
-require_relative 'customer' #brining customer.rb file into order.rb
+require_relative 'customer' #bringing customer.rb file into order.rb
 require 'csv' #requiring csv ruby module into order.rb
 require 'pry'
 
@@ -60,17 +60,4 @@ class Order
     end
   end
 
-
 end
-
-# id = 1337
-# fulfillment_status = :shipped
-# order = Order.new(id, {}, customer, fulfillment_status)
-#
-# p kay = Customer.new(2822, "kay@mail.com", :street => "2920", :city =>"seattle", :state =>"wa", :zip =>98192)
-#
-# p new_order = Order.new(111, {"tea" => 5.5, "coffee" => 9}, kay, fulfillment_status: :shipped)
-# p new_order.total
-# p new_order.add_product("water", 100)
-# p new_order.products
-# p new_order.add_product("water", 100)
