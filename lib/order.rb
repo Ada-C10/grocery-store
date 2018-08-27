@@ -40,20 +40,20 @@ class Order
 
   # Lobster:17.18;Annatto seed:58.38;Camomile:83.21
   #.split
-  def convert_to_hash(products_string)
+  def self.convert_to_hash(products_string)
     array = products_string.split(";")
     array2 = []
     array.each do |s|
       array2 << s.split(":")
     end
-    products_hash = Hash[array2.map {|k,v| [k,v]}]
+    return products_hash = Hash[array2.map {|k,v| [k,v.to_f]}]
   end
 
 #   self.all - returns a collection of Order instances,
 #   representing all of the Orders described in the CSV file
   def self.all
     CSV.open('data/orders.csv', 'r').map do |row|
-      Order.new(row[0].to_i, row[1], row[2], row[3].to_sym)
+      Order.new(row[0].to_i, self.convert_to_hash(row[1]), row[2].to_i, row[3].to_sym)
     end
   end
 
