@@ -1,3 +1,6 @@
+require 'csv'
+require 'awesome_print'
+require 'pry'
 require_relative 'customer'
 
 class Order
@@ -18,7 +21,7 @@ class Order
     unless valid_statuses.include?(fulfillment_status) then
       raise ArgumentError, "wrong status entered"
     end
-
+    order_push
   end
 
 
@@ -42,23 +45,34 @@ class Order
 
 
   def self.all
+    return @@orders
+  end
 
-    @@orders = CSV.read('../data/orders.csv', converters: :integer,  headers: true).map do |order|
-      order
-    end
+def order_push
     @@orders.push(self)
   end
 
   def self.find(id)
     @@orders.each do |order|
-      if order["ID"] == id
+      if order.id == id
         return order
       end
     end
   end
 end
-a = Order.all
-ap a
 
-b = Order.find(2)
-ap b
+# 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
+
+
+CSV.read('../data/orders.csv').each do |cust_row|
+product_hash = {}
+ puts a = cust_row[1].split(';')
+   a.each do |product|
+     b = product.split(':')
+     # puts b
+     product_hash[b[0]] = b[1]
+   end
+
+customer = Customer.find(cust_row[2].to_i)
+ Order.new(cust_row[0], product_hash, customer, cust_row[3])
+end

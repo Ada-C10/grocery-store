@@ -14,7 +14,6 @@ class Customer
     @email = email
     @address = address
     create_data
-    # binding.pry
   end
 
   def create_data
@@ -50,23 +49,3 @@ CSV.read('../data/customers.csv').each do |cust_row|
 
  Customer.new(cust_row[0].to_i, cust_row[1], address)
 end
-
-
-
-
-# a = Customer.all
-# ap a
-#
-#
-# # a = Customer.new(123, 6, {
-# #   street: "123 Main",
-# #   city: "Seattle",
-# #   state: "WA",
-# #   zip: "98101"
-# # })
-# #
-# # ap a
-
-#
-# first = Customer.find(1)
-# ap first
