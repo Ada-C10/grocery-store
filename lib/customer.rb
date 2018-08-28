@@ -1,5 +1,8 @@
-require_relative 'Order.rb'
-
+require_relative 'Order'
+require 'csv'
+######################
+#WAVE #1 - all test passing
+######################
 
 #Create a customer class with 3 attributes (Id read only)
 class Customer
@@ -10,10 +13,26 @@ class Customer
     @id = id #an integer
     @email = email #will be a string
     @address = address #will be a hash
-    # address = {:street =>"", :city =>"", :state => "", :zip => ""} # not needed
-    # return cust = Customer.new
   end
-
 end
 
-# Initialize should match header. : address in initialize  should be
+  ####################
+  #WAVE #2 - incomplete - tests are not all passing and I didn't write my tests
+  ####################
+
+
+  # def self.all
+  #   all_customers = []
+  #   CSV.read("/Users/ada/ada/Projects/grocery-store/data/customers.csv").each do |row|
+  #     address = {}
+  #     customer_id = row[0].to_i
+  #     email = row[1]
+  #     address[:street] = row[2]
+  #     address[:city] = row[3]
+  #     address[:state] = row[4]
+  #     address[:zip_code] = row[5]
+  #
+  #     all_customers << Customer.new(customer_id, email, address)
+  #   end
+  #   return all_customers
+  # end
