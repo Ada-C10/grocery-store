@@ -1,5 +1,6 @@
 require_relative 'Customer'
 require 'pry'
+require 'csv'
 
 #####################
 #WAVE 1
@@ -44,35 +45,39 @@ class Order
       # --> This test is failing - reviewing syntax and order of my if statemen
   end
 
-  ##########################
-  #WAVE 2 (incomplete)
   #########################
-
+  # WAVE 2 (incomplete)
   ########################
+
+  # #######################
   # Grocery Store Homework status:
-  ##### In addition to working on passing ALL test for Wave#1
-  ##### I will also need to continue working on this method as it is not completed.
-  ##### Lastly, the conflict with my 'require file' needs to be cleared up.
+  # #### In addition to working on passing ALL test for Wave#1
+  # #### I will also need to continue working on this method as it is not completed.
+  # #### Lastly, the conflict with my 'require file' needs to be cleared up.
 
-  # def self.all?
-  #   orders = {}
-  #   orders  << Order.new(id, products,customer_id,fulfillment_status)
-  #   CSV.read("/Users/ada/ada/Projects/grocery-store/data/orders.csv")
-  #   id = row[0].to_i
-  #   products = {name:price ; nextname:nextprice}
-  #   products_array = row[1].split(";")
-  #
-  #   products_array.each do |item|
-  #     name , price = item.split(';')
-  #     products[name] = price.to_f
-  #     customer_id = row [].to_i
-  #     fulfillment_status = row [-1].to_s
-  #   end
-  #   orders << Order.new(id, products)
-  #
-  #   return orders
-  #
-  # end
+  def self.all
+    data = CSV.read("/Users/ada/ada/Projects/grocery-store/data/orders.csv")# content from my entire CSV File
+    orders = []
+    data.each do |row_data| #one line from CSV
+      orderID = row_data[0]
+      products = row_data[1]
+      products_prices  = products.split(';')
 
+      products_hash = {}
+      products_prices.each do |product_price|
+        product_and_price = product_price.split(':')
+        product_name = product_and_price[0]
+        product_cost = product_and_price[1]
+        products_hash[product_name] = product_cost
+      end
+
+      customer_id = row_data[2]
+      customer = Customer.find(customer_id)
+      fulfillment_status = row_data[3].to_sym
+      order = Order.new(orderID, products, customer, fulfillment_status)
+      orders << order
+    end
+    return orders
+  end
 
 end
