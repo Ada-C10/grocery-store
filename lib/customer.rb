@@ -1,17 +1,24 @@
 class Customer
 
-  attr_reader :id
-  attr_accessor :email, :del_address
+  attr_reader :ID
+  attr_accessor :email, :address
 
-  @id: 123
-  @email: "abc@gmail.com"
-  @del_address: {123 4th st, ktown, AK}
+  def initialize(id, email, address)
+  @id = :ID
+  @email = email
+  @address =  address
+  end
 
-def initialize(customer_attributes)
-  @id = customer_attributes[:id]
-  @email = customer_attributes[email:]
-  @del_address = customer_attributes[del_address:]
+  def address
+    address = {
+        street: "123 Main",
+        city: "Seattle",
+        state: "WA",
+        zip: "98101"}
+  end
+  def summary
+    return "#{@ID},#{@email}, #{@address}"
+  end
 end
-
-
-end
+new_customer = Customer.new(3,"hat@hat.com","123 hat street")
+puts new_customer.summary
