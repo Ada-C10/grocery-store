@@ -14,6 +14,8 @@ def initialize(id, email, address)
 end
 
 # return instances of customers from a CSV file
+#### assign variables first, and create instance at outside of loop, more clear, and similar to test structure
+##### assign it in a hash tighting it to the column headers 
 def self.all
   @@customers = CSV.read('data/customers.csv').map {|line| line}
   @@customers = @@customers.map do |array|

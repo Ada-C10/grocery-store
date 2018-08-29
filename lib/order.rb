@@ -74,7 +74,7 @@ class Order
   # input: id of order
   # return order instance if it exist, or nil if it doesn't exist
   def self.find(id)
-    @@orders = self.all
+    @@orders = self.all if @@orders.nil? # read orders once 
     order = @@orders.select {|instance| instance.id == id} # returns instance in an array
     return order[0]
   end
