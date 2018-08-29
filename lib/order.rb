@@ -50,6 +50,8 @@ class Order
   # Helper Method to create the products hash to use as a parameter in Order.all
   # in creating new instances of the Order class from the csv file
   def self.create_product_hash(order)
+    # groceries = line[1].split(/[;:]/) => ["Lobster", "17.18", "Camomile", "83.21"]
+    # Hash[*groceries] => ["Lobster" => "17.18", "Camomile" => "83.21"]
     products_hash = {}
     a = order[1].split(";")
     i = 0
