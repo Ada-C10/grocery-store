@@ -238,7 +238,7 @@ describe "Order Wave 2" do
                   "Camomile"=>83.21
                  }
       customer_id = 25
-      customer_address_zip = 57138
+      customer_address_zip = "57138"
       fulfillment_status = :complete
 
       order = Order.find_by_customer(25).first
