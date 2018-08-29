@@ -3,7 +3,7 @@ require_relative 'customer'
 
 class Order
   attr_reader :id, :customer, :products, :fulfillment_status
-
+  # initialize
   def initialize(id, products, customer, fulfillment_status = :pending)
     valid_statuses = %i[pending paid processing shipped complete]
 
@@ -17,13 +17,13 @@ class Order
     @products = products
 
   end
-
+  # create a method to calculate the sum after tax
   def total
     sum_before_tax = self.products.values.sum
     sum_after_tax = sum_before_tax * 1.075
     return sum_after_tax.round(2)
   end
-
+  # a method to add product
   def add_product(prd_name, prd_price)
     if @products.keys.include? (prd_name)
       raise ArgumentError,"Product namne exists, try other nanmes"
@@ -31,7 +31,7 @@ class Order
       @products[prd_name] = prd_price
     end
   end
-
+  # a method to remove product
   def remove_product(prd_name)
     if @products.keys.include? (prd_name)
       @products.delete(prd_name)
@@ -41,7 +41,7 @@ class Order
   end
 
 
-
+  # a method to read  from the csv file and creat the an array for all the orders
   def self.all
     all_orders = []
 
@@ -67,15 +67,15 @@ class Order
 
     return all_orders
   end
-
+  # find an order with the given order ID
   def self.find(id)
     all_orders = self.all
     order_found = all_orders.select {|order| order.id == id}
     return order_found[0]
   end
-
+  # find a customer based on customer ID
   def self.find_by_customer(customer_id)
-    all_orders = self.all
+    all_orders = self.all   
     order_found = all_orders.select {|order| order.customer.id == customer_id}
     if order_found == []
       return nil

@@ -5,13 +5,13 @@ require 'ap'
 class Customer
   attr_reader :id
   attr_accessor :email, :address
-
+  # initalize
   def initialize(id, email, address)
     @id = id
     @email = email
     @address = address
   end
-
+  # define a method to read from CSV file and create a list of customers
   def self.all
     all_customers = []
 
@@ -24,7 +24,7 @@ class Customer
 
     return all_customers
   end
-
+  # find a customer by using the customer id.
   def self.find(id)
     all_customers = self.all
     customer_found = all_customers.select {|customer| customer.id == id}
