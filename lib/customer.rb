@@ -30,13 +30,14 @@ class Customer
 
   # Searches through all Customer instances to find a match given the id
   def self.find(id)
-    all_customers = self.all
-    all_customers.each do |customer|
-      if customer.id == id
-        return customer
-      end
-    end
-    return nil
+    return self.all.find { |customer| customer.id == id }
+    # all_customers = self.all
+    # all_customers.each do |customer|
+    #   if customer.id == id
+    #     return customer
+    #   end
+    # end
+    # return nil
   end
 
 end

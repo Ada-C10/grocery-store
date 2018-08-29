@@ -106,3 +106,8 @@ class Order
     end
   end
 end
+
+ap Order.find_by_customer(19)
+ap Order.find(4)
+ap Order.find(5)
+ap Order.find(6)
