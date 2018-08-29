@@ -114,56 +114,76 @@ describe "Order Wave 1" do
 end
 
 
-
-####
-# Tests for wave 2  were not written  and this section NOT completed
-###
-
-
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders.length).must_equal 100
+      customers.each do |o|
+        expect(o).must_be_kind_of Order
+      end
+
+      it "Returns accurate information about the first order" do
+        id = 1
+        products = {
+          "Lobster" => 17.18,
+          "Annatto seed" => 58.38,
+          "Camomile" => 83.21
+        }
+        customer_id = 25
+        fulfillment_status = :complete
+
+        order = Order.all.first
+
+        # Check that all data was loaded as expected
+        expect(order.id).must_equal id
+        expect(order.products).must_equal products
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_equal customer_id
+        expect(order.fulfillment_status).must_equal fulfillment_status
+      end
+
+      it "Returns accurate information about the last order" do
+        id = 100
+        products = {
+          "Amaranth" => 83.81,
+          "Smoked Trout" => 70.6,
+          "Cheddar" => 5.63
+        }
+        customer_id = 20
+        fulfillment_status = :pending
+
+        order = Order.all.last
+
+        # Check that all data was loaded as expected
+        expect(order.id).must_equal id
+        expect(order.products).must_equal products
+        expect(order.customer).must_be_kind_of Customer
+        expect(order.customer.id).must_equal customer_id
+        expect(order.fulfillment_status).must_equal fulfillment_status
+
+      end
     end
 
-    it "Returns accurate information about the first order" do
-      id = 1
-      products = {
-        "Lobster" => 17.18,
-        "Annatto seed" => 58.38,
-        "Camomile" => 83.21
-      }
-      customer_id = 25
-      fulfillment_status = :complete
+    describe "Order.find" do
+      it "Can find the first order from the CSV" do
+        first = Order.find(1)
 
-      order = Order.all.first
+        expect(first).must_be_kind_of Order
+        expect(first.id).must_equal 1
+      end
 
-      # Check that all data was loaded as expected
-      expect(order.id).must_equal id
-      expect(order.products).must_equal products
-      expect(order.customer).must_be_kind_of Customer
-      expect(order.customer.id).must_equal customer_id
-      expect(order.fulfillment_status).must_equal fulfillment_status
-    end
+      it "Can find the last order from the CSV" do
+        last = Order.find(100)
 
-    it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
-      id =
-    end
-  end
+        expect(last).must_be_kind_of Order
+        expect(last.id).must_equal 100
+      end
 
-  xdescribe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      it "Returns nil for an order that doesn't exist" do
+        expect(Order.find(200)).must_be_nil
+      end
     end
   end
 end

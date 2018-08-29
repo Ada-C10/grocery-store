@@ -17,22 +17,36 @@ class Customer
 end
 
   ####################
-  #WAVE #2 - incomplete - tests are not all passing and I didn't write my tests
+  #WAVE #2
   ####################
 
 
-  # def self.all
-  #   all_customers = []
-  #   CSV.read("/Users/ada/ada/Projects/grocery-store/data/customers.csv").each do |row|
-  #     address = {}
-  #     customer_id = row[0].to_i
-  #     email = row[1]
-  #     address[:street] = row[2]
-  #     address[:city] = row[3]
-  #     address[:state] = row[4]
-  #     address[:zip_code] = row[5]
-  #
-  #     all_customers << Customer.new(customer_id, email, address)
-  #   end
-  #   return all_customers
-  # end
+  def self.all
+    data1 = CSV.read("/Users/ada/ada/Projects/grocery-store/data/customers.csv")
+    all_customers = []
+    data1.each do |row|
+      customer_id = row[0]
+      email = row[1]
+      address = {}
+      address[:street] = row[2]
+      address[:city] = row[3]
+      address[:state] = row[4]
+      address[:zip_code] = row[5]
+
+      all_customers << Customer.new(customer_id, email, address)
+    end
+    return all_customers
+  end
+
+  def self.find(id)
+    customer = self.all
+    self.all.each do |customer|
+      if customer_id = id
+        return customer
+    end
+  end
+
+  def customer.find
+
+  end
+end

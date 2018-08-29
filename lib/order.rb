@@ -41,19 +41,12 @@ class Order
       @products[product] = cost
       return true
     end
-      #Raise ArgumentError when products is of the same name already added
-      # --> This test is failing - reviewing syntax and order of my if statemen
+
   end
 
   #########################
-  # WAVE 2 (incomplete)
+  # WAVE 2
   ########################
-
-  # #######################
-  # Grocery Store Homework status:
-  # #### In addition to working on passing ALL test for Wave#1
-  # #### I will also need to continue working on this method as it is not completed.
-  # #### Lastly, the conflict with my 'require file' needs to be cleared up.
 
   def self.all
     data = CSV.read("/Users/ada/ada/Projects/grocery-store/data/orders.csv")# content from my entire CSV File
@@ -80,4 +73,17 @@ class Order
     return orders
   end
 
+  def self.find(id)
+    order = self.all
+    self.all.each do |order|
+      if orderID = id
+        return order
+      end
+    end
+
+  end
+
+#   def Order.all::Order.find
+#
+#
 end

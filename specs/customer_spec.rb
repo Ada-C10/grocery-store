@@ -7,7 +7,7 @@ require_relative '../lib/customer'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Customer Wave 1" do
+describe "Customer Wave 1" do
   ID = 123
   EMAIL = "a@a.co"
   ADDRESS = {
@@ -33,7 +33,6 @@ xdescribe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
@@ -56,7 +55,7 @@ describe "Customer Wave 2" do
     end
   end
 
-  xdescribe "Customer.find" do #NOT COMPLETED (ST notes)
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       first = Customer.find(1)
 
