@@ -29,8 +29,3 @@ class Customer
   end
 
 end
-
-# TODO:
-# both Order and Customer classes use a lot of the same stuff. can I mixin?
-# delete data helper files and commit data folder
-# return nil if none found in self.find
