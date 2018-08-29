@@ -8,7 +8,7 @@ class Customer
   #@@id = 123
 
   attr_reader :id
-@@customers = []
+
   attr_accessor :email, :address
 
   def initialize(id, email, address = {street: "", city:"", state: "", zip:""})
@@ -18,20 +18,25 @@ class Customer
   end
 
 
-  def self.all(filename)
+  def self.all
     CSV.open('./data/customers.csv').map do |customer|
-      id = customer[0].to_i
+      id =  customer[0].to_i
       email = customer[1]
       address = {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]}
-      @@customers<<customer.self(id,email, address)
+
+      Customer.new(id,email, address)
     end
-    return @@customers
   end
-
-ap @@customers
-
 end
 
+def self.find(id)
+  all_customers = self.all
+  all_customers.each do |customer|
+  if customer.id == id
+    return customer
+  end
+end
+end 
 
   #def self.all(customers.csv)
   #  CSV.open('./data/customers.csv').map do |customer|
