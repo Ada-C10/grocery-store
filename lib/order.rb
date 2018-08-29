@@ -113,9 +113,7 @@ class Order
 end
 
 # TODO:
-# remove the "../" in filenames
 # refactor without having to write a new CSV file with headers.
 # https://github.com/Ada-C10/grocery-store/pull/11/files Daniela's!
 # put csv parsing stuff in separate method.
 # both Order and Customer classes use a lot of the same stuff. can I mixin?
-# rake isn't working. why not?
