@@ -5,7 +5,6 @@ require 'pry'
 
 class Customer
 
-  #@@id = 123
 
   attr_reader :id
 
@@ -27,7 +26,7 @@ class Customer
       Customer.new(id,email, address)
     end
   end
-end
+
 
 def self.find(id)
   all_customers = self.all
@@ -36,15 +35,5 @@ def self.find(id)
     return customer
   end
 end
-end 
 
-  #def self.all(customers.csv)
-  #  CSV.open('./data/customers.csv').map do |customer|
-    #  id = customer[0].to_i
-    #  email = customer[1]
-    ##  @@customers<<customer.self(id,email, address)
-    #end
-  #  return @@customers
-  #end
-
-#ap @@customers
+end
