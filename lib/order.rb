@@ -1,6 +1,7 @@
 require "pry"
 require "csv"
 require_relative "customer"
+require "awesome_print"
 
 ORDERS_FILENAME = "data/orders.csv"
 
@@ -45,7 +46,7 @@ class Order
 
   def self.all
   # return a collection of Orders from CSV
-    all_orders = CSV.open(ORDERS_FILENAME, "r").map do |line|
+    return all_orders = CSV.open(ORDERS_FILENAME).map do |line|
         self.new(line[0].to_i, self.find_products(line[1]),
         Customer.find(line[2].to_i), line[3].to_sym)
     end
@@ -67,6 +68,7 @@ class Order
 
   def self.find(id)
   # return instance of Order where id = id
+  # return nil if none found
     all_orders = self.all
     return all_orders.find{|obj| obj.id == id}
   end
@@ -83,9 +85,6 @@ class Order
   end
 end
 
-# TODO:
-# put csv parsing stuff in separate method.
-# both Order and Customer classes use a lot of the same stuff. can I mixin?
 #
 # OLD SELF.ALL CODE BEFORE REFACTOR
 #

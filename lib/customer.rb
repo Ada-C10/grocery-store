@@ -1,7 +1,6 @@
 require "csv"
 
-CUSTOMERS_FILENAME_NO_HEADERS = "data/customers.csv"
-CUSTOMERS_FILENAME_HEADERS = "data/customers_with_headers.csv"
+CUSTOMERS_FILENAME = "data/customers.csv"
 
 class Customer
   attr_accessor :email, :address
@@ -17,56 +16,21 @@ class Customer
 
   def self.all
   # return collection of Customers from CSV
-    all_customers = []
-
-    # write a new copy of CSV with headers if it doesn't already exist
-    unless File.exist?(CUSTOMERS_FILENAME_HEADERS)
-      headers = [:customer_id, :email, :address_1, :city, :state, :zip_code]
-      new_csv = CSV.read(CUSTOMERS_FILENAME_NO_HEADERS).unshift(headers)
-      CSV.open(CUSTOMERS_FILENAME_HEADERS, "w", headers: headers){ |f|
-        new_csv.each { |a| f << a }
-      }
+    return all_customers = CSV.open(CUSTOMERS_FILENAME).map do |line|
+      self.new(line[0].to_i, line[1], {address_1: line[2], city: line[3], state: line[4], zip_code: line[5]})
     end
-
-    # import CSV with headers as array of hashes
-    imported_csv = CSV.read(CUSTOMERS_FILENAME_HEADERS, headers: true,
-                            :header_converters => :symbol, :converters =>
-                            :integer).map{ |r| r.to_h}
-    # [{:customer_id=>1, :email=>"leonard.rogahn@hagenes.org",
-    # :address_1=>"71596 Eden Route", :city=>"Connellymouth", :state=>"LA",
-    # :zip_code=>"98872-9105"}, ... etc. ]
-
-    # collect all address fields into a single [:address] Hash
-    imported_csv.map{|h|
-      address = Hash.new
-      address[:address_1] = h.delete(:address_1)
-      address[:city] = h.delete(:city)
-      address[:state] = h.delete(:state)
-      address[:zip_code] = h.delete(:zip_code)
-      h[:address] = address
-    }
-    #[{:customer_id=>1, :email=>"leonard.rogahn@hagenes.org",
-    # :address=>{:address_1=>"71596 Eden Route", :city=>"Connellymouth",
-    # :state=>"LA", :zip_code=>"98872-9105"}}, ... etc. ]
-
-    # make Customer instances and collect in Array
-    imported_csv.each do |h|
-      id = h[:customer_id]
-      email = h[:email]
-      address = h[:address]
-      all_customers << Customer.new(id, email, address)
-    end
-
-    return all_customers
-    # [#<Customer:0x00007fc965030148 @id=1, @email="leonard.rogahn@hagenes.org",
-    # @address={:address_1=>"71596 Eden Route", :city=>"Connellymouth",
-    # :state=>"LA", :zip_code=>"98872-9105"}>, ... etc. ]
   end
 
   def self.find(id)
   # return instance from self.all with id = id
+  # return nil if none found
     all_customers = self.all
     return all_customers.find{|obj| obj.id == id}
   end
 
 end
+
+# TODO:
+# both Order and Customer classes use a lot of the same stuff. can I mixin?
+# delete data helper files and commit data folder
+# return nil if none found in self.find
