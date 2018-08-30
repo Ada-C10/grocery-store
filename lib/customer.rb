@@ -10,11 +10,11 @@ class Customer
   attr_accessor :email,:address
 
   def initialize(id,email,address)
-    @id = id #an integer
-    @email = email #will be a string
-    @address = address #will be a hash
+    @id = id
+    @email = email
+    @address = address
   end
-end
+
 
   ####################
   #WAVE #2
@@ -25,7 +25,7 @@ end
     data1 = CSV.read("/Users/ada/ada/Projects/grocery-store/data/customers.csv")
     all_customers = []
     data1.each do |row|
-      customer_id = row[0]
+      customer_id = row[0].to_i
       email = row[1]
       address = {}
       address[:street] = row[2]
@@ -39,14 +39,13 @@ end
   end
 
   def self.find(id)
-    customer = self.all
+    # customer = self.all
     self.all.each do |customer|
-      if customer_id = id
+      if customer.id == id
         return customer
+      end
     end
+  return nil
   end
 
-  def customer.find
-
-  end
 end

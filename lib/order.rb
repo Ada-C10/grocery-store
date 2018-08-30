@@ -7,9 +7,8 @@ require 'csv'
 #####################
 
 # Create a Order class with with 4 attributes.
-
 class Order
-  attr_reader :id, :products, :customer, :fulfillment_status
+  attr_reader :id, :customer, :fulfillment_status
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
     @products = products
@@ -22,6 +21,45 @@ class Order
     else
       raise ArgumentError
     end
+  end
+  #########################
+  # WAVE 2
+  ########################
+
+  def Order.all
+    data = CSV.read("/Users/ada/ada/Projects/grocery-store/data/orders.csv")# content from my entire CSV File
+    orders = []
+    data.each do |row_data| #one line from CSV
+      orderID = row_data[0].to_i
+      products = row_data[1]
+      products_prices  = products.split(';')
+
+      products_hash = {}
+      products_prices.each do |product_price|
+        product_and_price = product_price.split(':')
+        product_name = product_and_price[0]
+        product_cost = product_and_price[1].to_f
+        products_hash[product_name] = product_cost
+      end
+
+      customer_id = row_data[2].to_i
+      customer = Customer.find(customer_id)
+      fulfillment_status = row_data[3].to_sym
+      order = Order.new(orderID, products_hash, customer, fulfillment_status)
+      orders << order
+    end
+    return orders
+  end
+
+  def Order.find(id)
+    # order = self.all
+    self.all.each do |order|
+      if orderID == id
+        return order
+      end
+    
+    end
+    return nil
   end
 
   # Total method calculate the total cost of the order
@@ -41,49 +79,11 @@ class Order
       @products[product] = cost
       return true
     end
-
   end
 
-  #########################
-  # WAVE 2
-  ########################
-
-  def self.all
-    data = CSV.read("/Users/ada/ada/Projects/grocery-store/data/orders.csv")# content from my entire CSV File
-    orders = []
-    data.each do |row_data| #one line from CSV
-      orderID = row_data[0]
-      products = row_data[1]
-      products_prices  = products.split(';')
-
-      products_hash = {}
-      products_prices.each do |product_price|
-        product_and_price = product_price.split(':')
-        product_name = product_and_price[0]
-        product_cost = product_and_price[1]
-        products_hash[product_name] = product_cost
-      end
-
-      customer_id = row_data[2]
-      customer = Customer.find(customer_id)
-      fulfillment_status = row_data[3].to_sym
-      order = Order.new(orderID, products, customer, fulfillment_status)
-      orders << order
-    end
-    return orders
+  def products
+    return @products
   end
-
-  def self.find(id)
-    order = self.all
-    self.all.each do |order|
-      if orderID = id
-        return order
-      end
-    end
-
-  end
-
-#   def Order.all::Order.find
-#
-#
 end
+
+### ask Charles about using class variables @@orders = @@orders.find (ask Laura!)

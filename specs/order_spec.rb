@@ -120,51 +120,52 @@ describe "Order Wave 2" do
       orders = Order.all
 
       expect(orders.length).must_equal 100
-      customers.each do |o|
+      orders.each do |o|
         expect(o).must_be_kind_of Order
       end
-
-      it "Returns accurate information about the first order" do
-        id = 1
-        products = {
-          "Lobster" => 17.18,
-          "Annatto seed" => 58.38,
-          "Camomile" => 83.21
-        }
-        customer_id = 25
-        fulfillment_status = :complete
-
-        order = Order.all.first
-
-        # Check that all data was loaded as expected
-        expect(order.id).must_equal id
-        expect(order.products).must_equal products
-        expect(order.customer).must_be_kind_of Customer
-        expect(order.customer.id).must_equal customer_id
-        expect(order.fulfillment_status).must_equal fulfillment_status
-      end
-
-      it "Returns accurate information about the last order" do
-        id = 100
-        products = {
-          "Amaranth" => 83.81,
-          "Smoked Trout" => 70.6,
-          "Cheddar" => 5.63
-        }
-        customer_id = 20
-        fulfillment_status = :pending
-
-        order = Order.all.last
-
-        # Check that all data was loaded as expected
-        expect(order.id).must_equal id
-        expect(order.products).must_equal products
-        expect(order.customer).must_be_kind_of Customer
-        expect(order.customer.id).must_equal customer_id
-        expect(order.fulfillment_status).must_equal fulfillment_status
-
-      end
     end
+
+    it "Returns accurate information about the first order" do
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+
+      order = Order.all.first
+
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
+    end
+
+    it "Returns accurate information about the last order" do
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      order = Order.all.last
+
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
+
+    end
+  end
 
     describe "Order.find" do
       it "Can find the first order from the CSV" do
@@ -185,5 +186,4 @@ describe "Order Wave 2" do
         expect(Order.find(200)).must_be_nil
       end
     end
-  end
 end
