@@ -54,10 +54,10 @@ class Order
   def Order.find(id)
     # order = self.all
     self.all.each do |order|
-      if orderID == id
+      if order.id == id
         return order
       end
-    
+
     end
     return nil
   end
