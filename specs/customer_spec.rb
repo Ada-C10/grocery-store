@@ -1,10 +1,13 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require "pry"
 
 require_relative '../lib/customer'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+
+# FILENAME = "data/customer.csv"
 
 describe "Customer Wave 1" do
   ID = 123
@@ -32,7 +35,7 @@ describe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
+# # TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
@@ -44,8 +47,10 @@ describe "Customer Wave 2" do
       end
     end
 
+
     it "Returns accurate information about the first customer" do
       first = Customer.all.first
+
       expect(first.id).must_equal 1
     end
 
