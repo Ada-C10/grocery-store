@@ -3,7 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
-
+require 'pry'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 describe "Customer Wave 1" do
@@ -32,12 +32,10 @@ describe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       customers = Customer.all
-
       expect(customers.length).must_equal 35
       customers.each do |c|
         expect(c).must_be_kind_of Customer
@@ -65,7 +63,6 @@ describe "Customer Wave 2" do
 
     it "Can find the last customer from the CSV" do
       last = Customer.find(35)
-
       expect(last).must_be_kind_of Customer
       expect(last.id).must_equal 35
     end
