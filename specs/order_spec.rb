@@ -111,6 +111,40 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("cracker")
+      expect(order.products.include?("cracker")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product does not exist in order" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("salad")
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
@@ -140,22 +174,120 @@ describe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
+    # 100,Amaranth:83.81;Smoked Trout:70.6;Cheddar:5.63,20,pending
     it "Returns accurate information about the last order" do
       # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      order = Order.all.last
+
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
+
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+
+      first = Order.find(1)
+
+      # Check that all data was loaded as expected
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal id
+      expect(first.products).must_equal products
+      expect(first.customer).must_be_kind_of Customer
+      expect(first.customer.id).must_equal customer_id
+      expect(first.fulfillment_status).must_equal fulfillment_status
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      last = Order.find(100)
+
+      # Check that all data was loaded as expected
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal id
+      expect(last.products).must_equal products
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.customer.id).must_equal customer_id
+      expect(last.fulfillment_status).must_equal fulfillment_status
     end
 
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
+      # Check that all data was loaded as expected
+      expect(Order.find(250)).must_be_nil
+    end
+  end
+
+  describe "Order.find_customer_by_id" do
+    it "Can find the order of customer in form of array" do
+
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+
+      order = Order.find_customer_by_id(25)
+
+      expect(order).must_be_kind_of Array
+      expect(order[0]).must_be_kind_of Order
+      expect(order[0].id).must_equal id
+      expect(order[0].products).must_equal products
+      expect(order[0].customer).must_be_kind_of Customer
+      expect(order[0].customer.id).must_equal customer_id
+      expect(order[0].fulfillment_status).must_equal fulfillment_status
+    end
+
+    it "Can collect multiple of orders of same customer" do
+      # [
+      #     [0] #<Order:0x00007fa0dd1039e0 @id=14, @products={"Semolina"=>12.79, "Quinoa"=>19.0}, @customer=#<Customer:0x00007fa0dd1134f8 @id=15, @email="bria_anderson@kub.io", @address={"street"=>"430 Herzog Rest", "city"=>"East Lonie", "state"=>"DE", "zip"=>"44921"}>, @fulfillment_status=:complete>,
+      #     [1] #<Order:0x00007fa0dd10a740 @id=22, @products={"Chestnut"=>40.91, "Chives"=>28.63}, @customer=#<Customer:0x00007fa0dd11a398 @id=15, @email="bria_anderson@kub.io", @address={"street"=>"430 Herzog Rest", "city"=>"East Lonie", "state"=>"DE", "zip"=>"44921"}>, @fulfillment_status=:paid>,
+      #     [2] #<Order:0x00007fa0dd119420 @id=52, @products={"Nashi Pear"=>70.41, "Dates"=>64.76, "Flathead"=>83.44}, @customer=#<Customer:0x00007fa0dd129640 @id=15, @email="bria_anderson@kub.io", @address={"street"=>"430 Herzog Rest", "city"=>"East Lonie", "state"=>"DE", "zip"=>"44921"}>, @fulfillment_status=:shipped>
+      # ]
+
+      order = Order.find_customer_by_id(15)
+
+      expect(order).must_be_kind_of Array
+      expect(order.length).must_equal 3
+    end
+    #
+    it "Returns nil for a customer that doesn't exist" do
+      expect(Order.find_customer_by_id(45)).must_be_nil
     end
   end
 end
