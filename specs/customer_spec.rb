@@ -63,7 +63,7 @@ describe "Customer Wave 2" do
       expect(first.id).must_equal 1
     end
 
-    it "Can find the last customer from the CSV" do
+   it "Can find the last customer from the CSV" do
       last = Customer.find(35)
 
       expect(last).must_be_kind_of Customer
