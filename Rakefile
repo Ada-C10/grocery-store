@@ -1,4 +1,5 @@
 require 'rake/testtask'
+task default: :test
 
 Rake::TestTask.new do |t|
   t.libs = ["lib"]
@@ -6,4 +7,6 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['specs/*_spec.rb']
 end
 
-task default: :test
+# task :test do
+#   sh "ruby specs/*_spec.rb -v"
+# end
