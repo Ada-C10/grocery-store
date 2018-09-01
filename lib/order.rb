@@ -13,6 +13,7 @@ class Order
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
+    @order = []
 
 
     if ![:pending, :paid, :processing, :shipped, :complete].include? fulfillment_status then
@@ -40,12 +41,16 @@ class Order
 
   def self.all
   CSV.open('./data/orders.csv').map do |order|
-    id = order[0].to_i
-    products = order[1...-3]
-    customer = order[-2]
-    status = order[-1]
 
-    Order.new(id,products, customer, status)
+
+    @order = id = order[0].to_i,
+    products = order[1... -3],
+    customer = order[-2],
+    status = order[-1]
+    Order.new(id,products, customer, status = " ")
   end
+  binding.pry
+  return @order
+
   end
 end

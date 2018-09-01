@@ -16,7 +16,6 @@ class Customer
     @address = address
   end
 
-
   def self.all
     CSV.open('./data/customers.csv').map do |customer|
       id =  customer[0].to_i
@@ -26,7 +25,7 @@ class Customer
       Customer.new(id,email, address)
     end
   end
-
+end
 
 def self.find(id)
   all_customers = self.all
@@ -35,5 +34,4 @@ def self.find(id)
     return customer
   end
 end
-
 end
