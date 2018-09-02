@@ -54,7 +54,6 @@ describe "Customer Wave 2" do
       expect(last.id).must_equal 35
     end
   end
-
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       first = Customer.find(1)
