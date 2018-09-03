@@ -115,14 +115,14 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       orders = Order.all
 
-      expect(customers.length).must_equal 100
+      expect(orders.length).must_equal 100
       orders.each do |o|
-        expect(o).must_be_kind_of Customer
+        expect(o).must_be_kind_of Order
       end
     end
 
@@ -183,7 +183,7 @@ xdescribe "Order Wave 2" do
       expect(last.id).must_equal 100
     end
 
-    it "Returns nil for an order that doesn't exist" do     
+    it "Returns nil for an order that doesn't exist" do
       expect(Order.find(9873249)).must_be_nil
     end
   end
