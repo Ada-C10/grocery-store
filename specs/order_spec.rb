@@ -113,11 +113,15 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders.length).must_equal 100
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -130,32 +134,150 @@ describe "Order Wave 2" do
       customer_id = 25
       fulfillment_status = :complete
 
-      order = Order.all.first
+      first = Order.all.first
 
-      # Check that all data was loaded as expected
-      expect(order.id).must_equal id
-      expect(order.products).must_equal products
-      expect(order.customer).must_be_kind_of Customer
-      expect(order.customer.id).must_equal customer_id
-      expect(order.fulfillment_status).must_equal fulfillment_status
+      expect(first.id).must_equal id
+      expect(first.products).must_equal products
+      expect(first.customer).must_be_kind_of Customer
+      expect(first.customer.id).must_equal customer_id
+      expect(first.fulfillment_status).must_equal fulfillment_status
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      last = Order.all.last
+
+      expect(last.id).must_equal id
+      expect(last.products).must_equal products
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.customer.id).must_equal customer_id
+      expect(last.fulfillment_status).must_equal fulfillment_status
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+
+      expect(first.id).must_equal id
+      expect(first.products).must_equal products
+      expect(first.customer).must_be_kind_of Customer
+      expect(first.customer.id).must_equal customer_id
+      expect(first.fulfillment_status).must_equal fulfillment_status
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+
+      expect(last.id).must_equal id
+      expect(last.products).must_equal products
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.customer.id).must_equal customer_id
+      expect(last.fulfillment_status).must_equal fulfillment_status
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(53145)).must_be_nil
+    end
+  end
+end
+
+describe "Order Optionals" do
+  let(:customer) do
+    address = {
+      street: "123 Main",
+      city: "Seattle",
+      state: "WA",
+      zip: "98101"
+    }
+    Customer.new(123, "a@a.co", address)
+  end
+
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("cracker")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("cracker")
+      expect(order.products.include?("cracker")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product isn't present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.remove_product("sandwich")
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "Returns an array of orders if customer is found" do
+      orders = Order.find_by_customer(20)
+
+      expect(orders).must_be_kind_of Array
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+      end
+    end
+
+    it "Returns an empty array if customer is not found" do
+      orders = Order.find_by_customer(123)
+
+      expect(orders).must_be_kind_of Array
+      expect(orders).must_be_empty
+    end
+
+    it "Returns accurate number of orders" do
+      orders = Order.find_by_customer(20)
+
+      expect(orders.length).must_equal 7
     end
   end
 end
