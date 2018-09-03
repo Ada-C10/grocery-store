@@ -111,9 +111,58 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  describe "#remove_product" do
+    it "decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25}
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25}
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("sandwich")
+      expect(order.products.include?("sandwich")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is not present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+
+      expect {
+        order.remove_product("cheese")
+      }.must_raise ArgumentError
+
+      expect(order.total).must_equal before_total
+
+    end
+
+    it "Updates order total for item removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "cheese" => 4.25}
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      order.remove_product("cracker")
+      updated_total = 6.71
+      expect(order.total).must_equal updated_total
+
+
+      # The list of products should not have been modified
+
+  end
+end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
+# : change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
@@ -141,21 +190,43 @@ describe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      last = Order.all.last
+      expect(last.id).must_equal 100
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(234234)).must_be_nil
     end
   end
+
+  # describe "Order.find_by_customer" do
+  #   it "Can find the first customer from the CSV" do
+  #     first = Order.find_by_customer(1)
+  #
+  #     expect(first.find.customer.id).must_equal 1
+  #   end
+  #
+  #   it "Can find multiple orders for the same customer_id" do
+  #     p customer_22_orders = Order.find_by_customer(22)
+  #
+  #     expect(customer_22_orders.length).must_equal 7
+  #     expect(order.customer.id.to_i).must_equal 22
+  #   end
+  # end
 end
