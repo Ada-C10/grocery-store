@@ -69,4 +69,8 @@ class Order
     return total_orders
   end
 
+  def self.find(id)
+    self.all.find { |x| x.id == id }
+  end
+
 end
