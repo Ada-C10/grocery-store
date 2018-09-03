@@ -15,7 +15,8 @@ class Customer
 
   def self.all
     total_data = CSV.open("data/customers.csv", 'r').map do |line|
-      Customer.new(line[0].to_i, line[1], {street: line[2],city: line[3],state: line[4],zip: line[5]})
+      Customer.new(line[0].to_i, line[1], {street: line[2],city:
+        line[3],state: line[4],zip: line[5]})
     end
 
     return total_data
