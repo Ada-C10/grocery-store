@@ -47,8 +47,12 @@ class Order
   def self.all
   # return a collection of Orders from CSV
     return all_orders = CSV.open(ORDERS_FILENAME).map do |line|
+        (0..3).each do |i|
+          line[i] = line[i].upcase
+        end
         self.new(line[0].to_i, self.find_products(line[1]),
         Customer.find(line[2].to_i), line[3].to_sym)
+
     end
   end
 

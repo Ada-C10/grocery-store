@@ -1,10 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-
-require_relative '../lib/customer'
-
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+require_relative "spec_helper"
 
 describe "Customer Wave 1" do
   ID = 123
