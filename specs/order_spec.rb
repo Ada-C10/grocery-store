@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'pry'
 
 require_relative '../lib/customer'
 require_relative '../lib/order'
@@ -94,6 +95,7 @@ describe "Order Wave 1" do
       order = Order.new(1337, products, customer)
 
       order.add_product("sandwich", 4.25)
+      puts order.products
       expect(order.products.include?("sandwich")).must_equal true
     end
 
@@ -105,6 +107,43 @@ describe "Order Wave 1" do
 
       expect {
         order.add_product("banana", 4.25)
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal before_total
+    end
+  end
+
+  describe "#remove_product" do
+    it "Deletes products that are in the order" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end
+
+    it "Is deleted from the collection of products" do
+
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25 }
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("sandwich")
+      puts order.products
+      expect(order.products.include?("sandwich")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product is not in the collection of products" do
+
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Order.new(1337, products, customer)
+      before_total = order.total
+
+      expect {
+        order.add_product("apple")
       }.must_raise ArgumentError
 
       # The list of products should not have been modified
@@ -141,21 +180,100 @@ describe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      order = Order.all.last
+
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(101)).must_be_nil
+    end
+  end
+
+
+  describe "Order.find_by_customer" do
+
+    #[<Order:0x00007fca7b1b32d8 @id=15, @products={"Cranberry"=>85.36}, @customer=#<Customer:0x00007fca7b1a1268 @id=8, @email="jey@cruickshankcronin.org", @address={:street=>"93968 Elissa Greens", :city=>"East Garnet", :state=>"WY", :zip=>"96410-6413"}>, @fulfillment_status=:pending>,
+
+    #<Order:0x00007fca7b240b60 @id=63, @products={"Dandelion"=>55.85, "Porcini mushrooms"=>80.33}, @customer=#<Customer:0x00007fca7b1a1268 @id=8, @email="jey@cruickshankcronin.org", @address={:street=>"93968 Elissa Greens", :city=>"East Garnet", :state=>"WY", :zip=>"96410-6413"}>, @fulfillment_status=:pending>]
+
+    it "returns an array of different Orders" do
+
+      customer_id = 8
+      customer_orders = Order.find_by_customer(customer_id)
+      expect(customer_orders).must_be_kind_of Array
+      expect(customer_orders[0]).must_be_kind_of Order
+      expect(customer_orders[0]).wont_equal customer_orders[1]
+    end
+
+    it "the id in the customer id field matches that of the actual passed in customer id" do
+
+        customer_id = 8
+        customer_orders = Order.find_by_customer(customer_id)
+        expect(customer_orders[0].customer.id).must_equal customer_id
+        expect(customer_orders[1].customer.id).must_equal customer_id
+    end
+
+    it "raises argument error if customer id does not exist" do
+
+      customer_id_2 = 188
+
+      expect {
+        Order.find_by_customer(customer_id_2)
+      }.must_raise ArgumentError
+    end
+  end
+
+  describe "Order.print_list_of_customer_orders" do
+    it "will return a string with the correct statement and values" do
+      customer_id = 8
+
+      customer_order = Order.find_by_customer(customer_id)
+
+      statement = Order.print_list_of_customer_orders(customer_id)
+
+      expect(statement).must_be_kind_of String
+      # binding.pry
+      expect(statement).must_equal "Customer with id 8 and email jey@cruickshankcronin.org has ordered the following: \nOrder id 15 with Cranberry\nOrder id 63 with Dandelion, Porcini mushrooms"
+    end
+
+    it "raises argument error if customer id does not exist" do
+
+      customer_id_2 = 188
+
+      expect {
+        Order.find_by_customer(customer_id_2)
+      }.must_raise ArgumentError
     end
   end
 end
