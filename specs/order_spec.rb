@@ -1,11 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-
-require_relative '../lib/customer'
-require_relative '../lib/order'
-
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+require_relative 'spec_helper'
 
 describe "Order Wave 1" do
   let(:customer) do
