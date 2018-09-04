@@ -1,6 +1,6 @@
 guard :minitest do
   # with Minitest::Spec
-  watch(%r{^spec/(.*)_spec\.rb$})
-  watch(%r{^lib/(.+)\.rb$})         { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r{^specs/spec_helper\.rb$}) { 'spec' }
+  watch(%r{^specs/(.*)_spec\.rb$})
+  watch(%r{^lib/(.+)\.rb$})         { |m| "specs/#{m[1]}_spec.rb" }
+  watch(%r{^specs/spec_helper\.rb$}) { 'specs' }
 end
