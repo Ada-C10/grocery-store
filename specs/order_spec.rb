@@ -116,7 +116,7 @@ end
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
-    xit "Returns an array of all orders" do
+    it "Returns an array of all orders" do
       # TODO: Your test code here!
     end
 
@@ -140,21 +140,21 @@ describe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Returns accurate information about the last order" do
+    it "Returns accurate information about the last order" do
       # TODO: Your test code here!
     end
   end
 
   describe "Order.find" do
-    xit "Can find the first order from the CSV" do
+    it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end
 
-    xit "Can find the last order from the CSV" do
+    it "Can find the last order from the CSV" do
       # TODO: Your test code here!
     end
 
-    xit "Returns nil for an order that doesn't exist" do
+    it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
     end
   end
