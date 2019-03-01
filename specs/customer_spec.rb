@@ -1,10 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-
-require_relative '../lib/customer'
-
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+require_relative "spec_helper"
 
 describe "Customer Wave 1" do
   ID = 123
@@ -32,7 +26,6 @@ describe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
 describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
